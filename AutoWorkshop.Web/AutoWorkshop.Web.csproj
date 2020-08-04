@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200730185003_InitialDb.cs" />
     <Compile Remove="Migrations\20200730185003_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200730185453_Initialdb.cs" />
+    <Compile Remove="Migrations\20200730185453_Initialdb.Designer.cs" />
+    <Compile Remove="Migrations\20200731075144_InitialDb.cs" />
+    <Compile Remove="Migrations\20200731075144_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200804170211_NullableFields.cs" />
+    <Compile Remove="Migrations\20200804170211_NullableFields.Designer.cs" />
+    <Compile Remove="Migrations\20200804170809_NullableFields.cs" />
+    <Compile Remove="Migrations\20200804170809_NullableFields.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

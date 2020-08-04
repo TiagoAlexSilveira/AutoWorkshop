@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
-    public class Brand
+    public class Brand : IEntity
     {
         public int Id { get; set; }
 
@@ -16,6 +16,9 @@ namespace AutoWorkshop.Web.Data.Entities
         [StringLength(40, ErrorMessage = "A {0} deverá ter entre {2} e {1} caracteres", MinimumLength = 1)]
         [Required(ErrorMessage = "Tem de inserir uma {0}")]
         public string BrandName { get; set; }
+
+
+
 
     }
 }

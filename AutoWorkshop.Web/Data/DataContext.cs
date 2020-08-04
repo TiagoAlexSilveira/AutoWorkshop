@@ -11,10 +11,15 @@ namespace AutoWorkshop.Web.Data
     {
         public DbSet<Vehicle> Vehicles { get; set; }
 
+        public DbSet<Brand> Brands { get; set; }
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
+
+      
 
 
     }

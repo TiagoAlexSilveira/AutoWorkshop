@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoWorkshop.Web.Data;
+using AutoWorkshop.Web.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,11 @@ namespace AutoWorkshop.Web
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            services.AddTransient<SeedDb>();
+
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 
 

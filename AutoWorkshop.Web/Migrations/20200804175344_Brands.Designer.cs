@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWorkshop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200730185453_Initialdb")]
-    partial class Initialdb
+    [Migration("20200804175344_Brands")]
+    partial class Brands
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,23 +21,44 @@ namespace AutoWorkshop.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BrandName")
+                        .IsRequired()
+                        .HasMaxLength(40);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BrandId");
+
                     b.Property<string>("Color")
                         .HasMaxLength(50);
 
-                    b.Property<string>("EnginePower");
+                    b.Property<int?>("EnginePower");
 
-                    b.Property<DateTime>("LastMaintenance");
+                    b.Property<DateTime?>("LastMaintenance");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired();
 
-                    b.Property<int>("Mileage");
+                    b.Property<int?>("Mileage")
+                        .IsRequired();
+
+                    b.Property<string>("Model")
+                        .HasMaxLength(150);
 
                     b.Property<string>("Transmission");
 
@@ -45,7 +66,16 @@ namespace AutoWorkshop.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Vehicle", b =>
+                {
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
                 });
 #pragma warning restore 612, 618
         }
