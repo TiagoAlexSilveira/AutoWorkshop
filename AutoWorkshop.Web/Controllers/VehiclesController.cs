@@ -12,17 +12,17 @@ namespace AutoWorkshop.Web.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IVehicleRepository _vehicleRepository;
 
-        public VehiclesController(DataContext context)
+        public VehiclesController(IVehicleRepository vehicleRepository)
         {
-            _context = context;
+            _vehicleRepository = vehicleRepository;
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Vehicles.Include(e => e.Brand).ToListAsync()); //*****
+            return View(_vehicleRepository.GetAll());
         }
 
         // GET: Vehicles/Details/5
@@ -33,8 +33,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicle = _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -54,16 +53,17 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Brand,Model,Transmission,Type,Color,Mileage,EnginePower,LicensePlate,LastMaintenance")] Vehicle vehicle)
-        {
+        public async Task<IActionResult> Create(Vehicle vehicle) 
+        { 
             if (ModelState.IsValid)
             {
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
+                await _vehicleRepository.CreateAsync(vehicle);
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
         }
+
+
 
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -73,7 +73,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -81,28 +81,28 @@ namespace AutoWorkshop.Web.Controllers
             return View(vehicle);
         }
 
+
         // POST: Vehicles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Brand,Model,Transmission,Type,Color,Mileage,EnginePower,LicensePlate,LastMaintenance")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(Vehicle vehicle)
         {
-            if (id != vehicle.Id)
-            {
-                return NotFound();
-            }
+            //if (id != vehicle.Id)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
+                    await _vehicleRepository.UpdateAsync(vehicle);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicle.Id))
+                    if (! await _vehicleRepository.ExistAsync(vehicle.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -139,15 +138,10 @@ namespace AutoWorkshop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            _context.Vehicles.Remove(vehicle);
-            await _context.SaveChangesAsync();
+            var vehicle = await _vehicleRepository.GetByIdAsync(id);
+            await _vehicleRepository.DeleteAsync(vehicle);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleExists(int id)
-        {
-            return _context.Vehicles.Any(e => e.Id == id);
-        }
     }
 }

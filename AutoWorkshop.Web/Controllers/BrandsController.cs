@@ -7,23 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
 
 namespace AutoWorkshop.Web.Controllers
 {
     public class BrandsController : Controller
     {
-        private readonly DataContext _context;
+        public IBrandRepository _brandRepository { get; }
 
-        public BrandsController(DataContext context)
+        public BrandsController(IBrandRepository brandRepository)
         {
-            _context = context;
+            _brandRepository = brandRepository;
         }
+
+
 
         // GET: Brands
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Brands.ToListAsync());
+            return View(_brandRepository.GetAll());
         }
+
+
 
         // GET: Brands/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -33,8 +38,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var brand = await _brandRepository.GetByIdAsync(id.Value);
             if (brand == null)
             {
                 return NotFound();
@@ -42,6 +46,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(brand);
         }
+
+
 
         // GET: Brands/Create
         public IActionResult Create()
@@ -54,16 +60,17 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BrandName")] Brand brand)
+        public async Task<IActionResult> Create(Brand brand)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(brand);
-                await _context.SaveChangesAsync();
+                await _brandRepository.CreateAsync(brand);
                 return RedirectToAction(nameof(Index));
             }
             return View(brand);
         }
+
+
 
         // GET: Brands/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -73,7 +80,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brands.FindAsync(id);
+            var brand = await _brandRepository.GetByIdAsync(id.Value);
             if (brand == null)
             {
                 return NotFound();
@@ -81,28 +88,29 @@ namespace AutoWorkshop.Web.Controllers
             return View(brand);
         }
 
+
+
         // POST: Brands/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BrandName")] Brand brand)
+        public async Task<IActionResult> Edit(Brand brand)
         {
-            if (id != brand.Id)
-            {
-                return NotFound();
-            }
+            //if (id != brand.Id)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(brand);
-                    await _context.SaveChangesAsync();
+                    await _brandRepository.UpdateAsync(brand);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BrandExists(brand.Id))
+                    if (! await _brandRepository.ExistAsync(brand.Id))
                     {
                         return NotFound();
                     }
@@ -116,6 +124,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(brand);
         }
 
+
+
         // GET: Brands/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -124,8 +134,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var brand = await _brandRepository.GetByIdAsync(id.Value);
             if (brand == null)
             {
                 return NotFound();
@@ -134,20 +143,16 @@ namespace AutoWorkshop.Web.Controllers
             return View(brand);
         }
 
+
+
         // POST: Brands/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            _context.Brands.Remove(brand);
-            await _context.SaveChangesAsync();
+            var vehicle = await _brandRepository.GetByIdAsync(id);
+            await _brandRepository.DeleteAsync(vehicle);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool BrandExists(int id)
-        {
-            return _context.Brands.Any(e => e.Id == id);
         }
     }
 }

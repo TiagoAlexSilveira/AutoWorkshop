@@ -37,6 +37,7 @@ namespace AutoWorkshop.Web
             services.AddTransient<SeedDb>();
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
 
 
 
