@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Models;
 
 namespace AutoWorkshop.Web.Controllers
 {
     public class VehiclesController : Controller
     {
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IBrandRepository _brandRepository;
 
-        public VehiclesController(IVehicleRepository vehicleRepository)
+        public VehiclesController(IVehicleRepository vehicleRepository, IBrandRepository brandRepository)
         {
             _vehicleRepository = vehicleRepository;
+            _brandRepository = brandRepository;
         }
 
         // GET: Vehicles
         public IActionResult Index()
         {
-            return View(_vehicleRepository.GetAll());
+            return View(_vehicleRepository.GetAll().Include(v => v.Brand).ToList());
         }
 
         // GET: Vehicles/Details/5
@@ -33,7 +37,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var vehicle = _vehicleRepository.GetByIdAsync(id.Value);
+            var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -45,7 +49,12 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            return View();
+            var vehicle = new VehicleViewModel
+            {
+                Brands = _brandRepository.GetComboBrands()
+            };
+
+            return View(vehicle);
         }
 
         // POST: Vehicles/Create
@@ -53,16 +62,15 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Vehicle vehicle) 
+        public async Task<IActionResult> Create(VehicleViewModel vehicle) 
         { 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                await _vehicleRepository.CreateAsync(vehicle);
+                await _vehicleRepository.AddBrandToVehicle(vehicle);
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
         }
-
 
 
         // GET: Vehicles/Edit/5
