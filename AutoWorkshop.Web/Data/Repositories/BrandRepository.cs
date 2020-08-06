@@ -34,5 +34,15 @@ namespace AutoWorkshop.Web.Data.Repositories
 
             return list;
         }
+
+
+        public async Task<Vehicle> GetByIdWithBrand(int id)    //preciso deste método para ir buscar o objecto brand através do id(porque ele não leva nenhuma brand no controlador)
+        {   
+            var vehicle = await _context.Vehicles.FindAsync(id);
+
+            vehicle.Brand = await _context.Brands.FindAsync(vehicle.BrandId);
+
+            return vehicle;
+        }
     }
 }

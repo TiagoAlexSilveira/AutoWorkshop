@@ -12,10 +12,11 @@ namespace AutoWorkshop.Web.Data.Entities
 
 
 
-        //[StringLength(50, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 3)]
-        //public string Brand { get; set; }
+        
+        public int BrandId { get; set; }
 
-        [StringLength(50, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 3)]
+
+    
         public Brand Brand { get; set; }
 
 

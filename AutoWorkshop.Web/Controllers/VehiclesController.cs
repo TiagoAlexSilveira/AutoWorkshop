@@ -9,6 +9,8 @@ using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
+using AutoWorkshop.Web.Helpers;
+using System.IO;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -16,11 +18,15 @@ namespace AutoWorkshop.Web.Controllers
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IBrandRepository _brandRepository;
+        private readonly IConverterHelper _converterHelper;
 
-        public VehiclesController(IVehicleRepository vehicleRepository, IBrandRepository brandRepository)
+        public VehiclesController(IVehicleRepository vehicleRepository, 
+                                  IBrandRepository brandRepository,
+                                  IConverterHelper converterHelper)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
+            _converterHelper = converterHelper;
         }
 
         // GET: Vehicles
@@ -76,17 +82,23 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
+            var vehicle = await _brandRepository.GetByIdWithBrand(id.Value); //para associar a brand ao veiculo
+
             if (vehicle == null)
             {
                 return NotFound();
             }
-            return View(vehicle);
+
+            var helper = _converterHelper.ToVehicleViewModel(vehicle);  // o objecto vehicle vem sem brand 
+            helper.Brands = _brandRepository.GetComboBrands();
+            helper.BrandId = vehicle.Brand.Id;
+
+            return View(helper);
         }
 
 
@@ -95,22 +107,22 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Vehicle vehicle)
-        {
-            //if (id != vehicle.Id)
-            //{
-            //    return NotFound();
-            //}
-
-            if (ModelState.IsValid)
+        public async Task<IActionResult> Edit(VehicleViewModel helper)   //tive um problema de nomes em que não me passava o viewmodel com o nome model (lmao)
+        {                                                                //consigo passar o viewmodel mas só vem com o BrandId da ViewModel pois é o que está no hidden="Id"
+            if (ModelState.IsValid)                                     
             {
                 try
                 {
-                    await _vehicleRepository.UpdateAsync(vehicle);
+                    var path = string.Empty;
+
+                    var help = _converterHelper.ToVehicle(helper, path, false);
+                    help.Brand = await _brandRepository.GetByIdAsync(help.BrandId);    //depois tenho de associar a Brand através do BrandId da ViewModel
+
+                    await _vehicleRepository.UpdateAsync(helper);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _vehicleRepository.ExistAsync(vehicle.Id))
+                    if (! await _vehicleRepository.ExistAsync(helper.Id ))
                     {
                         return NotFound();
                     }
@@ -121,8 +133,9 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicle);
+            return View(/*vehicle*/ helper);
         }
+
 
         // GET: Vehicles/Delete/5
         public async Task<IActionResult> Delete(int? id)

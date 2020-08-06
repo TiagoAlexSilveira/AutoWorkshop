@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,8 @@ namespace AutoWorkshop.Web
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+
 
 
 

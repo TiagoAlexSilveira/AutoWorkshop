@@ -12,5 +12,8 @@ namespace AutoWorkshop.Web.Data.Repositories
     {
 
         IEnumerable<SelectListItem> GetComboBrands();
+        
+        Task<Vehicle> GetByIdWithBrand(int id);  //para is buscar a brand associada àquele veiculo
+
     }
 }
