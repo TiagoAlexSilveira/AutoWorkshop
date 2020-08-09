@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoWorkshop.Web.Data;
+using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
+using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
-using AutoWorkshop.Web.Models;
-using AutoWorkshop.Web.Helpers;
-using System.IO;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class VehiclesController : Controller
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
-        public VehiclesController(IVehicleRepository vehicleRepository, 
+        public VehiclesController(IVehicleRepository vehicleRepository,
                                   IBrandRepository brandRepository,
-                                  IConverterHelper converterHelper)
+                                  IConverterHelper converterHelper,
+                                  IUserHelper userHelper)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         // GET: Vehicles
@@ -68,10 +68,12 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VehicleViewModel vehicle) 
-        { 
+        public async Task<IActionResult> Create(VehicleViewModel vehicle)
+        {
             if (this.ModelState.IsValid)
             {
+                //vehicle.User = await _userHelper.GetUserByEmailAsync("");
+
                 await _vehicleRepository.AddBrandToVehicle(vehicle);
                 return RedirectToAction(nameof(Index));
             }
@@ -109,7 +111,7 @@ namespace AutoWorkshop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(VehicleViewModel helper)   //tive um problema de nomes em que não me passava o viewmodel com o nome model (lmao)
         {                                                                //consigo passar o viewmodel mas só vem com o BrandId da ViewModel pois é o que está no hidden="Id"
-            if (ModelState.IsValid)                                     
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -122,7 +124,7 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _vehicleRepository.ExistAsync(helper.Id ))
+                    if (!await _vehicleRepository.ExistAsync(helper.Id))
                     {
                         return NotFound();
                     }

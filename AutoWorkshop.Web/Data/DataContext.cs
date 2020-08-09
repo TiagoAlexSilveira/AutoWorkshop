@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Vehicle> Vehicles { get; set; }
 
@@ -19,7 +20,22 @@ namespace AutoWorkshop.Web.Data
 
         }
 
-      
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            //Habilitar cascade delete rule
+            var cascadeFKs = modelBuilder.Model
+                .GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach(var fk in cascadeFKs)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelBuilder);
+        }
 
 
     }

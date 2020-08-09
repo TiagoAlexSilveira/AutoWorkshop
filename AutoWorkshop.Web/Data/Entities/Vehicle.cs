@@ -59,7 +59,7 @@ namespace AutoWorkshop.Web.Data.Entities
         public DateTime? LastMaintenance { get; set; }
 
 
+        public User User { get; set; }
 
-       
     }
 }
