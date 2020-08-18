@@ -25,6 +25,11 @@ namespace AutoWorkshop.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+            await _userHelper.CheckRoleAsync("Admin");   //criar o role
+            await _userHelper.CheckRoleAsync("Customer");
+            await _userHelper.CheckRoleAsync("Secretary");
+            await _userHelper.CheckRoleAsync("Mecanic");
+
             var user = await _userHelper.GetUserByEmailAsync("tsilveira01@gmail.com");
             if (user == null)
             {
@@ -43,6 +48,16 @@ namespace AutoWorkshop.Web.Data
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
             }
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
+
+            if (!isInRole)
+            {
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+
 
             if (!_context.Brands.Any())
             {

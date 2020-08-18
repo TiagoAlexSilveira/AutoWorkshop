@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AutoWorkshop.Web
 {
@@ -32,6 +34,8 @@ namespace AutoWorkshop.Web
         {
             services.AddIdentity<User, IdentityRole>(cfg =>
              {
+                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                 cfg.SignIn.RequireConfirmedEmail = true;
                  cfg.User.RequireUniqueEmail = true;
                  cfg.Password.RequireDigit = false;
                  cfg.Password.RequiredUniqueChars = 0;
@@ -40,7 +44,21 @@ namespace AutoWorkshop.Web
                  cfg.Password.RequireUppercase = false;
                  cfg.Password.RequiredLength = 6;
              })
+            .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<DataContext>();
+
+            //services.AddAuthentication()  era para api
+            //    .AddCookie()
+            //    .AddJwtBearer(cfg =>
+            //    {
+            //        cfg.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidIssuer = Configuration["Tokens:Issuer"],
+            //            ValidAudience = Configuration["Toekns:Audience"],
+            //            IssuerSigningKey = new SymmetricSecurityKey(
+            //                Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+            //        };
+            //    });
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -54,6 +72,7 @@ namespace AutoWorkshop.Web
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
 
 
 
