@@ -55,12 +55,12 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            var vehicle = new VehicleViewModel
+            var vmodel = new VehicleViewModel
             {
                 Brands = _brandRepository.GetComboBrands()
             };
 
-            return View(vehicle);
+            return View(vmodel);
         }
 
         // POST: Vehicles/Create
@@ -68,16 +68,22 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VehicleViewModel vehicle)
+        public async Task<IActionResult> Create(VehicleViewModel vmodel)
         {
             if (this.ModelState.IsValid)
             {
-                //vehicle.User = await _userHelper.GetUserByEmailAsync("");
+                var path = string.Empty;
 
-                await _vehicleRepository.AddBrandToVehicle(vehicle);
+                var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
+                vehicle.BrandId = vmodel.BrandId;
+                vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+
+                //await _vehicleRepository.AddBrandToVehicle(vmodel);  antes fazia tudo neste método mas agora faço assim por causa do user
+                await _vehicleRepository.CreateAsync(vehicle);
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicle);
+            return View(vmodel);
         }
 
 
@@ -96,11 +102,11 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var helper = _converterHelper.ToVehicleViewModel(vehicle);  // o objecto vehicle vem sem brand 
-            helper.Brands = _brandRepository.GetComboBrands();
-            helper.BrandId = vehicle.Brand.Id;
+            var vmodel = _converterHelper.ToVehicleViewModel(vehicle);  // o objecto vehicle vem sem brand 
+            vmodel.Brands = _brandRepository.GetComboBrands();
+            vmodel.BrandId = vehicle.Brand.Id;
 
-            return View(helper);
+            return View(vmodel);
         }
 
 
@@ -109,22 +115,24 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(VehicleViewModel helper)   //tive um problema de nomes em que não me passava o viewmodel com o nome model (lmao)
+        public async Task<IActionResult> Edit(VehicleViewModel vmodel)   //tive um problema de nomes em que não me passava o viewmodel com o nome model (lmao)
         {                                                                //consigo passar o viewmodel mas só vem com o BrandId da ViewModel pois é o que está no hidden="Id"
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var path = string.Empty;
+                    var path = string.Empty;                 
 
-                    var help = _converterHelper.ToVehicle(helper, path, false);
-                    help.Brand = await _brandRepository.GetByIdAsync(help.BrandId);    //depois tenho de associar a Brand através do BrandId da ViewModel
+                    var vehicle = _converterHelper.ToVehicle(vmodel, path, false);
+                    vehicle.BrandId = vmodel.BrandId;
 
-                    await _vehicleRepository.UpdateAsync(helper);
+                    vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name); 
+                  
+                    await _vehicleRepository.UpdateAsync(vehicle);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _vehicleRepository.ExistAsync(helper.Id))
+                    if (!await _vehicleRepository.ExistAsync(vmodel.Id))
                     {
                         return NotFound();
                     }
@@ -135,7 +143,7 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(/*vehicle*/ helper);
+            return View(vmodel);
         }
 
 

@@ -10,10 +10,8 @@ namespace AutoWorkshop.Web.Data
     public interface IVehicleRepository : IGenericRepository<Vehicle>
     {
 
-        Task AddBrandToVehicle(VehicleViewModel model);
+        //Task AddBrandToVehicle(VehicleViewModel model);
 
-
-        //Task VehicleWithBrandEdit(VehicleViewModel model);
   
     }
 }

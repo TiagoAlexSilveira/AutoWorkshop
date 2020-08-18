@@ -12,10 +12,6 @@ namespace AutoWorkshop.Web.Models
         //[Range(1, int.MaxValue, ErrorMessage = "Please insert a brand!")]
         //public int BrandId { get; set; }
 
-
-
         public IEnumerable<SelectListItem> Brands { get; set; }
-
-
     }
 }

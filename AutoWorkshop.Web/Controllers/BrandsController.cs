@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class BrandsController : Controller
     {
         public IBrandRepository _brandRepository { get; }
