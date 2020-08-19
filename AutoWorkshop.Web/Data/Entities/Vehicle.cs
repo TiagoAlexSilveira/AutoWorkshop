@@ -11,12 +11,9 @@ namespace AutoWorkshop.Web.Data.Entities
         public int Id { get; set; }
 
 
-
-        
         public int BrandId { get; set; }
 
 
-    
         public Brand Brand { get; set; }
 
 

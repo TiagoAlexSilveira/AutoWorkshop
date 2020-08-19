@@ -73,6 +73,8 @@ namespace AutoWorkshop.Web
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
 
 

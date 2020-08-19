@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -25,7 +26,7 @@ namespace AutoWorkshop.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
-            await _userHelper.CheckRoleAsync("Admin");   //criar o role
+            await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Customer");
             await _userHelper.CheckRoleAsync("Secretary");
             await _userHelper.CheckRoleAsync("Mecanic");
@@ -35,11 +36,21 @@ namespace AutoWorkshop.Web.Data
             {
                 user = new User
                 {
-                    FirstName = "Tiago",
-                    LastName = "Silveira",
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com",
-                    PhoneNumber = "123456789"
+                };
+
+                var admin = new Admin
+                {
+                    FirstName = "Tiago",
+                    LastName = "Silveira",
+                    StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
+                    PhoneNumber = "123456789",
+                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    PostalCode = "2675-537",
+                    TaxIdentificationNumber = "989898989",
+                    CitizenCardNumber = "11223344",
+                    User = user
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");
@@ -47,16 +58,70 @@ namespace AutoWorkshop.Web.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                _context.Admins.Add(admin);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
-            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-            await _userHelper.ConfirmEmailAsync(user, token);
 
+
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
             if (!isInRole)
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
+
+
+            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
+
+           
+
+            var userclient = await _userHelper.GetUserByEmailAsync("tsteste@yopmail.com");
+            if (userclient == null)
+            {
+                userclient = new User
+                {
+                    Email = "tsteste@yopmail.com",
+                    UserName = "tsteste@yopmail.com",
+                };
+
+                var client = new Client
+                {
+                    FirstName = "Mário",
+                    LastName = "Silveira",
+                    StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
+                    PhoneNumber = "123456789",
+                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    PostalCode = "2675-537",
+                    TaxIdentificationNumber = "989898989",
+                    CitizenCardNumber = "11223344",
+                    User = userclient
+                };
+
+
+                var result = await _userHelper.AddUserAsync(userclient, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                _context.Clients.Add(client);
+            }
+         
+
+            var isInRole2 = await _userHelper.IsUserInRoleAsync(userclient, "Customer");
+            if (!isInRole2)
+            {
+                await _userHelper.AddUserToRoleAsync(userclient, "Customer");
+                
+            }
+
+
+            var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(userclient);
+            await _userHelper.ConfirmEmailAsync(userclient, token2);
+
+
 
 
             if (!_context.Brands.Any())

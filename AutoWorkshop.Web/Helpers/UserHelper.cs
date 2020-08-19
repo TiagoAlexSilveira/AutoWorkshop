@@ -83,7 +83,7 @@ namespace AutoWorkshop.Web.Helpers
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
-            return await _userManager.IsInRoleAsync(user, "Admin");
+            return await _userManager.IsInRoleAsync(user, roleName);
         }
 
 
@@ -113,5 +113,7 @@ namespace AutoWorkshop.Web.Helpers
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
+
+        
     }
 }

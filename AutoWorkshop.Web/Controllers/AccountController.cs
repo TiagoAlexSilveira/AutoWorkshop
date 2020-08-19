@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -19,14 +20,20 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
+        private readonly IClientRepository _clientRepository;
+        private readonly IAdminRepository _adminRepository;
 
         public AccountController(IUserHelper userHelper,
                                  IConfiguration configuration,
-                                 IMailHelper mailHelper)
+                                 IMailHelper mailHelper,
+                                 IClientRepository clientRepository,
+                                 IAdminRepository adminRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
+            _clientRepository = clientRepository;
+            _adminRepository = adminRepository;
         }
 
 
@@ -85,8 +92,6 @@ namespace AutoWorkshop.Web.Controllers
                 {
                     user = new User
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
                         Email = model.Username,
                         UserName = model.Username,
                     };
@@ -98,8 +103,24 @@ namespace AutoWorkshop.Web.Controllers
                         return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
                     }
 
-                    await _userHelper.AddUserToRoleAsync(user, "Customer");
 
+
+                    var client = new Client
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        User = user
+                    };
+
+                    await _clientRepository.CreateAsync(client);
+
+                    //await _userHelper.CheckRoleAsync("Customer");
+
+                    //await _userHelper.AddUserToRoleAsync(user, "Customer");
+
+                    var isRole = await _userHelper.IsUserInRoleAsync(user, "Customer");
+
+                
                     var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                     var tokenLink = Url.Action("ConfirmEmail", "Account", new
                     {
@@ -107,26 +128,21 @@ namespace AutoWorkshop.Web.Controllers
                         token = myToken,
                     }, protocol: HttpContext.Request.Scheme);
 
+                    if (!isRole)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Customer");
+                    }
+
+
                     _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for Penguin AutoWorkshop</h1>" +
                        $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
                     this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
 
 
+               
 
-                    //se ele conseguir registar o user, entra logo
-                    //var loginViewModel = new LoginViewModel
-                    //{
-                    //    Password = model.Password,
-                    //    RememberMe = false,
-                    //    Username = model.Username
-                    //};
+                   
 
-                    //var result2 = await _userHelper.LoginAsync(loginViewModel);
-
-                    //if (result2.Succeeded)
-                    //{
-                    //    return RedirectToAction("Index", "Home");
-                    //}
 
                     return View(model);
                 }
@@ -165,15 +181,48 @@ namespace AutoWorkshop.Web.Controllers
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            //var client = _clientRepository.GetClientByUserId(user.Id);
+
             var model = new ChangeUserViewModel();
 
             if (user != null)
             {
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-            }
+                
+                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+                {
+                    var admin = _adminRepository.GetAdminByUserId(user.Id);
 
-            return View(model);
+                    model.FirstName = admin.FirstName;
+                    model.LastName = admin.LastName;
+                    model.StreetAddress = admin.StreetAddress;
+                    model.PhoneNumber = admin.PhoneNumber;
+                    model.PostalCode = admin.PostalCode;
+                    model.DateofBirth = admin.DateofBirth;
+                    model.TaxIdentificationNumber = admin.TaxIdentificationNumber;
+                    model.CitizenCardNumber = admin.CitizenCardNumber;
+
+                }
+                else if (await _userHelper.IsUserInRoleAsync(user, "Customer"))
+                {
+                    var client = _clientRepository.GetClientByUserId(user.Id);
+
+                    model.FirstName = client.FirstName;
+                    model.LastName = client.LastName;
+                    model.StreetAddress = client.StreetAddress;
+                    model.PhoneNumber = client.PhoneNumber;
+                    model.PostalCode = client.PostalCode;
+                    model.DateofBirth = client.DateofBirth;
+                    model.TaxIdentificationNumber = client.TaxIdentificationNumber;
+                    model.CitizenCardNumber = client.CitizenCardNumber;
+                    
+                }             
+
+                return View(model);
+            };
+
+            return View(model);  //TODO: vai dar merda
+            
         }
 
 
@@ -185,17 +234,23 @@ namespace AutoWorkshop.Web.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
                 {
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    var response = await _userHelper.UpdateUserAsync(user);
-                    if (response.Succeeded)
+                    var client = _clientRepository.GetClientByUserId(user.Id);
+
+                    client.FirstName = model.FirstName;
+                    client.LastName = model.LastName;
+                    //TODO: adicionar o resto das propriedades para mudar 
+                  
+                    try
                     {
+                        await _clientRepository.UpdateAsync(client);
+
                         ViewBag.UserMessage = "User update";
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                        ModelState.AddModelError(string.Empty, ex.Message);
                     }
+
                 }
                 else
                 {

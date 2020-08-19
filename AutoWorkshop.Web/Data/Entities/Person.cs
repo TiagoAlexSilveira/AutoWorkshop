@@ -4,29 +4,29 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoWorkshop.Web.Models
+namespace AutoWorkshop.Web.Data.Entities
 {
-    public class ChangeUserViewModel
+    public abstract class Person : IEntity  // TODO: HOLY SHIT
     {
+        public int Id { get; set; }
 
-        [Required]
-        [Display(Name = "First Name")]
+
+     
         public string FirstName { get; set; }
 
 
-        [Required]
-        [Display(Name = "Last Name")]
+    
         public string LastName { get; set; }
 
-        
+
+   
         public string StreetAddress { get; set; }
 
 
-
+     
         public string PhoneNumber { get; set; }
 
 
-       
         public string PostalCode { get; set; }
 
 
@@ -36,12 +36,13 @@ namespace AutoWorkshop.Web.Models
         public DateTime DateofBirth { get; set; }
 
 
-        
         public string TaxIdentificationNumber { get; set; }
 
 
-        
         public string CitizenCardNumber { get; set; }
+
+
+        public User User { get; set; }
 
     }
 }
