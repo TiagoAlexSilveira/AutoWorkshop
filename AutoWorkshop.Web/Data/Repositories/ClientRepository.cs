@@ -26,5 +26,13 @@ namespace AutoWorkshop.Web.Data.Repositories
 
             return client;
         } 
+
+
+        public Client GetClientByUserEmail(string email)
+        {
+            var client = _context.Clients.FirstOrDefault(e => e.User.Email == email);
+
+            return client;
+        }
     }
 }

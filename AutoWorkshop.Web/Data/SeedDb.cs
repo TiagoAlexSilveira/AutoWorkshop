@@ -27,7 +27,7 @@ namespace AutoWorkshop.Web.Data
             await _context.Database.EnsureCreatedAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("Customer");
+            await _userHelper.CheckRoleAsync("Client");
             await _userHelper.CheckRoleAsync("Secretary");
             await _userHelper.CheckRoleAsync("Mecanic");
 
@@ -61,7 +61,6 @@ namespace AutoWorkshop.Web.Data
 
                 _context.Admins.Add(admin);
             }
-
 
 
 
@@ -110,11 +109,10 @@ namespace AutoWorkshop.Web.Data
             }
          
 
-            var isInRole2 = await _userHelper.IsUserInRoleAsync(userclient, "Customer");
+            var isInRole2 = await _userHelper.IsUserInRoleAsync(userclient, "Client");
             if (!isInRole2)
             {
-                await _userHelper.AddUserToRoleAsync(userclient, "Customer");
-                
+                await _userHelper.AddUserToRoleAsync(userclient, "Client");                
             }
 
 
@@ -142,7 +140,6 @@ namespace AutoWorkshop.Web.Data
                 this.AddVehicle(brandd, "Cinzento", user);
                 await _context.SaveChangesAsync();
             }
-
         }
 
         private void AddBrand(string brandname)

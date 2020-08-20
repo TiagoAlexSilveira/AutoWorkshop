@@ -8,6 +8,9 @@ namespace AutoWorkshop.Web.Data.Repositories
 {
     public interface IClientRepository : IGenericRepository<Client>
     {
+        Client GetClientByUserEmail(string email);
+
+
         Client GetClientByUserId(string id);
     }
 }

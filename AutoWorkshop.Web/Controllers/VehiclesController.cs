@@ -17,17 +17,22 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IBrandRepository _brandRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
+        private readonly IClientRepository _clientRepository;
 
         public VehiclesController(IVehicleRepository vehicleRepository,
                                   IBrandRepository brandRepository,
                                   IConverterHelper converterHelper,
-                                  IUserHelper userHelper)
+                                  IUserHelper userHelper,
+                                  IClientRepository clientRepository)
         {
             _vehicleRepository = vehicleRepository;
             _brandRepository = brandRepository;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
+            _clientRepository = clientRepository;
         }
+
+
 
         // GET: Vehicles
         public IActionResult Index()
@@ -35,22 +40,25 @@ namespace AutoWorkshop.Web.Controllers
             return View(_vehicleRepository.GetAll().Include(v => v.Brand).ToList());
         }
 
+
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VehicleNotFound");
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VehicleNotFound");
             }
 
             return View(vehicle);
         }
+
+
 
         // GET: Vehicles/Create
         public IActionResult Create()
@@ -62,6 +70,7 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(vmodel);
         }
+
 
         // POST: Vehicles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -77,6 +86,7 @@ namespace AutoWorkshop.Web.Controllers
                 var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
                 vehicle.BrandId = vmodel.BrandId;
                 vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                //vehicle.Client = _clientRepository.GetClientByUserId(User.Identity.Name);
 
 
                 //await _vehicleRepository.AddBrandToVehicle(vmodel);  antes fazia tudo neste método mas agora faço assim por causa do user
@@ -87,19 +97,20 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+            if (id == null)
+            {
+                return new NotFoundViewResult("VehicleNotFound");
+            }
 
             var vehicle = await _brandRepository.GetByIdWithBrand(id.Value); //para associar a brand ao veiculo
 
             if (vehicle == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VehicleNotFound");
             }
 
             var vmodel = _converterHelper.ToVehicleViewModel(vehicle);  // o objecto vehicle vem sem brand 
@@ -108,6 +119,7 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(vmodel);
         }
+
 
 
         // POST: Vehicles/Edit/5
@@ -126,15 +138,16 @@ namespace AutoWorkshop.Web.Controllers
                     var vehicle = _converterHelper.ToVehicle(vmodel, path, false);
                     vehicle.BrandId = vmodel.BrandId;
 
-                    vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name); 
-                  
+                    vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    //vehicle.Client = _clientRepository.GetClientByUserId(User.Identity.Name);
+
                     await _vehicleRepository.UpdateAsync(vehicle);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!await _vehicleRepository.ExistAsync(vmodel.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("VehicleNotFound");
                     }
                     else
                     {
@@ -147,22 +160,26 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+
+
         // GET: Vehicles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VehicleNotFound");
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             if (vehicle == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("VehicleNotFound");
             }
 
             return View(vehicle);
         }
+
+
 
         // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -174,5 +191,11 @@ namespace AutoWorkshop.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        public IActionResult VehicleNotFound()
+        {
+            return View();
+        }
     }
 }

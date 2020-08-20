@@ -114,11 +114,8 @@ namespace AutoWorkshop.Web.Controllers
 
                     await _clientRepository.CreateAsync(client);
 
-                    //await _userHelper.CheckRoleAsync("Customer");
 
-                    //await _userHelper.AddUserToRoleAsync(user, "Customer");
-
-                    var isRole = await _userHelper.IsUserInRoleAsync(user, "Customer");
+                    var isRole = await _userHelper.IsUserInRoleAsync(user, "Client");
 
                 
                     var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -130,7 +127,7 @@ namespace AutoWorkshop.Web.Controllers
 
                     if (!isRole)
                     {
-                        await _userHelper.AddUserToRoleAsync(user, "Customer");
+                        await _userHelper.AddUserToRoleAsync(user, "Client");
                     }
 
 
@@ -189,7 +186,7 @@ namespace AutoWorkshop.Web.Controllers
             if (user != null)
             {
                 
-                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  //TODO: método para isto
                 {
                     var admin = _adminRepository.GetAdminByUserId(user.Id);
 
@@ -203,7 +200,7 @@ namespace AutoWorkshop.Web.Controllers
                     model.CitizenCardNumber = admin.CitizenCardNumber;
 
                 }
-                else if (await _userHelper.IsUserInRoleAsync(user, "Customer"))
+                else if (await _userHelper.IsUserInRoleAsync(user, "Client"))
                 {
                     var client = _clientRepository.GetClientByUserId(user.Id);
 
@@ -336,6 +333,74 @@ namespace AutoWorkshop.Web.Controllers
             }
 
             return BadRequest();
+        }
+
+
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+
+
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+            if (user != null)
+            {
+                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+                if (result.Succeeded)
+                {
+                    this.ViewBag.Message = "Password reset successful.";
+                    return View();
+                }
+
+                this.ViewBag.Message = "Error while resetting the password.";
+                return View(model);
+            }
+
+            this.ViewBag.Message = "User not found.";
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Email); //verifica se user existe
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+                    return this.View(model);
+                }
+
+                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user); //gera token
+
+                var link = this.Url.Action(
+                    "ResetPassword",
+                    "Account",
+                    new { token = myToken }, protocol: HttpContext.Request.Scheme);
+
+                //mandar token através de email
+                _mailHelper.SendMail(model.Email, "Penguin AutoWorkshop Password Reset", $"<h1>Penguin AutoWorkshop Password Reset</h1>" +
+                $"To reset your account password click on this link:</br></br>" +
+                $"<a href = \"{link}\">Reset Password</a>");
+                this.ViewBag.Message = "A password email reset was sent to your email address, follow the directions" +
+                    "in the email to reset your password.";  //TODO: em vez de viewbag, aparecer outra view, com esta mensagem
+                return this.View();
+
+            }
+
+            return this.View(model);
         }
     }
 }
