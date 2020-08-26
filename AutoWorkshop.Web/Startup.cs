@@ -75,6 +75,10 @@ namespace AutoWorkshop.Web
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IMecanicRepository, MecanicRepository>();
+            services.AddScoped<ISecretaryRepository, SecretaryRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
 
 
 
@@ -99,6 +103,10 @@ namespace AutoWorkshop.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzA5MDExQDMxMzgyZTMyMmUzME9JVklRSWE0Z3FtUHpQOUZ0SkxQQTdqQWd5cnVaQzdpU1A3WERnaktkN0U9");
+
+            //
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

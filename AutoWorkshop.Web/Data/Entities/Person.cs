@@ -31,6 +31,10 @@ namespace AutoWorkshop.Web.Data.Entities
 
 
 
+        //public string Email { get; set; } TODO: fffff
+
+
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateofBirth { get; set; }
@@ -39,7 +43,9 @@ namespace AutoWorkshop.Web.Data.Entities
         public string TaxIdentificationNumber { get; set; }
 
 
+
         public string CitizenCardNumber { get; set; }
+
 
 
         public User User { get; set; }

@@ -122,6 +122,6 @@ namespace AutoWorkshop.Web.Helpers
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
 
-        
+       
     }
 }

@@ -9,8 +9,26 @@ namespace AutoWorkshop.Web.Helpers
 {
     public interface IConverterHelper  
     {
+        ChangeUserViewModel ToChangeUserViewModelAdmin(Admin admin);
+
+        ChangeUserViewModel ToChangeUserViewModelClient(Client client);
+
+        ChangeUserViewModel ToChangeUserViewModelSecretary(Secretary secretary);
+
+        ChangeUserViewModel ToChangeUserViewModelMecanic(Mecanic mecanic);
+
         Vehicle ToVehicle(VehicleViewModel model, string path, bool isNew);
 
         VehicleViewModel ToVehicleViewModel(Vehicle model);
+
+        Admin ToAdmin(ChangeUserViewModel model);
+
+        Client ToClient(ChangeUserViewModel model);
+
+        Secretary ToSecretary(ChangeUserViewModel model);
+
+        Mecanic ToMecanic(ChangeUserViewModel model);
+
+        Appointment ToAppointment(AppointmentViewModel model);
     }
 }

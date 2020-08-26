@@ -50,6 +50,41 @@ namespace AutoWorkshop.Web.Migrations
                     b.ToTable("Admins");
                 });
 
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Information");
+
+                    b.Property<bool>("IsConfirmed");
+
+                    b.Property<bool>("IsUrgent");
+
+                    b.Property<int?>("MecanicId");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<int>("VehicleId");
+
+                    b.Property<DateTime>("WorkEstimate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("MecanicId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -94,6 +129,58 @@ namespace AutoWorkshop.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Mecanic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CitizenCardNumber");
+
+                    b.Property<DateTime>("DateofBirth");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<string>("Specialty");
+
+                    b.Property<string>("StreetAddress");
+
+                    b.Property<string>("TaxIdentificationNumber");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Mecanics");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Repair", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId");
+
+                    b.Property<DateTime>("CompletedAt");
+
+                    b.Property<string>("RepairInfo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("Repairs");
                 });
 
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Secretary", b =>
@@ -334,11 +421,43 @@ namespace AutoWorkshop.Web.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Appointment", b =>
+                {
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.Mecanic", "Mecanic")
+                        .WithMany()
+                        .HasForeignKey("MecanicId");
+
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Client", b =>
                 {
                     b.HasOne("AutoWorkshop.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Mecanic", b =>
+                {
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Repair", b =>
+                {
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Secretary", b =>

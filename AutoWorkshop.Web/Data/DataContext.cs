@@ -20,6 +20,12 @@ namespace AutoWorkshop.Web.Data
 
         public DbSet<Secretary> Secretaries { get; set; }
 
+        public DbSet<Mecanic> Mecanics { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Repair> Repairs { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

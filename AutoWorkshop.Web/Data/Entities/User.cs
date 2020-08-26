@@ -10,6 +10,11 @@ namespace AutoWorkshop.Web.Data.Entities
     public class User : IdentityUser
     {
 
+
+        //public bool IsActive { get; set; }
+
+
+
         //[MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters.")]
         //public string FirstName { get; set; }
 

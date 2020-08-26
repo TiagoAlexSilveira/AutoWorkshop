@@ -9,6 +9,8 @@ namespace AutoWorkshop.Web.Models
     public class ChangeUserViewModel
     {
 
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -42,6 +44,10 @@ namespace AutoWorkshop.Web.Models
 
         
         public string CitizenCardNumber { get; set; }
+
+
+
+        public string Specialty { get; set; }
 
     }
 }

@@ -1,0 +1,86 @@
+﻿@model AutoWorkshop.Web.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="WorkEstimate" class="control-label"></label>
+                <input asp-for="WorkEstimate" class="form-control" />
+                <span asp-validation-for="WorkEstimate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Information" class="control-label"></label>
+                <input asp-for="Information" class="form-control" />
+                <span asp-validation-for="Information" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="MecanicId" class="control-label"></label>
+                <select asp-for="MecanicId" class ="form-control" asp-items="ViewBag.MecanicId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientId" class="control-label"></label>
+                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+            </div>*@
+
+
+            <div class="form-group">              
+                <ejs-dropdownlist id="Vehicless" dataSource="@Model.Vehicles" ejs-for="VehicleId" floatLabelType="Auto" placeholder="Select a Vehicle">
+                    <e-dropdownlist-fields text="LicensePlate" value="Id"></e-dropdownlist-fields>
+                </ejs-dropdownlist>                              
+            </div>
+
+            <div>
+                <ejs-textbox id="txt" type="text" placeholder="quakluqer coisa">
+
+                </ejs-textbox>
+
+            </div>
+
+
+            @*<div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsConfirmed" /> @Html.DisplayNameFor(model => model.IsConfirmed)
+                    </label>
+                </div>
+            </div>*@
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsUrgent" /> @Html.DisplayNameFor(model => model.IsUrgent)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

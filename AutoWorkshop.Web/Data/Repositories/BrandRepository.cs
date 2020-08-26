@@ -15,7 +15,6 @@ namespace AutoWorkshop.Web.Data.Repositories
         public BrandRepository(DataContext context) : base(context)
         {
             _context = context;
-
         }
 
         public IEnumerable<SelectListItem> GetComboBrands()

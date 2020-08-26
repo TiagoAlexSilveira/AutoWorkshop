@@ -22,18 +22,23 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly IClientRepository _clientRepository;
         private readonly IAdminRepository _adminRepository;
+        private readonly IConverterHelper _converterHelper;
+        private readonly ISecretaryRepository _secretaryRepository;
+        private readonly IMecanicRepository _mecanicRepository;
 
-        public AccountController(IUserHelper userHelper,
-                                 IConfiguration configuration,
-                                 IMailHelper mailHelper,
-                                 IClientRepository clientRepository,
-                                 IAdminRepository adminRepository)
+        public AccountController(IUserHelper userHelper, IConfiguration configuration,
+                                 IMailHelper mailHelper, IClientRepository clientRepository,
+                                 IAdminRepository adminRepository, IConverterHelper converterHelper,
+                                 ISecretaryRepository secretaryRepository, IMecanicRepository mecanicRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
             _clientRepository = clientRepository;
             _adminRepository = adminRepository;
+            _converterHelper = converterHelper;
+            _secretaryRepository = secretaryRepository;
+            _mecanicRepository = mecanicRepository;
         }
 
 
@@ -136,11 +141,6 @@ namespace AutoWorkshop.Web.Controllers
                     this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
 
 
-               
-
-                   
-
-
                     return View(model);
                 }
 
@@ -179,46 +179,46 @@ namespace AutoWorkshop.Web.Controllers
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            //var client = _clientRepository.GetClientByUserId(user.Id);
-
-            var model = new ChangeUserViewModel();
 
             if (user != null)
-            {
-                
+            {               
                 if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  //TODO: método para isto
                 {
                     var admin = _adminRepository.GetAdminByUserId(user.Id);
 
-                    model.FirstName = admin.FirstName;
-                    model.LastName = admin.LastName;
-                    model.StreetAddress = admin.StreetAddress;
-                    model.PhoneNumber = admin.PhoneNumber;
-                    model.PostalCode = admin.PostalCode;
-                    model.DateofBirth = admin.DateofBirth;
-                    model.TaxIdentificationNumber = admin.TaxIdentificationNumber;
-                    model.CitizenCardNumber = admin.CitizenCardNumber;
+                    var model = _converterHelper.ToChangeUserViewModelAdmin(admin);
 
+                    return View(model);
                 }
                 else if (await _userHelper.IsUserInRoleAsync(user, "Client"))
                 {
                     var client = _clientRepository.GetClientByUserId(user.Id);
 
-                    model.FirstName = client.FirstName;
-                    model.LastName = client.LastName;
-                    model.StreetAddress = client.StreetAddress;
-                    model.PhoneNumber = client.PhoneNumber;
-                    model.PostalCode = client.PostalCode;
-                    model.DateofBirth = client.DateofBirth;
-                    model.TaxIdentificationNumber = client.TaxIdentificationNumber;
-                    model.CitizenCardNumber = client.CitizenCardNumber;
-                    
-                }             
+                    var model = _converterHelper.ToChangeUserViewModelClient(client);
 
-                return View(model);
+                    return View(model);
+                }    
+                else if(await _userHelper.IsUserInRoleAsync(user, "Secretary"))
+                {
+                    var secretary = _secretaryRepository.GetSecretaryByUserId(user.Id);
+
+                    var model = _converterHelper.ToChangeUserViewModelSecretary(secretary);
+
+                    return View(model);
+                }
+                else if(await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                {
+                    var mecanic = _mecanicRepository.GetMecanicByUserId(user.Id);
+
+                    var model = _converterHelper.ToChangeUserViewModelMecanic(mecanic);
+
+                    return View(model);
+                }
+
+                return View();
             };
 
-            return View(model);  //TODO: vai dar merda
+            return View();  //TODO: vai dar merda
             
         }
 
@@ -231,23 +231,38 @@ namespace AutoWorkshop.Web.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
                 {
-                    var client = _clientRepository.GetClientByUserId(user.Id);
-
-                    client.FirstName = model.FirstName;
-                    client.LastName = model.LastName;
-                    //TODO: adicionar o resto das propriedades para mudar 
-                  
-                    try
+                    if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  //TODO: método para isto
                     {
+                        var admin = _converterHelper.ToAdmin(model);
+
+                        await _adminRepository.UpdateAsync(admin);
+
+                        ViewBag.UserMessage = "User updated";
+                    }
+                    else if (await _userHelper.IsUserInRoleAsync(user, "Client"))
+                    {
+                        var client = _converterHelper.ToClient(model);
+
                         await _clientRepository.UpdateAsync(client);
 
-                        ViewBag.UserMessage = "User update";
+                        ViewBag.UserMessage = "User updated";
                     }
-                    catch(Exception ex)
+                    else if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
                     {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
+                        var secretary = _converterHelper.ToSecretary(model);
 
+                        await _secretaryRepository.UpdateAsync(secretary);
+
+                        ViewBag.UserMessage = "User updated";
+                    }
+                    else if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                    {
+                        var mecanic = _converterHelper.ToMecanic(model);
+
+                        await _mecanicRepository.UpdateAsync(mecanic);
+
+                        ViewBag.UserMessage = "User updated";
+                    }
                 }
                 else
                 {

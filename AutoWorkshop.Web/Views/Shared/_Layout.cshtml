@@ -8,13 +8,20 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <!-- Syncfusion Essential JS 2 Styles -->
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+       
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <!-- Syncfusion Essential JS 2 Styles -->
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+        
     </environment>
 </head>
 <body>
@@ -37,6 +44,7 @@
                     @if (this.User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
+                        <li><a asp-area="" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
 
                     }
 
@@ -80,6 +88,8 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- Syncfusion Essential JS 2 Scripts -->
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
@@ -89,6 +99,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
+       
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -99,5 +110,7 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    <ejs-scripts></ejs-scripts>
 </body>
 </html>

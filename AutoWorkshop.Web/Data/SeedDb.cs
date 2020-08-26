@@ -37,7 +37,8 @@ namespace AutoWorkshop.Web.Data
                 user = new User
                 {
                     Email = "tsilveira01@gmail.com",
-                    UserName = "tsilveira01@gmail.com",
+                    UserName = "tsilveira01@gmail.com"
+                    //IsActive = true
                 };
 
                 var admin = new Admin
@@ -50,6 +51,7 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "989898989",
                     CitizenCardNumber = "11223344",
+                    //Email = user.Email,
                     User = user
                 };
 
@@ -76,6 +78,8 @@ namespace AutoWorkshop.Web.Data
 
            
 
+
+
             var userclient = await _userHelper.GetUserByEmailAsync("tsteste@yopmail.com");
             if (userclient == null)
             {
@@ -83,6 +87,7 @@ namespace AutoWorkshop.Web.Data
                 {
                     Email = "tsteste@yopmail.com",
                     UserName = "tsteste@yopmail.com",
+                    //IsActive = true
                 };
 
                 var client = new Client
@@ -95,6 +100,7 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "989898989",
                     CitizenCardNumber = "11223344",
+                    //Email = userclient.Email,                    
                     User = userclient
                 };
 

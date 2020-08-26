@@ -56,6 +56,8 @@ namespace AutoWorkshop.Web.Data.Entities
         public DateTime? LastMaintenance { get; set; }
 
 
+        //public VIN_Number { get; set; }  //número que vem quando se monta o carro(para saber que é legit)
+
         //public Client Client { get; set; }
 
         public User User { get; set; }
