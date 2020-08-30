@@ -1,9 +1,5 @@
-﻿using Org.BouncyCastle.Asn1.Cms;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
@@ -11,6 +7,13 @@ namespace AutoWorkshop.Web.Data.Entities
     {
 
         public int Id { get; set; }
+
+
+        public int AppointmentTypeId { get; set; }
+
+
+        //public string AppointmenType  //TODO: APPOINTMENT TYPE
+        public AppointmentType AppointmentType { get; set; }
 
 
         [Required]

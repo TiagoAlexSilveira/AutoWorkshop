@@ -11,7 +11,6 @@ namespace AutoWorkshop.Web.Data
     {
 
         //Task AddBrandToVehicle(VehicleViewModel model);
-
-  
+    
     }
 }

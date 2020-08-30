@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Syncfusion.EJ2.DropDowns;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -44,10 +45,6 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult Login()
         {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
             return View();
         }
@@ -56,9 +53,9 @@ namespace AutoWorkshop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)  
             {
-                var result = await _userHelper.LoginAsync(model);
+                var result = await _userHelper.LoginAsync(model);                         
                 if (result.Succeeded)
                 {
                     if (Request.Query.Keys.Contains("ReturnUrl"))
@@ -66,7 +63,7 @@ namespace AutoWorkshop.Web.Controllers
                         return Redirect(Request.Query["ReturnUrl"].First());
                     }
 
-                    return RedirectToAction("Index", "Vehicles"); //redireciona para esta action quando o login é successfull
+                    return RedirectToAction("Index", "Home"); //redireciona para esta action quando o login é successfull
                 }
             }
 
@@ -362,6 +359,8 @@ namespace AutoWorkshop.Web.Controllers
         {
             return View();
         }
+
+
 
 
         [HttpPost]

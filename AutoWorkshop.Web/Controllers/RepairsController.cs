@@ -8,31 +8,34 @@ using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
-    public class BrandsController : Controller
+    public class RepairsController : Controller
     {
-        public IBrandRepository _brandRepository { get; }
+        
+        private readonly IRepairRepository _repairRepository;
+        private readonly IClientRepository _clientRepository;
 
-        public BrandsController(IBrandRepository brandRepository)
+        public RepairsController(IRepairRepository repairRepository,
+                                 IClientRepository clientRepository)
         {
-            _brandRepository = brandRepository;
+            
+            _repairRepository = repairRepository;
+            _clientRepository = clientRepository;
         }
 
 
-
-        // GET: Brands
+        // GET: Repairs
         public IActionResult Index()
         {
-            return View(_brandRepository.GetAll());
+            var repair = _repairRepository.GetAll().Include(r => r.Appointment);
+            return View(repair);
         }
 
 
 
-        // GET: Brands/Details/5
+        // GET: Repairs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,41 +43,46 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _brandRepository.GetByIdAsync(id.Value);
-            if (brand == null)
+            var repair = await _repairRepository.GetByIdAsync(id.Value);
+            if (repair == null)
             {
                 return NotFound();
             }
 
-            return View(brand);
+            return View(repair);
         }
 
 
 
-        // GET: Brands/Create
+        // GET: Repairs/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
-        // POST: Brands/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+
+        //POST: Repairs/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Brand brand)
+        public async Task<IActionResult> Create(Repair repair)
         {
             if (ModelState.IsValid)
             {
-                await _brandRepository.CreateAsync(brand);
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+
+
+                await _repairRepository.CreateAsync(repair);
                 return RedirectToAction(nameof(Index));
             }
-            return View(brand);
+            
+            return View(repair);
         }
 
-
-
-        // GET: Brands/Edit/5
+        // GET: Repairs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,24 +90,23 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _brandRepository.GetByIdAsync(id.Value);
-            if (brand == null)
+            var repair = await _repairRepository.GetByIdAsync(id.Value);
+            if (repair == null)
             {
                 return NotFound();
             }
-            return View(brand);
+            
+            return View(repair);
         }
 
-
-
-        // POST: Brands/Edit/5
+        // POST: Repairs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Brand brand)
+        public async Task<IActionResult> Edit(Repair repair)
         {
-            //if (id != brand.Id)
+            //if (id != repair.Id)
             //{
             //    return NotFound();
             //}
@@ -108,11 +115,11 @@ namespace AutoWorkshop.Web.Controllers
             {
                 try
                 {
-                    await _brandRepository.UpdateAsync(brand);
+                    await _repairRepository.UpdateAsync(repair);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _brandRepository.ExistAsync(brand.Id))
+                    if (! await _repairRepository.ExistAsync(repair.Id))
                     {
                         return NotFound();
                     }
@@ -123,12 +130,11 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(brand);
+
+            return View(repair);
         }
 
-
-
-        // GET: Brands/Delete/5
+        // GET: Repairs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,25 +142,28 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var brand = await _brandRepository.GetByIdAsync(id.Value);
-            if (brand == null)
+            var repair = await _repairRepository.GetByIdAsync(id.Value);
+            if (repair == null)
             {
                 return NotFound();
             }
 
-            return View(brand);
+            return View(repair);
         }
 
-
-
-        // POST: Brands/Delete/5
+        // POST: Repairs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var brand = await _brandRepository.GetByIdAsync(id);
-            await _brandRepository.DeleteAsync(brand);
+            var repair = await _repairRepository.GetByIdAsync(id);
+            await _repairRepository.DeleteAsync(repair);
             return RedirectToAction(nameof(Index));
         }
+
+        //private bool RepairExists(int id)
+        //{
+        //    return _context.Repairs.Any(e => e.Id == id);
+        //}
     }
 }

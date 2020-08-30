@@ -1,17 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserHelper _userHelper;
+
+        public HomeController(IUserHelper userHelper)
         {
+            _userHelper = userHelper;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+                {
+                    return View("AdminIndex");
+                }
+                if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                {
+                    return View("MechanicIndex");
+                }
+                if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
+                {
+                    return View("SecretaryIndex");
+                }
+            }
+            
             return View();
         }
 

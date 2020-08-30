@@ -3,8 +3,10 @@ using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.EJ2.Linq;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +39,9 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Vehicles
         public IActionResult Index()
         {
-            return View(_vehicleRepository.GetAll().Include(v => v.Brand).ToList());
+
+            return View(_vehicleRepository.GetAll().Include(v => v.Brand)
+                        .Where(p => p.User.UserName == User.Identity.Name));
         }
 
 

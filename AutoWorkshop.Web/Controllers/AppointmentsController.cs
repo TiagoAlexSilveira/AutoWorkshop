@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoWorkshop.Web.Data;
+using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
+using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
-using AutoWorkshop.Web.Models;
-using AutoWorkshop.Web.Helpers;
-using Org.BouncyCastle.Crypto.Tls;
+using System;
+using System.Collections.Generic;
 
 namespace AutoWorkshop.Web.Controllers
 {
     public class AppointmentsController : Controller
     {
-        
+
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IConverterHelper _converterHelper;
@@ -61,6 +58,19 @@ namespace AutoWorkshop.Web.Controllers
             return View(appointment);
         }
 
+
+        //// GET: Appointments/Create     //Create com o syncfusion
+        //public IActionResult Create()
+        //{
+        //    var model = new AppointmentViewModel
+        //    {
+        //       Vehicles = _vehicleRepository.GetAll().ToList()
+        //    };
+
+        //    ViewBag.appointments = GetScheduleData();
+        //    return View(model);
+        //}
+
         // GET: Appointments/Create
         public IActionResult Create()
         {
@@ -68,9 +78,7 @@ namespace AutoWorkshop.Web.Controllers
             {
                 Vehicles = _vehicleRepository.GetAll().ToList()
             };
-            //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
-            //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id");
-            //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate");
+
             return View(model);
         }
 
@@ -97,7 +105,7 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
-        // GET: Appointments/Edit/5
+        // GET: Appointments/Edit/5    //TODO: editar só na secretary
         //public async Task<IActionResult> Edit(int? id)
         //{
         //    //if (id == null)
@@ -185,5 +193,60 @@ namespace AutoWorkshop.Web.Controllers
         //{
         //    return _appointmentRepository.ExistAsync(id);
         //}
+
+
+
+        public class AppointmentData  //class for syncfusion scheduler
+        {
+            public int Id { get; set; }
+            public string Subject { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
+        }
+
+
+        public List<AppointmentData> GetScheduleData()
+        {
+            List<AppointmentData> appData = new List<AppointmentData>();
+            appData.Add(new AppointmentData
+            {
+                Id = 1,
+                Subject = "Explosion of Betelgeuse Star",
+                StartTime = new DateTime(2020, 8, 28, 9, 30, 0),
+                EndTime = new DateTime(2020, 8, 30, 11, 0, 0)
+            });
+            appData.Add(new AppointmentData
+            {
+                Id = 2,
+                Subject = "Thule Air Crash Report",
+                StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
+                EndTime = new DateTime(2018, 2, 12, 14, 0, 0)
+            });
+            appData.Add(new AppointmentData
+            {
+                Id = 3,
+                Subject = "Blue Moon Eclipse",
+                StartTime = new DateTime(2018, 2, 13, 9, 30, 0),
+                EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
+            });
+            appData.Add(new AppointmentData
+            {
+                Id = 4,
+                Subject = "Meteor Showers in 2018",
+                StartTime = new DateTime(2018, 2, 14, 13, 0, 0),
+                EndTime = new DateTime(2018, 2, 14, 14, 30, 0)
+            });
+            appData.Add(new AppointmentData
+            {
+                Id = 5,
+                Subject = "Milky Way as Melting pot",
+                StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
+                EndTime = new DateTime(2018, 2, 15, 14, 0, 0)
+            });
+            return appData;
+        }
+
+
+
     }
 }

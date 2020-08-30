@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWorkshop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200826183810_AddedAppointmentAndRepair")]
+    [Migration("20200828225507_AddedAppointmentAndRepair")]
     partial class AddedAppointmentAndRepair
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,8 @@ namespace AutoWorkshop.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AppointmentTypeId");
+
                     b.Property<int>("ClientId");
 
                     b.Property<DateTime>("Date");
@@ -78,6 +80,8 @@ namespace AutoWorkshop.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppointmentTypeId");
+
                     b.HasIndex("ClientId");
 
                     b.HasIndex("MecanicId");
@@ -85,6 +89,19 @@ namespace AutoWorkshop.Web.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.AppointmentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppointmentType");
                 });
 
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Brand", b =>
@@ -425,6 +442,11 @@ namespace AutoWorkshop.Web.Migrations
 
             modelBuilder.Entity("AutoWorkshop.Web.Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("AutoWorkshop.Web.Data.Entities.AppointmentType", "AppointmentType")
+                        .WithMany()
+                        .HasForeignKey("AppointmentTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("AutoWorkshop.Web.Data.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")

@@ -1,0 +1,284 @@
+﻿@model AutoWorkshop.Web.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Appointment</h4>
+<hr />
+
+
+
+<ejs-schedule id="schedule" height="550" endHour="18:00" startHour="8:00" editorTemplate="#EventEditorTemplate" popupOpen="onPopupOpen">
+    <e-schedule-eventsettings dataSource="ViewBag.appointments"></e-schedule-eventsettings>
+</ejs-schedule>
+
+
+<div>
+    AMERICA
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+                    <label asp-for="WorkEstimate" class="control-label"></label>
+                    <input asp-for="WorkEstimate" class="form-control" />
+                    <span asp-validation-for="WorkEstimate" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Information" class="control-label"></label>
+                <input asp-for="Information" class="form-control" />
+                <span asp-validation-for="Information" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="MecanicId" class="control-label"></label>
+                    <select asp-for="MecanicId" class ="form-control" asp-items="ViewBag.MecanicId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClientId" class="control-label"></label>
+                    <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+                </div>*@
+
+
+            @*<div class="form-group">
+                    <ejs-dropdownlist id="Vehicless" dataSource="@Model.Vehicles" ejs-for="VehicleId" floatLabelType="Auto" placeholder="Select a Vehicle">
+                        <e-dropdownlist-fields text="LicensePlate" value="Id"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>*@
+
+            <div>
+                <ejs-textbox id="txt" type="text" placeholder="quakluqer coisa">
+                
+                </ejs-textbox>
+
+            </div>
+
+
+            @*<div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsConfirmed" /> @Html.DisplayNameFor(model => model.IsConfirmed)
+                        </label>
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsUrgent" /> @Html.DisplayNameFor(model => model.IsUrgent)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+
+
+
+@*<script id="EventEditorTemplate" type="text/template">
+        <table class="custom-event-editor" width="100%" cellpadding="5">
+            <tbody>
+                <tr>
+                    <td class="e-textlabel">ASSS</td>
+                    <td colspan="4">
+                        <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">DOUBLE ASS</td>
+                    <td colspan="4">
+                        <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">From</td>
+                    <td colspan="4">
+                        <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">To</td>
+                    <td colspan="4">
+                        <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Reason</td>
+                    <td colspan="4">
+                        <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </script>*@
+
+<script id="EventEditorTemplate" type="text/template">
+    <table class="custom-event-editor" width="100%" cellpadding="5">
+        <tbody>
+            <tr style="display:none">
+                <td class="e-textlabel">ASSS</td>
+                <td colspan="4">
+                    <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Vehicles</td>
+                <td colspan="4">
+                    <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Date</td>
+                <td colspan="4">
+                    <input id="Date" class="e-field" type="text" name="Date" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Time</td>
+                <td colspan="4">
+                    <input id="Time" class="e-field" type="text" name="Time" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Reason</td>
+                <td colspan="4">
+                    <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">All appointments are done at least 2 days prior</td>              
+            </tr>
+
+        </tbody>
+    </table>
+</script>
+
+
+
+
+
+@*<script type="text/javascript">
+        function onPopupOpen(args) {
+            if (args.type === 'Editor') {
+                var statusElement = args.element.querySelector('#EventType');
+                if (!statusElement.classList.contains('e-dropdownlist')) {
+                    var dropDownListObject = new ej.dropdowns.DropDownList({
+                        placeholder: 'Choose status', value: statusElement.value,
+                        dataSource: ['New', 'Requested', 'Confirmed']
+                    });
+                    dropDownListObject.appendTo(statusElement);
+                    statusElement.setAttribute('name', 'EventType');
+                }
+                var startElement = args.element.querySelector('#StartTime');
+                if (!startElement.classList.contains('e-datetimepicker')) {
+                    new ej.calendars.DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+                }
+                var endElement = args.element.querySelector('#EndTime');
+                if (!endElement.classList.contains('e-datetimepicker')) {
+                    new ej.calendars.DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+                }
+                if (!statusElement.classList.contains('e-dropdownlist')) {
+                    var vehicle = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose Vehicle', value: statusElement.value,
+                    dataSource: @Model.Vehicles
+                    });
+                    vehicle.appendTo(statusElement);
+                    statusElement.setAttribute('name', 'EventType');
+                }
+            }
+        }
+    </script>*@
+
+
+<script type="text/javascript">
+        function onPopupOpen(args) {
+            if (args.type === 'Editor') {
+                var statusElement = args.element.querySelector('#EventType');
+                if (!statusElement.classList.contains('e-dropdownlist')) {
+                    var dropDownListObject = new ej.dropdowns.DropDownList({
+                        placeholder: 'Choose Vehicle', value: statusElement.value,
+                        dataSource: vec
+                    });
+                    dropDownListObject.appendTo(statusElement);
+                    statusElement.setAttribute('name', 'EventType');
+                }
+                var startElement = args.element.querySelector('#Date');
+                new ej.calendars.DatePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+
+                var endElement = args.element.querySelector('#Time');
+                if (!endElement.classList.contains('e-datetimepicker')) {
+                    new ej.calendars.TimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+                }
+            }
+        }
+    </script>
+
+
+<script>
+    var vec = [];
+
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        @:vec.push("@vehicle.LicensePlate");
+    }
+
+</script>
+
+
+
+
+@*<script type="text/javascript">
+    function onPopupOpen(args) {
+        if (args.type === 'Editor') {
+            if (!args.element.querySelector('.custom-field-row')) {
+                var row = ej.base.createElement('div', { className: 'custom-field-row' });
+                var formElement = args.element.querySelector('.e-schedule-form');
+                formElement.firstChild.insertBefore(row, args.element.querySelector('.e-title-location-row'));
+                var container = ej.base.createElement('div', { className: 'custom-field-container' });
+                var inputEle = ej.base.createElement('input', {
+                    className: 'e-field', attrs: { name: 'EventType' }
+                });
+                container.appendChild(inputEle);
+                row.appendChild(container);
+                var drowDownList = new ej.dropdowns.DropDownList({
+                    dataSource: vec,
+                    fields: { text: 'text', value: 'value' },
+                    value: (args.data).EventType,
+                    floatLabelType: 'Always', placeholder: 'Event Type'
+                });
+                drowDownList.appendTo(inputEle);
+                inputEle.setAttribute('name', 'EventType');
+            }
+        }
+    }
+</script>*@
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

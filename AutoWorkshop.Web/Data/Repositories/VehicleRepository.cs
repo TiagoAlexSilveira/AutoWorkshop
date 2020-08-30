@@ -1,5 +1,6 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace AutoWorkshop.Web.Data.Repositories
         {
             _context = context;
         }
+
+
 
         //public async Task AddBrandToVehicle(VehicleViewModel model)
         //{
