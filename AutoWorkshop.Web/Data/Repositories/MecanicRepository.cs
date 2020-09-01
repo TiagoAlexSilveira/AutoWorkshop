@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,23 @@ namespace AutoWorkshop.Web.Data.Repositories
             var mecanic = _context.Mecanics.FirstOrDefault(u => u.User.Id == id);
 
             return mecanic;
+        }
+
+        public IEnumerable<SelectListItem> GetComboMecanics()
+        {
+            var list = _context.Mecanics.Select(b => new SelectListItem
+            {
+                Text = b.FirstName,
+                Value = b.Id.ToString()
+            }).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a Mechanic...)",
+                Value = "0"
+            });
+
+            return list;
         }
     }
 }

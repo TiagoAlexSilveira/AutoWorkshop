@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace AutoWorkshop.Web.Models
         public IEnumerable<Appointment> Appointments { get; set; }
 
 
-        public IEnumerable<Mecanic> Mechanics { get; set; }
+        public IEnumerable<SelectListItem> Mechanics { get; set; }
     }
 }

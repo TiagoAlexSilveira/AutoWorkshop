@@ -1,6 +1,8 @@
-﻿using AutoWorkshop.Web.Data.Repositories;
+﻿using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Syncfusion.EJ2.Linq;
 using System.Threading.Tasks;
 
@@ -24,17 +26,20 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult Index()
         {
-            
+            var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle)
+                                                             .Include(c => c.Client);
 
             var model = new SecretaryAppointmentViewModel
             {
-                Appointments = _appointmentRepository.GetAll(),
-                Mechanics = _mecanicRepository.GetAll()
-
+                Appointments = appointment,
+                Mechanics = _mecanicRepository.GetComboMecanics()
             };
+
 
             return View(model);
         }
+
+        //TODO: Fazer o post ao adicionar um mecânico
 
 
         //// GET: Secretaries
