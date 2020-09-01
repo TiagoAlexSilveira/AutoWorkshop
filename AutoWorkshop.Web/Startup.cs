@@ -80,7 +80,8 @@ namespace AutoWorkshop.Web
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IAppointmentTypeRepository, AppointmentTypeRepository>();
             services.AddScoped<IRepairRepository, RepairRepository>();
-           
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+
 
 
 

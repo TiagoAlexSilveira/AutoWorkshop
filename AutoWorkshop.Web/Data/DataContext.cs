@@ -28,6 +28,8 @@ namespace AutoWorkshop.Web.Data
 
         public DbSet<Repair> Repairs { get; set; }
 
+        public DbSet<Specialty> Specialty { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -50,7 +52,5 @@ namespace AutoWorkshop.Web.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
-
     }
 }

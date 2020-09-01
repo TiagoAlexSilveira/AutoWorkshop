@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
-    public class Mecanic : Person
+    public class Specialty : IEntity
     {
-        public int SpecialtyId { get; set; }
 
-        public Specialty Specialty { get; set; }
+        public int Id { get; set; }
+
+
+        public string Type { get; set; }
     }
 }

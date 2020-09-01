@@ -12,11 +12,14 @@ namespace AutoWorkshop.Web.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IClientRepository _clientRepository;
+        private readonly ISecretaryRepository _secretaryRepository;
 
-        public HomeController(IUserHelper userHelper, IClientRepository clientRepository)
+        public HomeController(IUserHelper userHelper, IClientRepository clientRepository,
+                              ISecretaryRepository secretaryRepository)
         {
             _userHelper = userHelper;
             _clientRepository = clientRepository;
+            _secretaryRepository = secretaryRepository;
         }
 
 
@@ -37,7 +40,7 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
                 {
-                    return View("SecretaryIndex");
+                    return RedirectToAction("Index", "Secretaries");
                 }
 
                 var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
@@ -54,7 +57,7 @@ namespace AutoWorkshop.Web.Controllers
 
 
 
-
+        //Fill Info After Login(for clients only)
         [HttpPost]
         public async Task<IActionResult> InfoAfterLogin(Client client)
         {            
@@ -68,6 +71,7 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        
 
 
         public IActionResult About()

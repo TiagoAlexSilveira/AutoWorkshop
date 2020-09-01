@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoWorkshop.Web.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Models
 {
-    public class ChangeUserViewModel
+    public class ChangeUserViewModel 
     {
 
         public int Id { get; set; }
@@ -47,7 +48,10 @@ namespace AutoWorkshop.Web.Models
 
 
 
-        public string Specialty { get; set; }
+        public int SpecialtyId { get; set; }
+
+
+        public Specialty Specialty { get; set; }
 
     }
 }

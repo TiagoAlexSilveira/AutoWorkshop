@@ -54,6 +54,7 @@ namespace AutoWorkshop.Web.Controllers
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
+            vehicle.Brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
             if (vehicle == null)
             {
                 return new NotFoundViewResult("VehicleNotFound");
