@@ -24,6 +24,8 @@ namespace AutoWorkshop.Web.Data
 
         public DbSet<Appointment> Appointments { get; set; }
 
+        public DbSet<AppointmentType> AppointmentTypes { get; set; }
+
         public DbSet<Repair> Repairs { get; set; }
 
 

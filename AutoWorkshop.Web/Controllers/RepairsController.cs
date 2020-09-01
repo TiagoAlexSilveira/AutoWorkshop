@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Models;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -16,20 +17,23 @@ namespace AutoWorkshop.Web.Controllers
         
         private readonly IRepairRepository _repairRepository;
         private readonly IClientRepository _clientRepository;
+        private readonly IAppointmentRepository _appointmentRepository;
 
         public RepairsController(IRepairRepository repairRepository,
-                                 IClientRepository clientRepository)
+                                 IClientRepository clientRepository,
+                                 IAppointmentRepository appointmentRepository)
         {
             
             _repairRepository = repairRepository;
             _clientRepository = clientRepository;
+            _appointmentRepository = appointmentRepository;
         }
 
 
         // GET: Repairs
         public IActionResult Index()
         {
-            var repair = _repairRepository.GetAll().Include(r => r.Appointment);
+            var repair = _repairRepository.GetAll().Include(r => r.Appointment).ToList();
             return View(repair);
         }
 
@@ -57,8 +61,12 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Repairs/Create
         public IActionResult Create()
         {
+            var model = new RepairViewModel
+            {
+                Appointments = _appointmentRepository.GetAll().ToList()
+            };
 
-            return View();
+            return View(model);
         }
 
 

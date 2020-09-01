@@ -19,18 +19,21 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
         private readonly IClientRepository _clientRepository;
+        private readonly IAppointmentTypeRepository _appointmentTypeRepository;
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
                                       IVehicleRepository vehicleRepository,
                                       IConverterHelper converterHelper,
                                       IUserHelper userHelper,
-                                      IClientRepository clientRepository)
+                                      IClientRepository clientRepository,
+                                      IAppointmentTypeRepository appointmentTypeRepository)
         {
             _appointmentRepository = appointmentRepository;
             _vehicleRepository = vehicleRepository;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
             _clientRepository = clientRepository;
+            _appointmentTypeRepository = appointmentTypeRepository;
         }
 
         // GET: Appointments
@@ -76,7 +79,8 @@ namespace AutoWorkshop.Web.Controllers
         {
             var model = new AppointmentViewModel
             {
-                Vehicles = _vehicleRepository.GetAll().ToList()
+                Vehicles = _vehicleRepository.GetAll().ToList(),
+                AppointmentTypes = _appointmentTypeRepository.GetAll().ToList()                
             };
 
             return View(model);
@@ -95,8 +99,7 @@ namespace AutoWorkshop.Web.Controllers
 
                 var appointment = _converterHelper.ToAppointment(model);
                 appointment.Client = client;
-                appointment.ClientId = client.Id;
-
+                appointment.ClientId = client.Id;              
 
                 await _appointmentRepository.CreateAsync(appointment);
                 return RedirectToAction(nameof(Index));

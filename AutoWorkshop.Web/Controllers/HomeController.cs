@@ -1,4 +1,6 @@
-﻿using AutoWorkshop.Web.Helpers;
+﻿using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,10 +11,12 @@ namespace AutoWorkshop.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IClientRepository _clientRepository;
 
-        public HomeController(IUserHelper userHelper)
+        public HomeController(IUserHelper userHelper, IClientRepository clientRepository)
         {
             _userHelper = userHelper;
+            _clientRepository = clientRepository;
         }
 
 
@@ -35,10 +39,36 @@ namespace AutoWorkshop.Web.Controllers
                 {
                     return View("SecretaryIndex");
                 }
+
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+                if (string.IsNullOrEmpty(client.StreetAddress))
+                {
+                    return View("InfoAfterLogin", client);
+                }
+
             }
-            
+
             return View();
         }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> InfoAfterLogin(Client client)
+        {            
+
+            await _clientRepository.UpdateAsync(client);
+
+            ViewBag.Message = "Your registration is now complete! Welcome to Penguin AutoWorkshop!";
+
+            return View();
+
+        }
+
+
+
 
         public IActionResult About()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
-    public abstract class Person : IEntity  // TODO: HOLY SHIT
+    public abstract class Person : IEntity  
     {
         public int Id { get; set; }
 

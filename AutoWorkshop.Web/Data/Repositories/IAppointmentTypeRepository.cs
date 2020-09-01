@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoWorkshop.Web.Models
+namespace AutoWorkshop.Web.Data.Repositories
 {
-    public class RepairViewModel : Repair
+    public interface IAppointmentTypeRepository : IGenericRepository<AppointmentType>
     {
 
-        public IEnumerable<Appointment> Appointments { get; set; }
 
     }
 }

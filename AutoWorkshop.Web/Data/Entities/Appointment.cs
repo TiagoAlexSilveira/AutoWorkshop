@@ -11,17 +11,20 @@ namespace AutoWorkshop.Web.Data.Entities
 
         public int AppointmentTypeId { get; set; }
 
-
-        //public string AppointmenType  //TODO: APPOINTMENT TYPE
+        //TODO: APPOINTMENT TYPE
+        //public string AppointmenType  
         public AppointmentType AppointmentType { get; set; }
 
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
 
+        //TODO: a data está a guardar com campos a mais (para o data e a hora), o syncfusion na view mostra uma linha enorme
         [Required]
+        [DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]  
         [DataType(DataType.Time)]
         public DateTime Time { get; set; }
 

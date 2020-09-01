@@ -12,50 +12,61 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <ejs-dropdownlist id="AppointmentTypes" dataSource="@Model.AppointmentTypes" ejs-for="AppointmentTypeId" floatLabelType="Auto" placeholder="Select an AppointmentType">
+                    <e-dropdownlist-fields text="Type" value="Id"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+
+
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="Time" class="control-label"></label>
                 <input asp-for="Time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="WorkEstimate" class="control-label"></label>
-                <input asp-for="WorkEstimate" class="form-control" />
-                <span asp-validation-for="WorkEstimate" class="text-danger"></span>
-            </div>*@
+            <label asp-for="WorkEstimate" class="control-label"></label>
+            <input asp-for="WorkEstimate" class="form-control" />
+            <span asp-validation-for="WorkEstimate" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="Information" class="control-label"></label>
                 <input asp-for="Information" class="form-control" />
                 <span asp-validation-for="Information" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="MecanicId" class="control-label"></label>
-                <select asp-for="MecanicId" class ="form-control" asp-items="ViewBag.MecanicId"></select>
-            </div>
+            <label asp-for="MecanicId" class="control-label"></label>
+            <select asp-for="MecanicId" class ="form-control" asp-items="ViewBag.MecanicId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ClientId" class="control-label"></label>
+            <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+        </div>*@
+
+
             <div class="form-group">
-                <label asp-for="ClientId" class="control-label"></label>
-                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
-            </div>*@
-
-
-            <div class="form-group">              
                 <ejs-dropdownlist id="Vehicless" dataSource="@Model.Vehicles" ejs-for="VehicleId" floatLabelType="Auto" placeholder="Select a Vehicle">
                     <e-dropdownlist-fields text="LicensePlate" value="Id"></e-dropdownlist-fields>
-                </ejs-dropdownlist>                              
+                </ejs-dropdownlist>
             </div>
+
 
 
             @*<div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsConfirmed" /> @Html.DisplayNameFor(model => model.IsConfirmed)
-                    </label>
-                </div>
-            </div>*@
+            <div class="checkbox">
+                <label>
+                    <input asp-for="IsConfirmed" /> @Html.DisplayNameFor(model => model.IsConfirmed)
+                </label>
+            </div>
+        </div>*@
             <div class="form-group">
                 <div class="checkbox">
                     <label>

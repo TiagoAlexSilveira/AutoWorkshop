@@ -146,7 +146,24 @@ namespace AutoWorkshop.Web.Data
                 this.AddVehicle(brandd, "Cinzento", user);
                 await _context.SaveChangesAsync();
             }
+
+            if (!_context.AppointmentTypes.Any())
+            {
+                AddAppointmentType("Manutenção");
+                AddAppointmentType("Pintura");
+                AddAppointmentType("Outro");
+                await _context.SaveChangesAsync();
+            }
         }
+
+        private void AddAppointmentType(string type)
+        {
+            _context.AppointmentTypes.Add(new AppointmentType
+            {
+                Type = type
+            });
+        }
+
 
         private void AddBrand(string brandname)
         {

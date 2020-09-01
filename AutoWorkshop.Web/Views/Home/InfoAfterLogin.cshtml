@@ -1,0 +1,105 @@
+﻿@model AutoWorkshop.Web.Data.Entities.Client
+@{
+    ViewData["Title"] = "InfoAfterLogin";  //TODO: fazer um viewmodel para por as propriedades como required
+}
+@{
+    Layout = null;
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+<h2>Fill in the required information</h2>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post" asp-action="InfoAfterLogin" asp-controller="Home">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+
+
+            <div class="form-group">
+                <label asp-for="StreetAddress">Street Address</label>
+                <input id="address" asp-for="StreetAddress" class="form-control" />
+                <span asp-validation-for="StreetAddress" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Phone Number</label>
+                <input id="phone" asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PostalCode">Postal Code</label>
+                <input id="postal" asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateofBirth">Date of Birth Number</label>
+                <input id="date" asp-for="DateofBirth" class="form-control" />
+                <span asp-validation-for="DateofBirth" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TaxIdentificationNumber">Tax Identification Number</label>
+                <input id="tax" asp-for="TaxIdentificationNumber" class="form-control" />
+                <span asp-validation-for="TaxIdentificationNumber" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CitizenCardNumber">Citizen Card Number</label>
+                <input id="cit" asp-for="CitizenCardNumber" class="form-control" />
+                <span asp-validation-for="CitizenCardNumber" class="text-warning"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Update" onclick="myFunction()" class="btn btn-primary" />
+
+            </div>
+
+            <div>
+                <a asp-action="Index" style="display:none" id="hiddenbutton" class="btn btn-primary">Exit</a>
+            </div>
+
+            <div class="text-success">
+                @ViewBag.Message
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@*TODO: dar upload com ajax para não dar refresh à página e conseguir fazer aparecer o botão*@
+
+@*<script>
+        alert(document.getElementById("address") !== null);
+    </script>*@
+
+
+<script>
+    function myFunction() {
+
+        var a = document.getElementById("address");
+        var x = document.getElementById("hiddenbutton");
+        if (a !== null) {
+            x.style.display = "block";
+        }
+    }
+
+</script>
+
+
+<script>
+
+
+
+</script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -2,6 +2,7 @@
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Identity;
+using Syncfusion.EJ2.DropDowns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -209,6 +210,8 @@ namespace AutoWorkshop.Web.Helpers
                 Client = model.Client,
                 VehicleId = model.VehicleId,
                 Vehicle = model.Vehicle,
+                AppointmentType = model.AppointmentType,
+                AppointmentTypeId = model.AppointmentTypeId,
                 IsConfirmed = false,
                 IsUrgent = model.IsUrgent               
             };

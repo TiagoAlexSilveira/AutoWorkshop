@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
-    public class AppointmentType
+    public class AppointmentType : IEntity
     {
         public int Id { get; set; }
 

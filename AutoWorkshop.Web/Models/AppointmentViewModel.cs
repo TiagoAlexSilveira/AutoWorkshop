@@ -10,5 +10,7 @@ namespace AutoWorkshop.Web.Models
     {
         public IEnumerable<Vehicle> Vehicles { get; set; }
 
+        public IEnumerable<AppointmentType> AppointmentTypes { get; set; }
+
     }
 }

@@ -61,7 +61,7 @@ namespace AutoWorkshop.Web.Controllers
                     if (Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         return Redirect(Request.Query["ReturnUrl"].First());
-                    }
+                    } 
 
                     return RedirectToAction("Index", "Home"); //redireciona para esta action quando o login é successfull
                 }
@@ -79,10 +79,13 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+
         public IActionResult Register()
         {
             return View();
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterNewUserViewModel model)
@@ -179,7 +182,7 @@ namespace AutoWorkshop.Web.Controllers
 
             if (user != null)
             {               
-                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  //TODO: método para isto
+                if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  
                 {
                     var admin = _adminRepository.GetAdminByUserId(user.Id);
 
@@ -215,8 +218,7 @@ namespace AutoWorkshop.Web.Controllers
                 return View();
             };
 
-            return View();  //TODO: vai dar merda
-            
+            return View();  
         }
 
 
@@ -228,7 +230,7 @@ namespace AutoWorkshop.Web.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
                 {
-                    if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  //TODO: método para isto
+                    if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  
                     {
                         var admin = _converterHelper.ToAdmin(model);
 
