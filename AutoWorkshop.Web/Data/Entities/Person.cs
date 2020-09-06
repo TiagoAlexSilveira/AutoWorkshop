@@ -47,8 +47,11 @@ namespace AutoWorkshop.Web.Data.Entities
         public string CitizenCardNumber { get; set; }
 
 
-
         public User User { get; set; }
+
+
+        [Display(Name = "Full Name")]
+        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
     }
 }

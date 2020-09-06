@@ -1,10 +1,10 @@
-﻿using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
+﻿using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Syncfusion.EJ2.Linq;
-using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -27,12 +27,33 @@ namespace AutoWorkshop.Web.Controllers
         public IActionResult Index()
         {
             var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle)
-                                                             .Include(c => c.Client);
+                                                             .Include(c => c.Client)
+                                                             .Include(m => m.Mecanic)
+                                                             .ThenInclude(c => c.Specialty)
+                                                             .Where(p => p.WorkEstimate != null)
+                                                             .Where(p => p.IsConfirmed == true);
+
+            var unassignedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
+                                                                        .Include(c => c.Client)
+                                                                        .Where(p => p.Mecanic == null);
+                                                                    //TODO: escolher o mecanico pela especialidade
+                                                                    //TODO: meter um fullname no mecanico e cliente
+                                                                    //TODO: adicionar os botões na view
+
+            var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
+                                                                        .Include(c => c.Client)
+                                                                        .Include(m => m.Mecanic)
+                                                                        .ThenInclude(c => c.Specialty)
+                                                                        .Where(p => p.WorkEstimate != System.DateTime.MinValue) 
+                                                                        .Where(p => p.IsConfirmed == false);
 
             var model = new SecretaryAppointmentViewModel
             {
-                Appointments = appointment,
-                Mechanics = _mecanicRepository.GetComboMecanics()
+                ConfirmedAppointments = appointment,
+                UnassignedAppointments = unassignedAppointments,
+                UnconfirmedAppointments = unconfirmedAppointments,
+                Mechanics = _mecanicRepository.GetComboMecanics(),
+                Mecanics = _mecanicRepository.GetAll().ToList()
             };
 
 

@@ -78,4 +78,17 @@ body {
     margin-top: -50px;
 }
 
+/*Secretary Index View*/
 
+.center_cell {
+    display: flex;
+    align-items: center;
+}
+
+[data-toggle="collapse"] .fa:before {
+    content: "\f078";
+}
+
+[data-toggle="collapse"].collapsed .fa:before {
+    content: "\f054";
+}

@@ -63,7 +63,9 @@ namespace AutoWorkshop.Web.Controllers
         {
             var model = new RepairViewModel
             {
-                Appointments = _appointmentRepository.GetAll().ToList()
+                //TODO: fazer repairs para o admin
+                //appointments do mecanico logado
+                Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
             };
 
             return View(model);

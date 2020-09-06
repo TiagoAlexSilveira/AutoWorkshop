@@ -31,6 +31,7 @@ namespace AutoWorkshop.Web.Data
             await _userHelper.CheckRoleAsync("Secretary");
             await _userHelper.CheckRoleAsync("Mecanic");
 
+            //Admin
             var user = await _userHelper.GetUserByEmailAsync("tsilveira01@gmail.com");
             if (user == null)
             {
@@ -49,8 +50,8 @@ namespace AutoWorkshop.Web.Data
                     PhoneNumber = "123456789",
                     DateofBirth = Convert.ToDateTime("29/04/1993"),
                     PostalCode = "2675-537",
-                    TaxIdentificationNumber = "989898989",
-                    CitizenCardNumber = "11223344",
+                    TaxIdentificationNumber = "111111114",
+                    CitizenCardNumber = "11112233",
                     //Email = user.Email,
                     User = user
                 };
@@ -75,11 +76,10 @@ namespace AutoWorkshop.Web.Data
 
             var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
             await _userHelper.ConfirmEmailAsync(user, token);
-
            
 
 
-
+            // Client
             var userclient = await _userHelper.GetUserByEmailAsync("tsteste@yopmail.com");
             if (userclient == null)
             {
@@ -98,7 +98,7 @@ namespace AutoWorkshop.Web.Data
                     PhoneNumber = "123456789",
                     DateofBirth = Convert.ToDateTime("29/04/1993"),
                     PostalCode = "2675-537",
-                    TaxIdentificationNumber = "989898989",
+                    TaxIdentificationNumber = "111111113",
                     CitizenCardNumber = "11223344",
                     //Email = userclient.Email,                    
                     User = userclient
@@ -121,13 +121,118 @@ namespace AutoWorkshop.Web.Data
                 await _userHelper.AddUserToRoleAsync(userclient, "Client");                
             }
 
-
             var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(userclient);
             await _userHelper.ConfirmEmailAsync(userclient, token2);
 
 
 
+            //Secretary
+            var usersecretary = await _userHelper.GetUserByEmailAsync("tssecret@yopmail.com");
+            if (usersecretary == null)
+            {
+                usersecretary = new User
+                {
+                    Email = "tssecret@yopmail.com",
+                    UserName = "tssecret@yopmail.com",
+                    //IsActive = true
+                };
 
+                var secretary = new Secretary
+                {
+                    FirstName = "Maria",
+                    LastName = "Silva",
+                    StreetAddress = "Rua das Flores 2º Dir.",
+                    PhoneNumber = "999999999",
+                    DateofBirth = Convert.ToDateTime("13/05/1990"),
+                    PostalCode = "2773-677",
+                    TaxIdentificationNumber = "111111112",
+                    CitizenCardNumber = "33445566",
+                    //Email = userclient.Email,                    
+                    User = usersecretary
+                };
+
+
+                var result = await _userHelper.AddUserAsync(usersecretary, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                _context.Secretaries.Add(secretary);
+            }
+
+            var isInRole3 = await _userHelper.IsUserInRoleAsync(usersecretary, "Secretary");
+            if (!isInRole3)
+            {
+                await _userHelper.AddUserToRoleAsync(usersecretary, "Secretary");
+            }
+
+            var token3 = await _userHelper.GenerateEmailConfirmationTokenAsync(usersecretary);
+            await _userHelper.ConfirmEmailAsync(usersecretary, token3);
+
+
+
+            if (!_context.Specialty.Any())
+            {
+                this.AddSpecialty("Maintenance Technician");
+                this.AddSpecialty("Painter");
+                this.AddSpecialty("Part Technician");
+
+                await _context.SaveChangesAsync();
+            }
+
+
+            // Mechanic
+            var usermecha = await _userHelper.GetUserByEmailAsync("tsmecha@yopmail.com");
+            if (usermecha == null)
+            {
+                usermecha = new User
+                {
+                    Email = "tsmecha@yopmail.com",
+                    UserName = "tsmecha@yopmail.com",
+                    //IsActive = true
+                };
+
+
+                var mechanic = new Mecanic
+                {
+                    FirstName = "Luis",
+                    LastName = "Mechanic",
+                    StreetAddress = "Rua dos Mechanics",
+                    PhoneNumber = "111111119",
+                    DateofBirth = Convert.ToDateTime("29/04/1976"),
+                    PostalCode = "2655-555",
+                    TaxIdentificationNumber = "111111111",
+                    CitizenCardNumber = "22334455",
+                    Specialty = _context.Specialty.FirstOrDefault(p => p.Id == 3),
+                    //Email = userclient.Email,                    
+                    User = usermecha
+                };
+
+
+                var result4 = await _userHelper.AddUserAsync(usermecha, "123456");
+                if (result4 != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                _context.Mecanics.Add(mechanic);
+            }
+
+
+            var isInRole4 = await _userHelper.IsUserInRoleAsync(usermecha, "Mecanic");
+            if (!isInRole4)
+            {
+                await _userHelper.AddUserToRoleAsync(usermecha, "Mecanic");
+            }
+
+            var token4 = await _userHelper.GenerateEmailConfirmationTokenAsync(usermecha);
+            await _userHelper.ConfirmEmailAsync(usermecha, token4);
+
+           
+
+
+            
             if (!_context.Brands.Any())
             {
                 this.AddBrand("Peugeot");
@@ -141,9 +246,12 @@ namespace AutoWorkshop.Web.Data
 
             if (!_context.Vehicles.Any())
             {
-                this.AddVehicle(brandd, "Preto", user);
-                this.AddVehicle(brandd, "Azul", user);
-                this.AddVehicle(brandd, "Cinzento", user);
+                this.AddVehicle(brandd, "Black", user);
+                this.AddVehicle(brandd, "Blue", user);
+                this.AddVehicle(brandd, "Grey", user);
+                this.AddVehicle(brandd, "Red", userclient);
+                this.AddVehicle(brandd, "White", userclient);
+                this.AddVehicle(brandd, "Grey", userclient);
                 await _context.SaveChangesAsync();
             }
 
@@ -154,17 +262,62 @@ namespace AutoWorkshop.Web.Data
                 AddAppointmentType("Outro");
                 await _context.SaveChangesAsync();
             }
-        }
 
-        private void AddAppointmentType(string type)
-        {
-            _context.AppointmentTypes.Add(new AppointmentType
+        
+
+
+            if (!_context.Appointments.Any())
             {
-                Type = type
-            });
+                //Unassigned appointment (needs mechanic and work estimate)
+                _context.Appointments.Add(new Appointment
+                {
+                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 1),
+                    Date = Convert.ToDateTime("30/10/2020"),
+                    Time = Convert.ToDateTime("12:30"),
+                    Information = "Part Replacement",
+                    Mecanic = null,                    
+                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 4),
+                    IsConfirmed = false,
+                    IsUrgent = false
+                });
+
+                //Unconfirmed appointment (needs IsConfirmed active)
+                _context.Appointments.Add(new Appointment
+                {
+                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 2),
+                    Date = Convert.ToDateTime("25/09/2020"),
+                    Time = Convert.ToDateTime("09:00"),
+                    Information = "Paint job",
+                    WorkEstimate = Convert.ToDateTime("02:00"),
+                    Mecanic = _context.Mecanics.FirstOrDefault(e => e.Id == 1),
+                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
+                    IsConfirmed = false,
+                    IsUrgent = false
+                });
+
+                //Confirmed appointment (doesn't need anything)
+                _context.Appointments.Add(new Appointment
+                {
+                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 3),
+                    Date = Convert.ToDateTime("26/09/2020"),
+                    Time = Convert.ToDateTime("09:00"),
+                    Information = "Oil Change",
+                    Mecanic = _context.Mecanics.FirstOrDefault(e => e.Id == 1),
+                    WorkEstimate = Convert.ToDateTime("01:00"),
+                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
+                    IsConfirmed = true,
+                    IsUrgent = false
+                });
+
+                await _context.SaveChangesAsync();
+            }
         }
 
-
+ 
+        
         private void AddBrand(string brandname)
         {
             _context.Brands.Add(new Brand
@@ -189,5 +342,24 @@ namespace AutoWorkshop.Web.Data
                 User = user
             });
         }
+
+        private void AddAppointmentType(string type)
+        {
+            _context.AppointmentTypes.Add(new AppointmentType
+            {
+                Type = type
+            });
+        }
+
+        private void AddSpecialty(string type)
+        {
+            _context.Specialty.Add(new Specialty
+            {
+                Type = type
+            });
+        }
+
+
+      
     }
 }

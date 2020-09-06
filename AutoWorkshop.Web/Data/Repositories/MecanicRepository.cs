@@ -31,7 +31,7 @@ namespace AutoWorkshop.Web.Data.Repositories
         {
             var list = _context.Mecanics.Select(b => new SelectListItem
             {
-                Text = b.FirstName,
+                Text = b.FullName + " " + "-" + " " + b.Specialty.Type,
                 Value = b.Id.ToString()
             }).ToList();
 

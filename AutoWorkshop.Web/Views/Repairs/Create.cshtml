@@ -8,43 +8,50 @@
 
 <h4>Repair</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <div class="form-group">
-                <label asp-for="RepairInfo" class="control-label"></label>
-                <input asp-for="RepairInfo" class="form-control" />
-                <span asp-validation-for="RepairInfo" class="text-danger"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="CompletedAt" class="control-label"></label>
-                <input asp-for="CompletedAt" class="form-control" />
+<div class="container">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label asp-for="Appointment" class="control-label" style="font-weight:bold"></label>
+                <select asp-for="AppointmentId" asp-items="Model.Appointments" class="form-control"></select>
+                <span asp-validation-for="AppointmentId" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4 float-right form-group">
+                <label asp-for="CompletedAt" class="control-label" style="font-weight:bold"></label>
+                <input asp-for="CompletedAt" class="form-control" value="@DateTime.Now" />
                 <span asp-validation-for="CompletedAt" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="AppointmentId" class="control-label"></label>
-            <select asp-for="AppointmentId" class ="form-control" asp-items="ViewBag.AppointmentId"></select>
-        </div>*@
-
-            <div class="form-group">
-                <ejs-dropdownlist id="Appointmentss" dataSource="@Model.Appointments" ejs-for="AppointmentId" floatLabelType="Auto" placeholder="Select an appointment">
-                    <e-dropdownlist-fields text="Date" value="Id"></e-dropdownlist-fields>
-                </ejs-dropdownlist>
+            <br />
+            <br />
+            <br />
+            <div class="col-md-12 form-group" style="border:red 1px solid; margin-top:20px">
+                <div class="text-center">
+                    <label asp-for="RepairInfo" class="control-label" style="font-weight:bold"></label>
+                </div>            
+                <div>
+                    @Html.TextAreaFor(e => e.RepairInfo, 12, 150, null)
+                    @*<input asp-for="RepairInfo" class="form-control" />*@
+                    <span asp-validation-for="RepairInfo" class="text-danger"></span>
+                </div>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary btn-block" />
+        </div>
+        <br />
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

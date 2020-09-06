@@ -10,9 +10,18 @@ namespace AutoWorkshop.Web.Models
     public class SecretaryAppointmentViewModel : Appointment
     {
 
-        public IEnumerable<Appointment> Appointments { get; set; }
+        public IEnumerable<Appointment> ConfirmedAppointments { get; set; }
+
+
+        public IEnumerable<Mecanic> Mecanics { get; set; }
 
 
         public IEnumerable<SelectListItem> Mechanics { get; set; }
+
+
+        public IEnumerable<Appointment> UnassignedAppointments { get; set; }
+
+
+        public IEnumerable<Appointment> UnconfirmedAppointments { get; set; }
     }
 }
