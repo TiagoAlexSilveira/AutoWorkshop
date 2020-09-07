@@ -36,7 +36,7 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
                 {
-                    return View("MechanicIndex");
+                    return RedirectToAction("Index", "Mecanics"); ;
                 }
                 if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
                 {
@@ -48,6 +48,11 @@ namespace AutoWorkshop.Web.Controllers
                 {
                     return View("InfoAfterLogin", client);
                 }
+                else
+                {
+                    return RedirectToAction("Index", "Clients");
+                }
+                
 
             }
 

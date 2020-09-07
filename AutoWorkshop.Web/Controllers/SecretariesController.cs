@@ -35,10 +35,8 @@ namespace AutoWorkshop.Web.Controllers
 
             var unassignedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
-                                                                        .Where(p => p.Mecanic == null);
-                                                                    //TODO: escolher o mecanico pela especialidade
-                                                                    //TODO: meter um fullname no mecanico e cliente
-                                                                    //TODO: adicionar os botões na view
+                                                                        .Where(p => p.Mecanic == null);                                                                   
+                                                                                                            
 
             var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
