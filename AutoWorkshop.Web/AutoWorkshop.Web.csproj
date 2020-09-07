@@ -31,4 +31,8 @@
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.2.0.55" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\theme\" />
+  </ItemGroup>
+
 </Project>
