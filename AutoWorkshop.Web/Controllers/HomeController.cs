@@ -64,14 +64,14 @@ namespace AutoWorkshop.Web.Controllers
 
         //Fill Info After Login(for clients only)
         [HttpPost]
-        public async Task<IActionResult> InfoAfterLogin(Client client)
+        public async Task<JsonResult> InfoAfterLogin(Client client)
         {            
 
             await _clientRepository.UpdateAsync(client);
 
             ViewBag.Message = "Your registration is now complete! Welcome to Penguin AutoWorkshop!";
 
-            return View();
+            return Json(client);
 
         }
 

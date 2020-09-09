@@ -1,7 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
-    padding-top: 50px;
+   /* padding-top: 50px;*/
     padding-bottom: 20px;
 }
 
@@ -93,18 +93,5 @@ body {
     content: "\f054";
 }
 
-/*Client Index View*/
 
-.btn-round {
-    background-color: #ff6a00;
-    border-radius: 28px;
-    border: 1px solid #18ab29;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: Arial;
-    font-size: 17px;
-    padding: 16px 31px;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #2f6627;
-}
+

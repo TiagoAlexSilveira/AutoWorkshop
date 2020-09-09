@@ -1,0 +1,73 @@
+﻿@model AutoWorkshop.Web.Models.ClientMyAppointmentsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+
+<h2>Appointments</h2>
+
+
+@if (Model.Appointments.Count == 0)
+{
+    <div class="col-12 text-center">
+        <p style="font-size:medium">Add an Appointment</p>
+        <a class="btn btn-warning" asp-controller="Appointments" asp-action="Create"><i class="fa fa-plus fa-2x"></i></a>
+    </div>
+    <br />
+    <br />
+    <br />
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Vehicle
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Information
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Appointments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Information)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <br />
+}
+
+

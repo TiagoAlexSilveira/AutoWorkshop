@@ -6,12 +6,23 @@
     Layout = null;
 }
 <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js"></script> 
+@*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@ 
 
-<h2>Fill in the required information</h2>
 
+
+
+<br />
+<br />
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <form method="post" asp-action="InfoAfterLogin" asp-controller="Home">
+        <form method="post" id="formd">
+
+            <h2>Fill in the required information</h2>
+            <br />
+            <br />
+
             <div asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="FirstName" />
@@ -54,14 +65,13 @@
                 <span asp-validation-for="CitizenCardNumber" class="text-warning"></span>
             </div>
 
-
+            <br />
             <div class="form-group">
-                <input type="submit" value="Update" onclick="myFunction()" class="btn btn-primary" />
-
+                <input type="button" id="old" value="Update" onclick="ChangeButton()" class="btn btn-warning btn-block" />
             </div>
 
             <div>
-                <a asp-action="Index" style="display:none" id="hiddenbutton" class="btn btn-primary">Exit</a>
+                <button asp-action="Index" id="hiddenbutton" style="visibility:hidden" class="btn btn-secondary btn-block">Exit</button>
             </div>
 
             <div class="text-success">
@@ -72,34 +82,66 @@
 </div>
 
 
-@*TODO: dar upload com ajax para não dar refresh à página e conseguir fazer aparecer o botão*@
-
-@*<script>
-        alert(document.getElementById("address") !== null);
-    </script>*@
 
 
-<script>
-    function myFunction() {
+<script type="text/javascript">
 
-        var a = document.getElementById("address");
-        var x = document.getElementById("hiddenbutton");
-        if (a !== null) {
-            x.style.display = "block";
-        }
+    function ChangeButton() {
+
+
+         $(document).ready(function () {
+
+            var datat = $("#formd").serialize();
+
+            console.log(datat);
+
+            $.ajax({
+                type: "post",
+                data: datat,
+                url: '@Url.Action("InfoAfterLogin", "Home")',
+                dataType: "json",
+                success: function () {
+                    var b = document.getElementById("old");
+                    var x = document.getElementById("hiddenbutton");
+
+                    b.style.visibility = "hidden";
+                    b.style.display = "none";
+                    x.style.visibility = "visible";
+                },
+                error: function (jqxhr, status, exception) {
+                    alert('Exception:', exception);
+                }
+            })
+         });
+
+        //$(document).ready(function () {
+        //    $("#formd").validate({
+        //        rules: {
+        //            "PhoneNumber": {
+        //                required: true
+        //                //textOnly: true
+        //            },
+        //        },
+        //        messages: {
+        //            "PhoneNumber": {
+        //                required: "Please enter a number",
+        //            },
+        //        }
+        //    });
+        //});
+
+
+        //var IsValid = $("#formd").valid();
+        //if (IsValid) {
+        //}
     }
-
 </script>
 
-
-<script>
-
-
-
-</script>
 
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+ 
