@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Models
 {
-    public class ClientIndexViewModel : Vehicle
+    public class MecAppointViewModel : Appointment
     {
-        public ICollection<Appointment> Appointments { get; set; }
-
-
-        public ICollection<Vehicle> Vehicles { get; set; }
-
+        public IEnumerable<Appointment> Appointments { get; set; }
     }
 }

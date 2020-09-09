@@ -1,0 +1,70 @@
+﻿@model AutoWorkshop.Web.Models.MecRepairsViewModel
+@{
+    ViewData["Title"] = "Mechanic Repairs";
+}
+
+
+<h2>My Repairs</h2>
+<br />
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment.Vehicle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompletedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment.AppointmentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RepairInfo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Repairs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appointment.Client.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appointment.Vehicle.LicensePlate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompletedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appointment.AppointmentType.Type)
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Info
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                            <div class="" style="max-width:50em ;padding: 10px; word-wrap: break-word">
+                                @Html.DisplayFor(modelItem => item.RepairInfo)                              
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

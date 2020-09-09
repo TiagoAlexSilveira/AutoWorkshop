@@ -1,0 +1,67 @@
+﻿@model AutoWorkshop.Web.Models.MecAppointViewModel
+@{
+    ViewData["Title"] = "Mechanic Appointments";
+}
+
+<br />
+
+<h2>Work Appointments</h2>  
+<br />
+<br />
+
+<table class="table table-bordered">
+    <thead class="thead-dark" style="text-align:center">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Client) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicle.Brand.BrandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicle.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppointmentType.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Appointments)
+        {
+            <tr class="text-center">
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Client.FullName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Vehicle.Brand.BrandName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Vehicle.Model)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.AppointmentType.Type)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

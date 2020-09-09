@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Models
 {
-    public class RepairMecViewModel : Repair
+    public class MecRepairsViewModel : Repair
     {
         public IEnumerable<Repair> Repairs { get; set; }
-
-        public IEnumerable<Appointment> Appointments { get; set; }
-
     }
 }

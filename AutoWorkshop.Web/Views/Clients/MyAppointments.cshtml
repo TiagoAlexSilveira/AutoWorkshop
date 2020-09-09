@@ -12,6 +12,7 @@
 
 @if (Model.Appointments.Count == 0)
 {
+    <br />
     <div class="col-12 text-center">
         <p style="font-size:medium">Add an Appointment</p>
         <a class="btn btn-warning" asp-controller="Appointments" asp-action="Create"><i class="fa fa-plus fa-2x"></i></a>
@@ -22,6 +23,15 @@
 }
 else
 {
+    <br />
+    <div class="col-12 text-center">
+        <p style="font-size:medium">Add an Appointment</p>
+        <a class="btn btn-warning" asp-controller="Appointments" asp-action="Create"><i class="fa fa-plus fa-2x"></i></a>
+    </div>
+    <br />
+    <br />
+    <br />
+
     <table class="table">
         <thead>
             <tr>

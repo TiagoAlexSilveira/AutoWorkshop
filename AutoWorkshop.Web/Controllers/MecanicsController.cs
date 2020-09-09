@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
+﻿using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -27,21 +21,50 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Mecanics
         public IActionResult Index()
         {
-            //repairs do mecanico logado
-            var repair = _repairRepository.GetAll().Include(m => m.Appointment)
-               .Where(p => p.Appointment.Mecanic.User.Email == User.Identity.Name);
+            return View();
+        }
 
+
+
+        public IActionResult WorkAppointments()
+        {
             //appointments do mecanico logado
-            var appointments = _appointmentRepository.GetAll()
-                .Where(m => m.Mecanic.User.Email == User.Identity.Name);
+            var appointments = _appointmentRepository.GetAll().Include(a => a.AppointmentType)
+                                                              .Include(c => c.Client)
+                                                              .Include(v => v.Vehicle).ThenInclude(v => v.Brand)
+                                                .Where(m => m.Mecanic.User.Email == User.Identity.Name)
+                                                .Where(i => i.IsConfirmed == true);
 
-            var model = new RepairMecViewModel
+            var amodel = new MecAppointViewModel
             {
                 Appointments = appointments
             };
 
-            return View(model);
+            return View(amodel);
         }
+
+
+
+        public IActionResult MyRepairs()
+        {
+            //repairs do mecanico logado
+            var repair = _repairRepository.GetAll().Include(m => m.Appointment).ThenInclude(c => c.Client)
+                                                   .Include(m => m.Appointment).ThenInclude(c => c.Mecanic)
+                                                   .Include(m => m.Appointment).ThenInclude(c => c.Vehicle)
+                                                   .Include(m => m.Appointment).ThenInclude(c => c.AppointmentType)
+                                                   .Where(p => p.Appointment.Mecanic.User.Email == User.Identity.Name);
+
+            var rmodel = new MecRepairsViewModel
+            {
+                Repairs = repair
+            };
+
+            return View(rmodel);
+        }
+
+
+
+
 
         //// GET: Mecanics/Details/5
         //public async Task<IActionResult> Details(int? id)
