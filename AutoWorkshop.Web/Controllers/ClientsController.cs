@@ -194,5 +194,7 @@ namespace AutoWorkshop.Web.Controllers
         //    {
         //        return _context.Clients.Any(e => e.Id == id);
         //    }
+
+        //TODO: meter um IsActive, no apagar meter IsActive a false, no GET ir só buscar IsActive = true
     }
 }

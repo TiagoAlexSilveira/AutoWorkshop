@@ -32,8 +32,8 @@ namespace AutoWorkshop.Web.Controllers
             var appointments = _appointmentRepository.GetAll().Include(a => a.AppointmentType)
                                                               .Include(c => c.Client)
                                                               .Include(v => v.Vehicle).ThenInclude(v => v.Brand)
-                                                .Where(m => m.Mecanic.User.Email == User.Identity.Name)
-                                                .Where(i => i.IsConfirmed == true);
+                                                              .Where(m => m.Mecanic.User.Email == User.Identity.Name)
+                                                              .Where(i => i.IsConfirmed == true);
 
             var amodel = new MecAppointViewModel
             {

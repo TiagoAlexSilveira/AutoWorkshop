@@ -182,8 +182,13 @@
                             <li class="nav-item"><a class="nav-link" asp-controller="Mecanics" asp-action="MyRepairs">Repairs</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Create">New Repair</a></li>
                         }
-
-
+                        @if (User.IsInRole("Secretary"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Secretaries" asp-action="Index">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Secretaries" asp-action="UnconfirmedAppointments">Unconfirmed Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Secretaries" asp-action="ConfirmedAppointments">Confirmed Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Create">New Appointment</a></li>
+                        }
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>

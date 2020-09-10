@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Models
 {
-    public class SecretaryAppointmentViewModel : Appointment
+    public class SecUnconfAppointViewModel : Appointment
     {
 
         public IEnumerable<Appointment> ConfirmedAppointments { get; set; }
@@ -17,9 +17,6 @@ namespace AutoWorkshop.Web.Models
 
 
         public IEnumerable<SelectListItem> Mechanics { get; set; }
-
-
-        public IEnumerable<Appointment> UnassignedAppointments { get; set; }
 
 
         public IEnumerable<Appointment> UnconfirmedAppointments { get; set; }

@@ -26,37 +26,49 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult Index()
         {
-            var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle)
-                                                             .Include(c => c.Client)
-                                                             .Include(m => m.Mecanic)
-                                                             .ThenInclude(c => c.Specialty)
-                                                             .Where(p => p.WorkEstimate != null)
-                                                             .Where(p => p.IsConfirmed == true);
+            return View();
+        }
 
-            var unassignedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
-                                                                        .Include(c => c.Client)
-                                                                        .Where(p => p.Mecanic == null);                                                                   
-                                                                                                            
 
+        public IActionResult UnconfirmedAppointments()
+        {                              
+            
             var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
                                                                         .Include(m => m.Mecanic)
                                                                         .ThenInclude(c => c.Specialty)
-                                                                        .Where(p => p.WorkEstimate != System.DateTime.MinValue) 
-                                                                        .Where(p => p.IsConfirmed == false);
+                                                                        .Where(p => p.IsConfirmed == true);
+                                                                        //.Where(p => p.WorkEstimate != System.DateTime.MinValue) 
+                                                                        
 
-            var model = new SecretaryAppointmentViewModel
+            var model = new SecUnconfAppointViewModel
             {
-                ConfirmedAppointments = appointment,
-                UnassignedAppointments = unassignedAppointments,
                 UnconfirmedAppointments = unconfirmedAppointments,
-                Mechanics = _mecanicRepository.GetComboMecanics(),
-                Mecanics = _mecanicRepository.GetAll().ToList()
+                Mechanics = _mecanicRepository.GetComboMecanics()
             };
-
 
             return View(model);
         }
+
+
+
+        public IActionResult ConfirmedAppointments()
+        {
+            var confirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
+                                                                        .Include(c => c.Client)
+                                                                        .Include(m => m.Mecanic)
+                                                                        .ThenInclude(c => c.Specialty)
+                                                                        .Where(p => p.IsConfirmed == true);
+
+
+            var model = new SecConfAppointViewModel
+            {
+                ConfAppointments = confirmedAppointments
+            };
+
+            return View(model);
+        }
+
 
         //TODO: Fazer o post ao adicionar um mecânico
 

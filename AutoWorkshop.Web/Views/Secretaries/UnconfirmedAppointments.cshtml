@@ -1,0 +1,88 @@
+﻿@model AutoWorkshop.Web.Models.SecUnconfAppointViewModel
+
+@{
+    ViewData["Title"] = "Unconfirmed Appointments";
+
+
+}
+
+
+
+<div>
+    <h4>Unconfirmed Appointments</h4>
+</div>
+<br />
+<br />
+<br />
+
+<div class="card">
+    <div class="card-header container-fluid">
+        <div class="row">
+            <div class="col-md-10 my-auto">
+                <h4 class="card-title">Current Unconfirmed Appointments</h4>
+            </div>
+            <div class="col-md-2 float-right">
+                <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to home page</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead class="thead-dark" style="text-align:center">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Client)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th style="width:200px">
+                        @Html.DisplayNameFor(model => model.Mecanic)
+                    </th>
+                    <th>
+                        Save
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UnconfirmedAppointments)
+                {
+                    <tr class="text-center">
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Client.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            <div class="form-group" style="margin-bottom:0px">
+                                <select asp-for="MecanicId" asp-items="Model.Mechanics" style="width:200px;" class="form-control"></select>
+                                <span asp-validation-for="MecanicId" class="text-danger"></span>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <a asp-action="Update" class="btn btn-primary btn-md"><i class="fa fa-chevron-left"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<br />
+
+
+

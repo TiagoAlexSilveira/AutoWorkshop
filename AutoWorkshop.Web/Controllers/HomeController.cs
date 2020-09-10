@@ -51,9 +51,7 @@ namespace AutoWorkshop.Web.Controllers
                 else
                 {
                     return RedirectToAction("Index", "Clients");
-                }
-                
-
+                }                
             }
 
             return View();

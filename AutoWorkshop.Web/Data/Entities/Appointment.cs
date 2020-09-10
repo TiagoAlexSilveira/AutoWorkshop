@@ -11,8 +11,7 @@ namespace AutoWorkshop.Web.Data.Entities
 
         public int AppointmentTypeId { get; set; }
 
-        //TODO: APPOINTMENT TYPE
-        //public string AppointmenType  
+    
         public AppointmentType AppointmentType { get; set; }
 
 
@@ -30,7 +29,7 @@ namespace AutoWorkshop.Web.Data.Entities
 
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
-        public DateTime WorkEstimate { get; set; }
+        public DateTime WorkEstimate { get; set; }  //TODO: retirar Work Estimate
 
 
         public string Information { get; set; }
