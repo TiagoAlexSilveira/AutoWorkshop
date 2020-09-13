@@ -102,6 +102,11 @@ namespace AutoWorkshop.Web.Controllers
                 appointment.ClientId = client.Id;              
 
                 await _appointmentRepository.CreateAsync(appointment);
+
+                if (User.IsInRole("Client"))
+                {
+                    return RedirectToAction("MyAppointments", "Clients");
+                }
                 return RedirectToAction(nameof(Index));
             }
 

@@ -23,28 +23,28 @@ namespace AutoWorkshop.Web.Controllers
 
 
         // GET: Admins
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            return View(_adminRepository.GetAll());
         }
 
-        //// GET: Admins/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Admins/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var admin = await _context.Admins
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (admin == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var admin = await _adminRepository.GetAll()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (admin == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(admin);
-        //}
+            return View(admin);
+        }
 
         //// GET: Admins/Create
         //public IActionResult Create()

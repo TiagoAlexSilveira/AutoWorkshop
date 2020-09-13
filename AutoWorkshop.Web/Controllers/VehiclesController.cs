@@ -96,6 +96,11 @@ namespace AutoWorkshop.Web.Controllers
 
                 //await _vehicleRepository.AddBrandToVehicle(vmodel);  antes fazia tudo neste método mas agora faço assim por causa do user
                 await _vehicleRepository.CreateAsync(vehicle);
+
+                if (User.IsInRole("Client"))
+                {
+                    return RedirectToAction("MyVehicles", "Clients");
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(vmodel);

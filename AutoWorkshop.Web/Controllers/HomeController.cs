@@ -32,7 +32,7 @@ namespace AutoWorkshop.Web.Controllers
 
                 if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
                 {
-                    return View("AdminIndex");
+                    return RedirectToAction("Index", "Admins");
                 }
                 if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
                 {

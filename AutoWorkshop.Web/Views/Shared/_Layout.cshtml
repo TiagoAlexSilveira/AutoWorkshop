@@ -9,7 +9,6 @@
 
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
-        @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />*@
         <link rel="stylesheet" href="~/css/site.css" />
         <!-- Syncfusion Essential JS 2 Styles -->
         <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
@@ -25,7 +24,7 @@
         <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
     </environment>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
@@ -191,18 +190,31 @@
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
-                            <li class="nav-item"><a href="project.html" class="nav-link">Project</a></li>
-                        }
-                    }
+                            @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dron" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown button
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dron">*@
 
-
-                    @*</div>*@
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dron" aria-haspopup="true" aria-expanded="false">Accounts<b class="caret"></b></a>
+                                    <ul class="dropdown-menu" aria-labelledby="dron">
+                                        @*<li class="nav-item"><a asp-area="" asp-controller="" asp-action="">Users</a></li>*@
+                                        <li><a class="dropdown-item" style="font-size:16px;" asp-controller="Clients" asp-action="Index">Clients</a></li>
+                                        <li><a class="dropdown-item" style="font-size:16px;" asp-controller="Secretaries" asp-action="Index">Secretaries</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Mecanics" asp-action="Index">Mecanics</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Admins" asp-action="Index">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Brands" asp-action="Index">Brands</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="AppointmentTypes" asp-action="Index">AppointmentTypes</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Specialties" asp-action="Index">Specialties</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Index">Repairs</a></li>
+                                @*<li class="nav-item"><a class="nav-link" asp-controller="Billings" asp-action="Index">Appointments</a></li>*@
+                         }
+                     }
+                     @*</div>*@
                 </ul>
             </div>
         </div>
@@ -225,7 +237,7 @@
     <environment include="Development">
 
 
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/jquery.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <!-- Syncfusion Essential JS 2 Scripts -->

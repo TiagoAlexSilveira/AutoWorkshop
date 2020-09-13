@@ -37,7 +37,7 @@ namespace AutoWorkshop.Web.Controllers
                                                                         .Include(c => c.Client)
                                                                         .Include(m => m.Mecanic)
                                                                         .ThenInclude(c => c.Specialty)
-                                                                        .Where(p => p.IsConfirmed == true);
+                                                                        .Where(p => p.IsConfirmed != true);
                                                                         //.Where(p => p.WorkEstimate != System.DateTime.MinValue) 
                                                                         
 
