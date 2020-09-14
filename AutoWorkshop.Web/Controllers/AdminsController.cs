@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Models;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -21,12 +22,23 @@ namespace AutoWorkshop.Web.Controllers
             _adminRepository = adminRepository;
         }
 
-
-        // GET: Admins
         public IActionResult Index()
         {
-            return View(_adminRepository.GetAll());
+            var vmodel = new AdminIndexViewModel
+            {
+                allCount = _adminRepository.GetAllCount()
+            };
+
+            return View(vmodel);
         }
+
+
+
+        //// GET: Admins
+        //public IActionResult Index()
+        //{
+        //    return View(_adminRepository.GetAll());
+        //}
 
         // GET: Admins/Details/5
         public async Task<IActionResult> Details(int? id)

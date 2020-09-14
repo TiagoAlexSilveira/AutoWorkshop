@@ -10,5 +10,7 @@ namespace AutoWorkshop.Web.Data.Repositories
     {
 
         Admin GetAdminByUserId(string id);
+
+        List<int> GetAllCount();
     }
 }
