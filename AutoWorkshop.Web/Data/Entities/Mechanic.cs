@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Entities
 {
-    public class Mecanic : Person
+    public class Mechanic : Person
     {
         public int SpecialtyId { get; set; }
 

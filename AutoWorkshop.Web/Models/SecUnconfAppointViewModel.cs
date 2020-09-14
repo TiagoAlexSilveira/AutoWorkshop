@@ -13,7 +13,7 @@ namespace AutoWorkshop.Web.Models
         public IEnumerable<Appointment> ConfirmedAppointments { get; set; }
 
 
-        public IEnumerable<Mecanic> Mecanics { get; set; }
+        public IEnumerable<Mechanic> Mecanics { get; set; }
 
 
         public IEnumerable<SelectListItem> Mechanics { get; set; }

@@ -174,11 +174,11 @@
                             <li class="nav-item"><a class="nav-link" asp-controller="Clients" asp-action="MyVehicles">My Vehicles</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Clients" asp-action="MyAppointments">My Appointments</a></li>
                         }
-                        @if (User.IsInRole("Mecanic"))
+                        @if (User.IsInRole("Mechanic"))
                         {
-                            <li class="nav-item"><a class="nav-link" asp-controller="Mecanics" asp-action="Index">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Mecanics" asp-action="WorkAppointments">Work Appointments</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Mecanics" asp-action="MyRepairs">Repairs</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Mechanics" asp-action="Index">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Mechanics" asp-action="WorkAppointments">Work Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Mechanics" asp-action="MyRepairs">Repairs</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Create">New Repair</a></li>
                         }
                         @if (User.IsInRole("Secretary"))
@@ -190,17 +190,12 @@
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dron" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dron">*@
-
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dron" aria-haspopup="true" aria-expanded="false">Accounts<b class="caret"></b></a>
                                 <ul class="dropdown-menu" aria-labelledby="dron">
                                     <li><a class="dropdown-item" style="font-size:16px; color: darkorange" asp-controller="Clients" asp-action="Index">Clients</a></li>
                                     <li><a class="dropdown-item" style="font-size:16px; color: darkorange" asp-controller="Secretaries" asp-action="Index">Secretaries</a></li>
-                                    <li><a class="dropdown-item" style="font-size:16px; color: darkorange" asp-controller="Mecanics" asp-action="Index">Mecanics</a></li>
+                                    <li><a class="dropdown-item" style="font-size:16px; color: darkorange" asp-controller="Mechanics" asp-action="Index">Mechanics</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Admins" asp-action="Index">Home</a></li>
@@ -210,8 +205,6 @@
                             <li class="nav-item"><a class="nav-link" asp-controller="Brands" asp-action="Index">Brands</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="AppointmentTypes" asp-action="Index">Appointment Types</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Specialties" asp-action="Index">Specialties</a></li>
-
-                            @*<li class="nav-item"><a class="nav-link" asp-controller="Billings" asp-action="Index">Appointments</a></li>*@
                         }
                     }
                     @*</div>*@

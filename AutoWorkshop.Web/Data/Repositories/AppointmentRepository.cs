@@ -19,7 +19,7 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         public IEnumerable<SelectListItem> GetComboUserAppointment(string username)
         {
-            var list = _context.Appointments.Where(p => p.Mecanic.User.Email == username).Select(b => new SelectListItem
+            var list = _context.Appointments.Where(p => p.Mechanic.User.Email == username).Select(b => new SelectListItem
             {
                 Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
                 Value = b.Id.ToString()

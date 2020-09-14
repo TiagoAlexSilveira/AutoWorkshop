@@ -20,7 +20,7 @@ namespace AutoWorkshop.Web.Data
 
         public DbSet<Secretary> Secretaries { get; set; }
 
-        public DbSet<Mecanic> Mecanics { get; set; }
+        public DbSet<Mechanic> Mechanics { get; set; }
 
         public DbSet<Appointment> Appointments { get; set; }
 
@@ -28,7 +28,7 @@ namespace AutoWorkshop.Web.Data
 
         public DbSet<Repair> Repairs { get; set; }
 
-        public DbSet<Specialty> Specialty { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

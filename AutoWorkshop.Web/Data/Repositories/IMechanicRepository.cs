@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Repositories
 {
-    public interface IMecanicRepository : IGenericRepository<Mecanic>
+    public interface IMechanicRepository : IGenericRepository<Mechanic>
     {
         IEnumerable<SelectListItem> GetComboMecanics();
        
-        Mecanic GetMecanicByUserId(string id);
+        Mechanic GetMecanicByUserId(string id);
     }
 }

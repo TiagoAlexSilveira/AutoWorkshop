@@ -6,19 +6,19 @@ using System.Linq;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    public class MecanicsController : Controller
+    public class MechanicsController : Controller
     {
         private readonly IRepairRepository _repairRepository;
         private readonly IAppointmentRepository _appointmentRepository;
 
-        public MecanicsController(IRepairRepository repairRepository,
-                                  IAppointmentRepository appointmentRepository)
+        public MechanicsController(IRepairRepository repairRepository,
+                                   IAppointmentRepository appointmentRepository)
         {
             _repairRepository = repairRepository;
             _appointmentRepository = appointmentRepository;
         }
 
-        // GET: Mecanics
+        // GET: Mechanics
         public IActionResult Index()
         {
             return View();
@@ -32,7 +32,7 @@ namespace AutoWorkshop.Web.Controllers
             var appointments = _appointmentRepository.GetAll().Include(a => a.AppointmentType)
                                                               .Include(c => c.Client)
                                                               .Include(v => v.Vehicle).ThenInclude(v => v.Brand)
-                                                              .Where(m => m.Mecanic.User.Email == User.Identity.Name)
+                                                              .Where(m => m.Mechanic.User.Email == User.Identity.Name)
                                                               .Where(i => i.IsConfirmed == true);
 
             var amodel = new MecAppointViewModel
@@ -49,10 +49,10 @@ namespace AutoWorkshop.Web.Controllers
         {
             //repairs do mecanico logado
             var repair = _repairRepository.GetAll().Include(m => m.Appointment).ThenInclude(c => c.Client)
-                                                   .Include(m => m.Appointment).ThenInclude(c => c.Mecanic)
+                                                   .Include(m => m.Appointment).ThenInclude(c => c.Mechanic)
                                                    .Include(m => m.Appointment).ThenInclude(c => c.Vehicle)
                                                    .Include(m => m.Appointment).ThenInclude(c => c.AppointmentType)
-                                                   .Where(p => p.Appointment.Mecanic.User.Email == User.Identity.Name);
+                                                   .Where(p => p.Appointment.Mechanic.User.Email == User.Identity.Name);
 
             var rmodel = new MecRepairsViewModel
             {

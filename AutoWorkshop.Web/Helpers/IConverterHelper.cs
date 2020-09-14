@@ -15,7 +15,7 @@ namespace AutoWorkshop.Web.Helpers
 
         ChangeUserViewModel ToChangeUserViewModelSecretary(Secretary secretary);
 
-        ChangeUserViewModel ToChangeUserViewModelMecanic(Mecanic mecanic);
+        ChangeUserViewModel ToChangeUserViewModelMecanic(Mechanic mecanic);
 
         Vehicle ToVehicle(VehicleViewModel model, string path, bool isNew);
 
@@ -27,7 +27,7 @@ namespace AutoWorkshop.Web.Helpers
 
         Secretary ToSecretary(ChangeUserViewModel model);
 
-        Mecanic ToMecanic(ChangeUserViewModel model);
+        Mechanic ToMecanic(ChangeUserViewModel model);
 
         Appointment ToAppointment(AppointmentViewModel model);
     }

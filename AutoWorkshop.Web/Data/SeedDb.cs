@@ -29,7 +29,7 @@ namespace AutoWorkshop.Web.Data
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Client");
             await _userHelper.CheckRoleAsync("Secretary");
-            await _userHelper.CheckRoleAsync("Mecanic");
+            await _userHelper.CheckRoleAsync("Mechanic");
 
             //Admin
             var user = await _userHelper.GetUserByEmailAsync("tsilveira01@gmail.com");
@@ -172,7 +172,7 @@ namespace AutoWorkshop.Web.Data
 
 
 
-            if (!_context.Specialty.Any())
+            if (!_context.Specialties.Any())
             {
                 this.AddSpecialty("Maintenance Technician");
                 this.AddSpecialty("Painter");
@@ -194,7 +194,7 @@ namespace AutoWorkshop.Web.Data
                 };
 
 
-                var mechanic = new Mecanic
+                var mechanic = new Mechanic
                 {
                     FirstName = "Luis",
                     LastName = "Mechanic",
@@ -204,7 +204,7 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2655-555",
                     TaxIdentificationNumber = "111111111",
                     CitizenCardNumber = "22334455",
-                    Specialty = _context.Specialty.FirstOrDefault(p => p.Id == 3),
+                    Specialty = _context.Specialties.FirstOrDefault(p => p.Id == 3),
                     //Email = userclient.Email,                    
                     User = usermecha
                 };
@@ -216,14 +216,14 @@ namespace AutoWorkshop.Web.Data
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
 
-                _context.Mecanics.Add(mechanic);
+                _context.Mechanics.Add(mechanic);
             }
 
 
-            var isInRole4 = await _userHelper.IsUserInRoleAsync(usermecha, "Mecanic");
+            var isInRole4 = await _userHelper.IsUserInRoleAsync(usermecha, "Mechanic");
             if (!isInRole4)
             {
-                await _userHelper.AddUserToRoleAsync(usermecha, "Mecanic");
+                await _userHelper.AddUserToRoleAsync(usermecha, "Mechanic");
             }
 
             var token4 = await _userHelper.GenerateEmailConfirmationTokenAsync(usermecha);
@@ -275,7 +275,7 @@ namespace AutoWorkshop.Web.Data
                     Date = Convert.ToDateTime("30/10/2020"),
                     Time = Convert.ToDateTime("12:30"),
                     Information = "Part Replacement",
-                    Mecanic = null,                    
+                    Mechanic = null,                    
                     Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
                     Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 4),
                     IsConfirmed = false,
@@ -290,7 +290,7 @@ namespace AutoWorkshop.Web.Data
                     Time = Convert.ToDateTime("09:00"),
                     Information = "Paint job",
                     WorkEstimate = Convert.ToDateTime("02:00"),
-                    Mecanic = _context.Mecanics.FirstOrDefault(e => e.Id == 1),
+                    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
                     Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
                     Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
                     IsConfirmed = false,
@@ -304,7 +304,7 @@ namespace AutoWorkshop.Web.Data
                     Date = Convert.ToDateTime("26/09/2020"),
                     Time = Convert.ToDateTime("09:00"),
                     Information = "Oil Change",
-                    Mecanic = _context.Mecanics.FirstOrDefault(e => e.Id == 1),
+                    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
                     WorkEstimate = Convert.ToDateTime("01:00"),
                     Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
                     Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
@@ -353,7 +353,7 @@ namespace AutoWorkshop.Web.Data
 
         private void AddSpecialty(string type)
         {
-            _context.Specialty.Add(new Specialty
+            _context.Specialties.Add(new Specialty
             {
                 Type = type
             });

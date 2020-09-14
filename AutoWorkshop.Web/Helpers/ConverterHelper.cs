@@ -110,7 +110,7 @@ namespace AutoWorkshop.Web.Helpers
         }
 
 
-        public ChangeUserViewModel ToChangeUserViewModelMecanic(Mecanic mecanic) //recebe todas as entidades
+        public ChangeUserViewModel ToChangeUserViewModelMecanic(Mechanic mecanic) //recebe todas as entidades
         {
             return new ChangeUserViewModel
             {
@@ -180,9 +180,9 @@ namespace AutoWorkshop.Web.Helpers
 
 
 
-        public Mecanic ToMecanic(ChangeUserViewModel model)
+        public Mechanic ToMecanic(ChangeUserViewModel model)
         {
-            return new Mecanic
+            return new Mechanic
             {
                 Id = model.Id,
                 FirstName = model.FirstName,

@@ -35,10 +35,10 @@ namespace AutoWorkshop.Web.Data.Entities
         public string Information { get; set; }
 
 
-        public int? MecanicId { get; set; }
+        public int? MechanicId { get; set; }
 
 
-        public Mecanic Mecanic { get; set; }
+        public Mechanic Mechanic { get; set; }
 
 
         public int ClientId { get; set; }

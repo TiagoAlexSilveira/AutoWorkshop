@@ -12,11 +12,11 @@ namespace AutoWorkshop.Web.Controllers
     {
         private readonly ISecretaryRepository _secretaryRepository;
         private readonly IAppointmentRepository _appointmentRepository;
-        private readonly IMecanicRepository _mecanicRepository;
+        private readonly IMechanicRepository _mecanicRepository;
 
         public SecretariesController(ISecretaryRepository secretaryRepository,
                                      IAppointmentRepository appointmentRepository,
-                                     IMecanicRepository mecanicRepository)
+                                     IMechanicRepository mecanicRepository)
         {
             _secretaryRepository = secretaryRepository;
             _appointmentRepository = appointmentRepository;
@@ -35,7 +35,7 @@ namespace AutoWorkshop.Web.Controllers
             
             var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
-                                                                        .Include(m => m.Mecanic)
+                                                                        .Include(m => m.Mechanic)
                                                                         .ThenInclude(c => c.Specialty)
                                                                         .Where(p => p.IsConfirmed != true);
                                                                         //.Where(p => p.WorkEstimate != System.DateTime.MinValue) 
@@ -56,7 +56,7 @@ namespace AutoWorkshop.Web.Controllers
         {
             var confirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
-                                                                        .Include(m => m.Mecanic)
+                                                                        .Include(m => m.Mechanic)
                                                                         .ThenInclude(c => c.Specialty)
                                                                         .Where(p => p.IsConfirmed == true);
 

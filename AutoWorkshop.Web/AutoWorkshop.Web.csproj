@@ -17,6 +17,10 @@
     <Compile Remove="Migrations\20200804170809_NullableFields.Designer.cs" />
     <Compile Remove="Migrations\20200826183810_AddedAppointmentAndRepair.cs" />
     <Compile Remove="Migrations\20200826183810_AddedAppointmentAndRepair.Designer.cs" />
+    <Compile Remove="Migrations\20200914173336_MechanicTypo.cs" />
+    <Compile Remove="Migrations\20200914173336_MechanicTypo.Designer.cs" />
+    <Compile Remove="Migrations\20200914174052_Mecanic_Typo.cs" />
+    <Compile Remove="Migrations\20200914174052_Mecanic_Typo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

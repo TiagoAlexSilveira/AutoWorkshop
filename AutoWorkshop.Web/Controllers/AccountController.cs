@@ -25,12 +25,12 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IAdminRepository _adminRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly ISecretaryRepository _secretaryRepository;
-        private readonly IMecanicRepository _mecanicRepository;
+        private readonly IMechanicRepository _mecanicRepository;
 
         public AccountController(IUserHelper userHelper, IConfiguration configuration,
                                  IMailHelper mailHelper, IClientRepository clientRepository,
                                  IAdminRepository adminRepository, IConverterHelper converterHelper,
-                                 ISecretaryRepository secretaryRepository, IMecanicRepository mecanicRepository)
+                                 ISecretaryRepository secretaryRepository, IMechanicRepository mecanicRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;

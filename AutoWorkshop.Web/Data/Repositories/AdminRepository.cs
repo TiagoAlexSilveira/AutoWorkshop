@@ -29,14 +29,14 @@ namespace AutoWorkshop.Web.Data.Repositories
 
             allCount.Add(_context.Clients.Count());
             allCount.Add(_context.Secretaries.Count());
-            allCount.Add(_context.Mecanics.Count());
+            allCount.Add(_context.Mechanics.Count());
             allCount.Add(_context.Admins.Count());
             allCount.Add(_context.Vehicles.Count());
             allCount.Add(_context.Brands.Count());
             allCount.Add(_context.Appointments.Count());
             allCount.Add(_context.AppointmentTypes.Count());
             allCount.Add(_context.Repairs.Count());
-            allCount.Add(_context.Specialty.Count());           
+            allCount.Add(_context.Specialties.Count());           
 
             return allCount;
         }

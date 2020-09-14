@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Data.Repositories
 {
-    public class MecanicRepository : GenericRepository<Mecanic>, IMecanicRepository
+    public class MechanicRepository : GenericRepository<Mechanic>, IMechanicRepository
     {
         private readonly DataContext _context;
 
 
 
-        public MecanicRepository(DataContext context) : base(context)
+        public MechanicRepository(DataContext context) : base(context)
         {
             _context = context;
         }
 
 
 
-        public Mecanic GetMecanicByUserId(string id)
+        public Mechanic GetMecanicByUserId(string id)
         {
-            var mecanic = _context.Mecanics.FirstOrDefault(u => u.User.Id == id);
+            var mecanic = _context.Mechanics.FirstOrDefault(u => u.User.Id == id);
 
             return mecanic;
         }
 
         public IEnumerable<SelectListItem> GetComboMecanics()
         {
-            var list = _context.Mecanics.Select(b => new SelectListItem
+            var list = _context.Mechanics.Select(b => new SelectListItem
             {
                 Text = b.FullName + " " + "-" + " " + b.Specialty.Type,
                 Value = b.Id.ToString()

@@ -34,9 +34,9 @@ namespace AutoWorkshop.Web.Controllers
                 {
                     return RedirectToAction("Index", "Admins");
                 }
-                if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                if (await _userHelper.IsUserInRoleAsync(user, "Mechanic"))
                 {
-                    return RedirectToAction("Index", "Mecanics"); ;
+                    return RedirectToAction("Index", "Mechanics"); ;
                 }
                 if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
                 {

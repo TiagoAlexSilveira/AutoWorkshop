@@ -68,7 +68,7 @@ namespace AutoWorkshop.Web
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
-            services.AddScoped<IMecanicRepository, MecanicRepository>();
+            services.AddScoped<IMechanicRepository, MechanicRepository>();
             services.AddScoped<ISecretaryRepository, SecretaryRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IAppointmentTypeRepository, AppointmentTypeRepository>();
