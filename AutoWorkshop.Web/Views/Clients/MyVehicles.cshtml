@@ -9,6 +9,9 @@
 
 <h2>My Vehicles</h2>
 
+<div>
+    <div id="vdetails"></div>
+</div>
 
 @if (Model.Vehicles.Count == 0)
 {
@@ -32,7 +35,61 @@ else
     <br />
     <br />
 
-    <table class="table">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark" style="text-align:center">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mileage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LicensePlate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastMaintenance)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Vehicles)
+            {
+                <tr class="text-center" onclick="details(@item.Id)">
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Model)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Mileage)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.LicensePlate)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.LastMaintenance)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+    @*<table class="table">
         <thead>
             <tr>
                 <th>
@@ -97,18 +154,33 @@ else
                         @Html.DisplayFor(modelItem => item.LastMaintenance)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                      
                     </td>
                 </tr>
             }
         </tbody>
-    </table>
+    </table>*@
     <br />
     <br />
     <br />
 }
 
+<script type="text/javascript">
 
+    function details(id) {
+         $.ajax({
+             url: "@Url.Action("GetVehicles", "Vehicles")",
+             type: 'GET',
+             data: { Id: id },
+             contentType: false,
+             success: function (res) {
+                 var PlaceHolder = $("#vdetails");
 
+                 PlaceHolder.html(res);
+                 PlaceHolder.find('.modal').modal('show');
+             }
+         })
+    }
+</script>

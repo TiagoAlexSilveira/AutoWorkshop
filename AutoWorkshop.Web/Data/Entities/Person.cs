@@ -27,17 +27,15 @@ namespace AutoWorkshop.Web.Data.Entities
         public string PhoneNumber { get; set; }
 
 
+
         public string PostalCode { get; set; }
-
-
-
-        //public string Email { get; set; } TODO: fffff
 
 
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateofBirth { get; set; }
+
 
 
         public string TaxIdentificationNumber { get; set; }
@@ -47,7 +45,13 @@ namespace AutoWorkshop.Web.Data.Entities
         public string CitizenCardNumber { get; set; }
 
 
+
         public User User { get; set; }
+
+
+
+        //[Display(Name = "Image")]
+        //public string ImageUrl { get; set; }
 
 
         [Display(Name = "Full Name")]

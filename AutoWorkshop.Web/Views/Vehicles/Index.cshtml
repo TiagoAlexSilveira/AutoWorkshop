@@ -3,81 +3,131 @@
 @{
     ViewData["Title"] = "Index";
 }
+<br />
+<h2>Vehicles</h2>
 
-<h2>Index</h2>
+<div id="testedetails"></div>
+<br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Brand.BrandName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Transmission)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mileage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EnginePower)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LicensePlate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastMaintenance)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand.BrandName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Transmission)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mileage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnginePower)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicensePlate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastMaintenance)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<div>
+    <a asp-action="Create" class="btn btn-block" style="background-color: darkorange; font-size: small; color:white">Create New Vehicle</a>
+</div>
+
+<br />
+<br />
+
+<div class="container body-content">
+    <div class="page-header">
+        <div class="form-group">
+            <fieldset>
+                <form action="" class="form-group" method="post">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table id="vehicle" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Brand.BrandName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Model)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Mileage)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LicensePlate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LastMaintenance)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr onclick="details(@item.Id)">
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Model)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Mileage)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LicensePlate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastMaintenance)
+                                            </td>
+                                            <td >
+                                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>            
+            </fieldset>
+        </div>
+        <hr />
+    </div>
+</div>
+
+<br />
+<br />
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    function details(id) {
+         $.ajax({
+             url: "@Url.Action("GetVehicles", "Vehicles")",
+             type: 'GET',
+             data: { Id: id },
+             contentType: false,
+             success: function (res) {
+                 var PlaceHolder = $("#testedetails");
+
+                 PlaceHolder.html(res);
+                 PlaceHolder.find('.modal').modal('show');
+             }
+         })
     }
-    </tbody>
-</table>
+
+    $(document).ready(function () {
+        $('#vehicle').DataTable();
+    });
+
+
+    //$(function () {
+    //    var PlaceHolder = $("#PlaceHolder");
+    //    $('table tbody tr').on('click', function (event) {
+
+    //        event.preventDefault();
+    //        event.stopImmediatePropagation();
+
+    //        var url = $(this).data('url');
+    //        var decodedUrl = decodeURIComponent(url);
+
+    //        $.get(decodedUrl).done(function (data) {
+    //            PlaceHolder.html(data);
+    //            PlaceHolder.find('.modal').modal('show');
+
+    //            return;
+    //        })
+    //    })
+    //})
+</script>

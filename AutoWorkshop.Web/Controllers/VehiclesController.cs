@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data;
+using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
@@ -36,13 +37,24 @@ namespace AutoWorkshop.Web.Controllers
 
 
 
+
+
         // GET: Vehicles
         public IActionResult Index()
         {
 
-            return View(_vehicleRepository.GetAll().Include(v => v.Brand)
-                        .Where(p => p.User.UserName == User.Identity.Name));
+            return View(_vehicleRepository.GetAll().Include(v => v.Brand));
+                      
         }
+
+
+        public async Task<IActionResult> GetVehicles(int Id)
+        {
+            var vehicle = await _brandRepository.GetByIdWithBrand(Id);
+            
+            return PartialView("_VehiclesPartial", vehicle);
+        }
+
 
 
         // GET: Vehicles/Details/5
@@ -91,7 +103,6 @@ namespace AutoWorkshop.Web.Controllers
                 var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
                 vehicle.BrandId = vmodel.BrandId;
                 vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                //vehicle.Client = _clientRepository.GetClientByUserId(User.Identity.Name);
 
 
                 //await _vehicleRepository.AddBrandToVehicle(vmodel);  antes fazia tudo neste método mas agora faço assim por causa do user

@@ -4,29 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<br />
 
 
 <h2><i class="fa fa-users 3x"></i> Registered Accounts</h2>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3" style="border: 2px red solid">
-            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="Index" asp-controller="Clients">Clients:</a>
+        <div class="col-md-3" >
+            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="ssIndex" asp-controller="Clients">Clients:</a>
             <p class="d-flex justify-content-center" style="font-size:x-large">@Model.allCount[0]</p>
         </div>
 
-        <div class="col-md-3" style="border: 2px green solid">
-            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="Index" asp-controller="Secretaries">Secretaries:</a>
+        <div class="col-md-3" >
+            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="ssIndex" asp-controller="Secretaries">Secretaries:</a>
             <p class="d-flex justify-content-center" style="font-size:x-large">@Model.allCount[1]</p>
         </div>
 
-        <div class="col-md-3" style="border: 2px blue solid">
-            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="Index" asp-controller="Mecanics">Mechanics:</a>
+        <div class="col-md-3" >
+            <a class="nav-link text-dark font-weight-bold" style="font-size:large" asp-action="ssIndex" asp-controller="Mechanics">Mechanics:</a>
             <p class="d-flex justify-content-center" style="font-size:x-large">@Model.allCount[2]</p>
         </div>
 
-        <div class="col-md-3" style="border: 2px blue solid">
+        <div class="col-md-3" >
             <a class="nav-link text-dark font-weight-bold" style="font-size:large">Admins</a>
             <p class="d-flex justify-content-center" style="font-size:x-large">@Model.allCount[3]</p>
         </div>
@@ -39,28 +39,30 @@
 
 <div class="container-fluid">
     <div class="row font-weight-bolder" style="font-size:large">
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px red solid">
+
+        <div class="col-md-6 d-flex align-items-center" >
             <div><i class="fas fa-car fa-3x"></i></div>
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="Vehicles">Vehicles:</a>
             <a class="nav link d-inline-block">@Model.allCount[4]</a>
         </div>
 
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px green solid">
+        <div class="col-md-6 d-flex align-items-center" >
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="Brands">Vehicle Brands:</a>
             <p class="nav link d-inline-block">@Model.allCount[5]</p>
         </div>
+
     </div>
 </div>
 <br />
 <div class="container-fluid">
     <div class="row font-weight-bolder" style="font-size:large">
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px green solid">
+        <div class="col-md-6 d-flex align-items-center">
             <div><i class="fa fa-calendar-check fa-3x"></i></div>
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="Appointments">Appointments:</a>
             <p class="nav link d-inline-block">@Model.allCount[6]</p>
         </div>
 
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px green solid">
+        <div class="col-md-6 d-flex align-items-center" >
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="AppointmentTypes">Appointment Types:</a>
             <p class="nav link d-inline-block">@Model.allCount[7]</p>
         </div>
@@ -69,13 +71,13 @@
 <br />
 <div class="container-fluid">
     <div class="row font-weight-bolder" style="font-size:large">
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px green solid">
+        <div class="col-md-6 d-flex align-items-center" >
             <div><i class="fa fa-wrench fa-3x "></i></div>
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="Repairs">Repairs:</a>
             <p class="nav link d-inline-block">@Model.allCount[8]</p>
         </div>
 
-        <div class="col-md-6 d-flex align-items-center" style="border: 2px green solid">
+        <div class="col-md-6 d-flex align-items-center" >
             <a class="nav-link text-dark d-inline-block" asp-action="Index" asp-controller="Specialties">Mechanic's Specialties:</a>
             <p class="nav link d-inline-block">@Model.allCount[9]</p>
         </div>

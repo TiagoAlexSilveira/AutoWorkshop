@@ -1,0 +1,53 @@
+﻿@model AutoWorkshop.Web.Data.Entities.Vehicle
+
+
+<div class="modal fade" id="vehicleModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title float-left">Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container">
+                    <div class="row" style="font-size: 16px">
+                        <div class="col-2 font-weight-bold text-dark">
+                            <p><span >Brand: </span></p>
+                            <p><span >Model: </span></p>
+                            <p><span >Type: </span></p>
+                            <p><span >Transmission: </span></p>
+                            <p><span>Color: </span></p>
+                        </div>
+                        <div class="col-4">
+                            <p>@Model.Brand.BrandName</p>
+                            <p>@Model.Model</p>
+                            <p>@Model.Type</p>
+                            <p>@Model.Transmission</p>
+                            <p>@Model.Color</p>
+                        </div>
+
+                        <div class="col-3 font-weight-bold">
+                            <br />
+                            <p><span class="text-dark">Engine Power:</span></p>
+                            <p><span class="text-dark">Mileage:</span></p>
+                            <p><span class="text-dark">License Plate:</span></p>
+                            <p><span class="text-dark">Last Maintenance:</span></p>
+                        </div>
+                        <div class="col-3">
+                            <br />
+                            <p>@Model.EnginePower  cv</p>
+                            <p>@Model.Mileage  km</p>
+                            <p>@Model.LicensePlate</p>
+                            <p>@Model.LastMaintenance.Value.ToShortDateString()</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

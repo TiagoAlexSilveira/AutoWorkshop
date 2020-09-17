@@ -65,7 +65,11 @@ namespace AutoWorkshop.Web.Controllers
             return View(vmodel);
         }
 
+        public IActionResult ssIndex()
+        {          
 
+            return View(_clientRepository.GetAll().Include(u => u.User));
+        }
 
 
 

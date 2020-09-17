@@ -30,6 +30,13 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        public IActionResult ssIndex()
+        {
+
+            return View(_secretaryRepository.GetAll());
+        }
+
+
         public IActionResult UnconfirmedAppointments()
         {                              
             
@@ -38,7 +45,7 @@ namespace AutoWorkshop.Web.Controllers
                                                                         .Include(m => m.Mechanic)
                                                                         .ThenInclude(c => c.Specialty)
                                                                         .Where(p => p.IsConfirmed != true);
-                                                                        //.Where(p => p.WorkEstimate != System.DateTime.MinValue) 
+                                                                       
                                                                         
 
             var model = new SecUnconfAppointViewModel

@@ -10,12 +10,15 @@ namespace AutoWorkshop.Web.Controllers
     {
         private readonly IRepairRepository _repairRepository;
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IMechanicRepository _mechanicRepository;
 
         public MechanicsController(IRepairRepository repairRepository,
-                                   IAppointmentRepository appointmentRepository)
+                                   IAppointmentRepository appointmentRepository,
+                                   IMechanicRepository mechanicRepository)
         {
             _repairRepository = repairRepository;
             _appointmentRepository = appointmentRepository;
+            _mechanicRepository = mechanicRepository;
         }
 
         // GET: Mechanics
@@ -24,7 +27,11 @@ namespace AutoWorkshop.Web.Controllers
             return View();
         }
 
+        public IActionResult ssIndex()
+        {
 
+            return View(_mechanicRepository.GetAll().Include(u => u.Specialty));
+        }
 
         public IActionResult WorkAppointments()
         {

@@ -32,6 +32,11 @@ namespace AutoWorkshop.Web.Controllers
             return View(vmodel);
         }
 
+        public IActionResult ssIndex()
+        {
+
+            return View(_adminRepository.GetAll());
+        }
 
 
         //// GET: Admins
