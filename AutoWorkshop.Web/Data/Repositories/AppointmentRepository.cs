@@ -42,5 +42,22 @@ namespace AutoWorkshop.Web.Data.Repositories
             return list;
         }
 
+
+        public IEnumerable<SelectListItem> GetComboAppointment()
+        {
+            var list = _context.Appointments.Select(b => new SelectListItem
+            {
+                Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
+                Value = b.Id.ToString()
+            }).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select an Appointment)",
+                Value = "0"
+            });
+
+            return list;
+        }
     }
 }

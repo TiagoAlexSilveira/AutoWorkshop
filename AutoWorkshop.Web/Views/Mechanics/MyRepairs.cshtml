@@ -3,13 +3,13 @@
     ViewData["Title"] = "Mechanic Repairs";
 }
 
-
+<br />
 <h2>My Repairs</h2>
 <br />
-<br />
+
 
 <table id="teste" class="table">
-    <thead>
+    <thead class="text-center thead-dark" >
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Appointment.Client)
@@ -21,7 +21,7 @@
                 @Html.DisplayNameFor(model => model.CompletedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Appointment.AppointmentType)
+                @Html.DisplayNameFor(model => model.Appointment.AppointmentType.Type)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RepairInfo)
@@ -32,7 +32,7 @@
     <tbody>
         @foreach (var item in Model.Repairs)
         {
-            <tr>
+            <tr class="text-center">
                 <td>
                     @Html.DisplayFor(modelItem => item.Appointment.Client.FullName)
                 </td>
@@ -45,9 +45,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Appointment.AppointmentType.Type)
                 </td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <td >
+                    <div class="dropdown ">
+                        <button class="btn btn-secondary dropdown-toggle" style="padding:3px; width: 100px" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Info
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
@@ -58,11 +58,9 @@
                     </div>
                 </td>
                 <td>
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="font-weight-bold" asp-action="Edit" asp-controller="Repairs" asp-route-id="@item.Id">Edit</a> 
+                    @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>
         }

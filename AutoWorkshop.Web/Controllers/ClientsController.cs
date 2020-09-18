@@ -72,6 +72,14 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        //GET: Clients/Create
+        public IActionResult Create()
+        {           
+
+            return RedirectToAction("CreateRole","Accounts");
+        }
+
+
 
 
         //    // GET: Clients/Details/5

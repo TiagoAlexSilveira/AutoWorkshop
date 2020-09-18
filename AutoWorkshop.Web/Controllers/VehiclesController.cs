@@ -160,7 +160,6 @@ namespace AutoWorkshop.Web.Controllers
                     vehicle.BrandId = vmodel.BrandId;
 
                     vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                    //vehicle.Client = _clientRepository.GetClientByUserId(User.Identity.Name);
 
                     await _vehicleRepository.UpdateAsync(vehicle);
                 }

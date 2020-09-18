@@ -10,5 +10,8 @@ namespace AutoWorkshop.Web.Data.Repositories
     public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
         IEnumerable<SelectListItem> GetComboUserAppointment(string username);
+
+        IEnumerable<SelectListItem> GetComboAppointment();
+
     }
 }

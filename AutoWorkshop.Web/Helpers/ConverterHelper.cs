@@ -217,5 +217,27 @@ namespace AutoWorkshop.Web.Helpers
             };
         }
 
+        public Repair ToRepair(RepairViewModel model)
+        {
+            return new Repair
+            {
+                Id = model.Id,
+                RepairInfo = model.RepairInfo,
+                CompletedAt = model.CompletedAt,
+                AppointmentId = model.AppointmentId,
+                Appointment = model.Appointment
+            };
+        }
+
+        public RepairViewModel ToRepairViewModel(Repair repair)
+        {
+            return new RepairViewModel
+            {
+                Id = repair.Id,
+                RepairInfo = repair.RepairInfo,
+                CompletedAt = repair.CompletedAt,
+                AppointmentId = repair.AppointmentId,
+            };
+        }
     }
 }

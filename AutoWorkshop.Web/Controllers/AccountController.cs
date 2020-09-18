@@ -4,10 +4,12 @@ using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Syncfusion.EJ2.DropDowns;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -306,6 +308,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
@@ -417,6 +421,40 @@ namespace AutoWorkshop.Web.Controllers
             }
 
             return this.View(model);
+        }
+
+
+        public async Task<IActionResult> CreateRole()
+        {
+            var model = new CreateAccountViewModel
+            {
+                Roles = new List<SelectListItem>
+                {
+                    new SelectListItem{ Text = "Client", Value = "Client"},
+                    new SelectListItem{ Text = "Secretary", Value = "Secretary"},
+                    new SelectListItem{ Text = "Mechanic", Value = "Mechanic"},
+                    new SelectListItem{ Text = "Admin", Value = "Admin"},
+                }
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(CreateAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user == null)
+                {
+
+                }
+
+            }
+
+            return View(model);
         }
     }
 }

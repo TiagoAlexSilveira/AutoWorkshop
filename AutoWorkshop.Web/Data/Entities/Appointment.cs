@@ -11,7 +11,7 @@ namespace AutoWorkshop.Web.Data.Entities
 
         public int AppointmentTypeId { get; set; }
 
-    
+        
         public AppointmentType AppointmentType { get; set; }
 
 

@@ -30,5 +30,9 @@ namespace AutoWorkshop.Web.Helpers
         Mechanic ToMecanic(ChangeUserViewModel model);
 
         Appointment ToAppointment(AppointmentViewModel model);
+
+        Repair ToRepair(RepairViewModel model);
+
+        RepairViewModel ToRepairViewModel(Repair repair);
     }
 }

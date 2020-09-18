@@ -9,6 +9,7 @@ using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
+using AutoWorkshop.Web.Helpers;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -18,15 +19,18 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IRepairRepository _repairRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public RepairsController(IRepairRepository repairRepository,
                                  IClientRepository clientRepository,
-                                 IAppointmentRepository appointmentRepository)
+                                 IAppointmentRepository appointmentRepository,
+                                 IConverterHelper converterHelper)
         {
             
             _repairRepository = repairRepository;
             _clientRepository = clientRepository;
             _appointmentRepository = appointmentRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -64,7 +68,6 @@ namespace AutoWorkshop.Web.Controllers
             var model = new RepairViewModel
             {
                 //TODO: fazer repairs para o admin
-                //appointments do mecanico logado
                 Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
             };
 
@@ -86,6 +89,11 @@ namespace AutoWorkshop.Web.Controllers
 
 
                 await _repairRepository.CreateAsync(repair);
+
+                if (User.IsInRole("Mechanic"))
+                {
+                    return RedirectToAction("MyRepairs","Mechanics");
+                }
                 return RedirectToAction(nameof(Index));
             }
             
@@ -100,13 +108,26 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var repair = await _repairRepository.GetByIdAsync(id.Value);
+            var repair = await _repairRepository.GetByIdWithAppointment(id.Value);
             if (repair == null)
             {
                 return NotFound();
             }
+
+            var vmodel = _converterHelper.ToRepairViewModel(repair);
+
+            if (User.IsInRole("Mechanic"))
+            {
+                vmodel.Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name);
+                vmodel.AppointmentId = repair.Appointment.Id;               
+            }
+            else
+            {
+                vmodel.Appointments = _appointmentRepository.GetComboAppointment();
+                vmodel.AppointmentId = repair.Appointment.Id;
+            }           
             
-            return View(repair);
+            return View(vmodel);
         }
 
         // POST: Repairs/Edit/5
@@ -114,22 +135,20 @@ namespace AutoWorkshop.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Repair repair)
+        public async Task<IActionResult> Edit(RepairViewModel vmodel)
         {
-            //if (id != repair.Id)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var repair = _converterHelper.ToRepair(vmodel);
+                    repair.AppointmentId = vmodel.AppointmentId;
+
                     await _repairRepository.UpdateAsync(repair);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _repairRepository.ExistAsync(repair.Id))
+                    if (! await _repairRepository.ExistAsync(vmodel.Id))
                     {
                         return NotFound();
                     }
@@ -138,10 +157,15 @@ namespace AutoWorkshop.Web.Controllers
                         throw;
                     }
                 }
+
+                if (User.IsInRole("Mechanic"))
+                {
+                    return RedirectToAction("MyRepairs", "Mechanics");
+                }
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(repair);
+            return View(vmodel);
         }
 
         // GET: Repairs/Delete/5

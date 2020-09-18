@@ -8,6 +8,6 @@ namespace AutoWorkshop.Web.Data.Repositories
 {
     public interface IRepairRepository : IGenericRepository<Repair>
     {
-
+        Task<Repair> GetByIdWithAppointment(int id);
     }
 }
