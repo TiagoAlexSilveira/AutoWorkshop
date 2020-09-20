@@ -63,6 +63,13 @@ namespace AutoWorkshop.Web.Controllers
             return View(admin);
         }
 
+
+
+        public IActionResult Create()
+        {
+            return RedirectToAction("CreateWithRole", "Account");
+        }
+
         //// GET: Admins/Create
         //public IActionResult Create()
         //{

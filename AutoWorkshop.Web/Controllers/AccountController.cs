@@ -28,11 +28,13 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly ISecretaryRepository _secretaryRepository;
         private readonly IMechanicRepository _mecanicRepository;
+        private readonly ISpecialtyRepository _specialtyRepository;
 
         public AccountController(IUserHelper userHelper, IConfiguration configuration,
                                  IMailHelper mailHelper, IClientRepository clientRepository,
                                  IAdminRepository adminRepository, IConverterHelper converterHelper,
-                                 ISecretaryRepository secretaryRepository, IMechanicRepository mecanicRepository)
+                                 ISecretaryRepository secretaryRepository, IMechanicRepository mecanicRepository,
+                                 ISpecialtyRepository specialtyRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -42,6 +44,7 @@ namespace AutoWorkshop.Web.Controllers
             _converterHelper = converterHelper;
             _secretaryRepository = secretaryRepository;
             _mecanicRepository = mecanicRepository;
+            _specialtyRepository = specialtyRepository;
         }
 
 
@@ -424,17 +427,20 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        public async Task<IActionResult> CreateRole()
+        public IActionResult CreateWithRole()
         {
             var model = new CreateAccountViewModel
             {
                 Roles = new List<SelectListItem>
                 {
-                    new SelectListItem{ Text = "Client", Value = "Client"},
-                    new SelectListItem{ Text = "Secretary", Value = "Secretary"},
-                    new SelectListItem{ Text = "Mechanic", Value = "Mechanic"},
-                    new SelectListItem{ Text = "Admin", Value = "Admin"},
-                }
+                    new SelectListItem { Text = "Client", Value = "Client" },
+                    new SelectListItem { Text = "Secretary", Value = "Secretary" },
+                    new SelectListItem { Text = "Mechanic", Value = "Mechanic" },
+                    new SelectListItem { Text = "Admin", Value = "Admin" },
+                },
+
+                Specialties = _specialtyRepository.GetComboSpecialty()
+
             };
 
             return View(model);
@@ -442,16 +448,53 @@ namespace AutoWorkshop.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole(CreateAccountViewModel model)
+        public async Task<IActionResult> CreateWithRole(CreateAccountViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
+                    user = new User
+                    {
+                        Email = model.Username,
+                        UserName = model.Username,                       
+                    };
 
+                    var result = await _userHelper.AddUserAsync(user, model.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "The user could not be created");
+                        return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
+                    }
+
+                    if (model.Role == "Client")
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Client");
+                        var client = _converterHelper.ToClientCreate(model);
+                        client.User = user;
+
+                        await _clientRepository.CreateAsync(client);
+                    }
+                    
+                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
+                        token = myToken,
+                    }, protocol: HttpContext.Request.Scheme);
+
+
+                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for Penguin AutoWorkshop</h1>" +
+                       $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    this.ViewBag.Message = "Account Creation Sucessfull";
+
+
+                    return View();
                 }
 
+                ModelState.AddModelError(string.Empty, "The username is already registered");
+                return View(model);
             }
 
             return View(model);

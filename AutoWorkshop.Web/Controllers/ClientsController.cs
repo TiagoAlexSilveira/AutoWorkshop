@@ -72,14 +72,6 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        //GET: Clients/Create
-        public IActionResult Create()
-        {           
-
-            return RedirectToAction("CreateRole","Accounts");
-        }
-
-
 
 
         //    // GET: Clients/Details/5
@@ -173,34 +165,32 @@ namespace AutoWorkshop.Web.Controllers
         //        return View(client);
         //    }
 
-        //    // GET: Clients/Delete/5
-        //    public async Task<IActionResult> Delete(int? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
+        // GET: Clients/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //        var client = await _context.Clients
-        //            .FirstOrDefaultAsync(m => m.Id == id);
-        //        if (client == null)
-        //        {
-        //            return NotFound();
-        //        }
+            var client = await _clientRepository.GetByIdAsync(id.Value);                
+            if (client == null)
+            {
+                return NotFound();
+            }
 
-        //        return View(client);
-        //    }
+            return View(client);
+        }
 
-        //    // POST: Clients/Delete/5
-        //    [HttpPost, ActionName("Delete")]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> DeleteConfirmed(int id)
-        //    {
-        //        var client = await _context.Clients.FindAsync(id);
-        //        _context.Clients.Remove(client);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
+        // POST: Clients/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var client = await _clientRepository.GetByIdAsync(id);
+            await _clientRepository.DeleteAsync(client);
+            return RedirectToAction(nameof(Index));
+        }
 
         //    private bool ClientExists(int id)
         //    {

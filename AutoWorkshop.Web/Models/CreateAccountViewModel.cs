@@ -10,6 +10,9 @@ namespace AutoWorkshop.Web.Models
 {
     public class CreateAccountViewModel : Person
     {
+        public string Role { get; set; }
+
+
         public IEnumerable<SelectListItem> Roles { get; set; }
 
 
@@ -25,6 +28,14 @@ namespace AutoWorkshop.Web.Models
         [Required]
         [Compare("Password")]
         public string Confirm { get; set; }
+
+
+        public int SpecialtyId { get; set; }
+
+        public Specialty Specialty { get; set; }
+
+
+        public IEnumerable<SelectListItem> Specialties { get; set; }
 
     }
 }

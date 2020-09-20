@@ -34,5 +34,11 @@ namespace AutoWorkshop.Web.Helpers
         Repair ToRepair(RepairViewModel model);
 
         RepairViewModel ToRepairViewModel(Repair repair);
+
+
+        Admin ToAdminCreate(CreateAccountViewModel model);
+        Client ToClientCreate(CreateAccountViewModel model);
+        Mechanic ToMechanicCreate(CreateAccountViewModel model);
+        Secretary ToSecretaryCreate(CreateAccountViewModel model);
     }
 }

@@ -179,7 +179,6 @@ namespace AutoWorkshop.Web.Helpers
         }
 
 
-
         public Mechanic ToMecanic(ChangeUserViewModel model)
         {
             return new Mechanic
@@ -196,6 +195,74 @@ namespace AutoWorkshop.Web.Helpers
                 Specialty = model.Specialty
             };
         }
+
+
+
+        public Admin ToAdminCreate(CreateAccountViewModel model)
+        {
+            return new Admin
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,               
+            };
+        }
+
+        public Client ToClientCreate(CreateAccountViewModel model)
+        {
+            return new Client
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+            };
+        }
+
+        public Mechanic ToMechanicCreate(CreateAccountViewModel model)
+        {
+            return new Mechanic
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                Specialty = model.Specialty
+            };
+        }
+
+        public Secretary ToSecretaryCreate(CreateAccountViewModel model)
+        {
+            return new Secretary
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+            };
+        }
+
 
         public Appointment ToAppointment(AppointmentViewModel model)
         {
