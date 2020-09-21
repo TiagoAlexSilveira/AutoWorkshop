@@ -7,6 +7,13 @@
 <h2>Create with roles</h2>
 
 <hr />
+
+<div class="text-success">
+    <p>
+        @ViewBag.Message
+    </p>
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateWithRole">
@@ -80,7 +87,7 @@
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
             <div class="form-group" id="bspecial" style="visibility: hidden; display: none">
-                <label asp-for="Specialties" id="lbl_sp" class="control-label"></label>
+                <label asp-for="Specialty" id="lbl_sp" class="control-label"></label>
                 <select asp-for="SpecialtyId" asp-items="Model.Specialties" id="specialty" class="form-control"></select>
                 <span asp-validation-for="SpecialtyId" class="text-danger"></span>
             </div>
@@ -93,18 +100,12 @@
 </div>
 
 
-<div class="text-success">
-    <p>
-        @ViewBag.Message
-    </p>
-</div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 <script type="text/javascript">
-
 
     function showspecialty() {
         var combo = document.getElementById("droles").value;
@@ -117,11 +118,9 @@
             lb.style.display = "inline";
         }
         else {
-
             lb.style.visibility = "hidden";
             lb.style.display = "none";
         }
-
     }
 
 </script>

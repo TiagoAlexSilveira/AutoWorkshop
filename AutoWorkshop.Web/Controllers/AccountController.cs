@@ -27,13 +27,13 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IAdminRepository _adminRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly ISecretaryRepository _secretaryRepository;
-        private readonly IMechanicRepository _mecanicRepository;
+        private readonly IMechanicRepository _mechanicRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
 
         public AccountController(IUserHelper userHelper, IConfiguration configuration,
                                  IMailHelper mailHelper, IClientRepository clientRepository,
                                  IAdminRepository adminRepository, IConverterHelper converterHelper,
-                                 ISecretaryRepository secretaryRepository, IMechanicRepository mecanicRepository,
+                                 ISecretaryRepository secretaryRepository, IMechanicRepository mechanicRepository,
                                  ISpecialtyRepository specialtyRepository)
         {
             _userHelper = userHelper;
@@ -43,7 +43,7 @@ namespace AutoWorkshop.Web.Controllers
             _adminRepository = adminRepository;
             _converterHelper = converterHelper;
             _secretaryRepository = secretaryRepository;
-            _mecanicRepository = mecanicRepository;
+            _mechanicRepository = mechanicRepository;
             _specialtyRepository = specialtyRepository;
         }
 
@@ -213,7 +213,7 @@ namespace AutoWorkshop.Web.Controllers
                 }
                 else if(await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
                 {
-                    var mecanic = _mecanicRepository.GetMecanicByUserId(user.Id);
+                    var mecanic = _mechanicRepository.GetMecanicByUserId(user.Id);
 
                     var model = _converterHelper.ToChangeUserViewModelMecanic(mecanic);
 
@@ -263,7 +263,7 @@ namespace AutoWorkshop.Web.Controllers
                     {
                         var mecanic = _converterHelper.ToMecanic(model);
 
-                        await _mecanicRepository.UpdateAsync(mecanic);
+                        await _mechanicRepository.UpdateAsync(mecanic);
 
                         ViewBag.UserMessage = "User updated";
                     }
@@ -458,7 +458,7 @@ namespace AutoWorkshop.Web.Controllers
                     user = new User
                     {
                         Email = model.Username,
-                        UserName = model.Username,                       
+                        UserName = model.Username,
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -476,7 +476,32 @@ namespace AutoWorkshop.Web.Controllers
 
                         await _clientRepository.CreateAsync(client);
                     }
-                    
+                    else if (model.Role == "Secretary")
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Secretary");
+                        var secret = _converterHelper.ToSecretaryCreate(model);
+                        secret.User = user;
+
+                        await _secretaryRepository.CreateAsync(secret);
+                    }
+                    else if (model.Role == "Admin")
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Admin");
+                        var admin = _converterHelper.ToAdminCreate(model);
+                        admin.User = user;
+
+                        await _adminRepository.CreateAsync(admin);
+                    }
+                    else if (model.Role == "Mechanic")
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Mechanic");
+                        var mecha = _converterHelper.ToMechanicCreate(model);
+                        mecha.SpecialtyId = model.SpecialtyId;
+                        mecha.User = user;
+
+                        await _mechanicRepository.CreateAsync(mecha);
+                    }
+
                     var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                     var tokenLink = Url.Action("ConfirmEmail", "Account", new
                     {
@@ -490,7 +515,7 @@ namespace AutoWorkshop.Web.Controllers
                     this.ViewBag.Message = "Account Creation Sucessfull";
 
 
-                    return View();
+                    return View(model);
                 }
 
                 ModelState.AddModelError(string.Empty, "The username is already registered");
