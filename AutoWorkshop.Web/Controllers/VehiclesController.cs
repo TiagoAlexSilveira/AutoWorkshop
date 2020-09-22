@@ -174,6 +174,11 @@ namespace AutoWorkshop.Web.Controllers
                         throw;
                     }
                 }
+
+                if (User.IsInRole("Client"))
+                {
+                    return RedirectToAction("MyVehicles","Clients");
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(vmodel);
@@ -208,6 +213,11 @@ namespace AutoWorkshop.Web.Controllers
         {
             var vehicle = await _vehicleRepository.GetByIdAsync(id);
             await _vehicleRepository.DeleteAsync(vehicle);
+
+            if (User.IsInRole("Client"))
+            {
+                return RedirectToAction("MyVehicles", "Clients");
+            }
             return RedirectToAction(nameof(Index));
         }
 
