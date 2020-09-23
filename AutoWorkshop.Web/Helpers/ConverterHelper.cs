@@ -58,6 +58,40 @@ namespace AutoWorkshop.Web.Helpers
             };
         }
 
+        public Client ToClientInfo(InfoAfterLoginViewModel model)
+        {
+            return new Client
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = null
+            };
+        }
+
+        public InfoAfterLoginViewModel ToInfoAfterLoginViewModel(Client client)
+        {
+            return new InfoAfterLoginViewModel
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                StreetAddress = client.StreetAddress,
+                PhoneNumber = client.PhoneNumber,
+                PostalCode = client.PostalCode,
+                DateofBirth = client.DateofBirth,
+                TaxIdentificationNumber = client.TaxIdentificationNumber,
+                CitizenCardNumber = client.CitizenCardNumber,
+                ImageUrl = null
+            };
+        }
+
 
 
         public ChangeUserViewModel ToChangeUserViewModelAdmin (Admin admin) //recebe todas as entidades
@@ -275,7 +309,6 @@ namespace AutoWorkshop.Web.Helpers
                 Id = model.Id,
                 Date = model.Date,
                 Time = model.Time,
-                WorkEstimate = model.WorkEstimate,
                 Information = model.Information,
                 ClientId = model.ClientId,
                 Client = model.Client,

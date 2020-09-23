@@ -1,4 +1,4 @@
-﻿@model AutoWorkshop.Web.Data.Entities.Client
+﻿@model AutoWorkshop.Web.Models.InfoAfterLoginViewModel
 @{
     ViewData["Title"] = "InfoAfterLogin";  //TODO: fazer um viewmodel para por as propriedades como required
 }
@@ -8,8 +8,9 @@
 
 <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 <script src="~/lib/jquery/jquery.js"></script>
-
-@*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+ <link rel="stylesheet" href="~/css/site.css" />
+ <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet" />
+       @*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
 
 
@@ -18,66 +19,79 @@
 <br />
 <br />
 <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-4 offset-md-4" >
         <form method="post" id="formd">
 
-            <h2>Fill in the required information</h2>
+            <div id="toptitle" class="d-flex justify-content-center">
+                <h1 style="font-family: 'Poppins', Arial, sans-serif">Autorepair<span style="color:orange">.</span></h1>
+            </div>    
             <br />
-            <br />
 
-            <div asp-validation-summary="ModelOnly"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="FirstName" />
-            <input type="hidden" asp-for="LastName" />
+            <div style="border: 1.5px black solid; border-radius:25px; padding: 15px; font-family: 'Arial Rounded MT', Arial, sans-serif"> 
+
+                <h2>Fill in the required information</h2>
+                <br />
+                <br />
+
+                <div asp-validation-summary="ModelOnly"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="FirstName" />
+                <input type="hidden" asp-for="LastName" />
 
 
-            <div class="form-group">
-                <label asp-for="StreetAddress">Street Address</label>
-                <input id="address" asp-for="StreetAddress" class="form-control" />
-                <span asp-validation-for="StreetAddress" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="StreetAddress" style="font-size:1.2em">Street Address</label>
+                    <input id="address" asp-for="StreetAddress" class="form-control" />
+                    <span asp-validation-for="StreetAddress" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Phone Number</label>
-                <input id="phone" asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" style="font-size:1.2em">Phone Number</label>
+                    <input id="phone" asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="PostalCode">Postal Code</label>
-                <input id="postal" asp-for="PostalCode" class="form-control" />
-                <span asp-validation-for="PostalCode" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="PostalCode" style="font-size:1.2em">Postal Code</label>
+                    <input id="postal" asp-for="PostalCode" class="form-control" />
+                    <span asp-validation-for="PostalCode" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="DateofBirth">Date of Birth Number</label>
-                <input id="date" asp-for="DateofBirth" class="form-control" />
-                <span asp-validation-for="DateofBirth" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="DateofBirth" style="font-size:1.2em">Date of Birth Number</label>
+                    <input id="date" asp-for="DateofBirth" class="form-control" />
+                    <span asp-validation-for="DateofBirth" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="TaxIdentificationNumber">Tax Identification Number</label>
-                <input id="tax" asp-for="TaxIdentificationNumber" class="form-control" />
-                <span asp-validation-for="TaxIdentificationNumber" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="TaxIdentificationNumber" style="font-size:1.2em">Tax Identification Number</label>
+                    <input id="tax" asp-for="TaxIdentificationNumber" class="form-control" />
+                    <span asp-validation-for="TaxIdentificationNumber" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="CitizenCardNumber">Citizen Card Number</label>
-                <input id="cit" asp-for="CitizenCardNumber" class="form-control" />
-                <span asp-validation-for="CitizenCardNumber" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="CitizenCardNumber" style="font-size:1.2em">Citizen Card Number</label>
+                    <input id="cit" asp-for="CitizenCardNumber" class="form-control" />
+                    <span asp-validation-for="CitizenCardNumber" class="text-warning"></span>
+                </div>
 
-            <br />
-            <div class="form-group">
-                <input type="button" id="old" value="Update" onclick="ChangeButton()" class="btn btn-warning btn-block" />
-            </div>
+                <div class=" hidden_div_error" id="div_error">
+                    Please fill all the information!
+                    <br />
+                </div>
+                <div class=" hidden_div_success" id="div_success">
+                    Account successfully update, thank you for joining us!
+                    <br />
+                </div>
 
-            <div>
-                <button asp-action="Index" id="hiddenbutton" style="visibility:hidden" class="btn btn-secondary btn-block">Exit</button>
-            </div>
+                <br />
+                <div class="form-group">
+                    <input type="button" id="old" value="Update" onclick="ChangeButton()" class="btn btn-warning btn-block" />
+                </div>
 
-            <div class="text-success">
-                @ViewBag.Message
+                <div>
+                    <button asp-action="Index" id="hiddenbutton" style="visibility:hidden" class="btn btn-secondary btn-block">Exit</button>
+                </div>
             </div>
         </form>
     </div>
@@ -102,40 +116,43 @@
                 data: datat,
                 url: '@Url.Action("InfoAfterLogin", "Home")',
                 dataType: "json",
-                success: function () {
+                success: function (response) {
+                    if (response === false) {
+
+                        var error = document.getElementById("div_error");
+                        error.style.visibility = "visible";
+                        error.style.display = "inline";
+
+                        return;
+                    }
                     var b = document.getElementById("old");
                     var x = document.getElementById("hiddenbutton");
+               
+                    var suces = document.getElementById("div_success");
+                    var error = document.getElementById("div_error");
+
+                    error.style.visibility = "hidden";
+                    error.style.display = "none";
+
+                    suces.style.visibility = "visible";
+                    suces.style.display = "inline";
 
                     b.style.visibility = "hidden";
                     b.style.display = "none";
                     x.style.visibility = "visible";
+
+
                 },
                 error: function (jqxhr, status, exception) {
                     alert('Exception:', exception);
+
+                    var error = document.getElementById("div_error");
+                    error.style.visibility = "visible";
+
+                    return;
                 }
             })
          });
-
-        //$(document).ready(function () {
-        //    $("#formd").validate({
-        //        rules: {
-        //            "PhoneNumber": {
-        //                required: true
-        //                //textOnly: true
-        //            },
-        //        },
-        //        messages: {
-        //            "PhoneNumber": {
-        //                required: "Please enter a number",
-        //            },
-        //        }
-        //    });
-        //});
-
-
-        //var IsValid = $("#formd").valid();
-        //if (IsValid) {
-        //}
     }
 </script>
 

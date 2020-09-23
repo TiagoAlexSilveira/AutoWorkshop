@@ -27,10 +27,6 @@ namespace AutoWorkshop.Web.Data.Entities
         [DataType(DataType.Time)]
         public DateTime Time { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Time)]
-        public DateTime WorkEstimate { get; set; }  //TODO: retirar Work Estimate
-
 
         public string Information { get; set; }
 

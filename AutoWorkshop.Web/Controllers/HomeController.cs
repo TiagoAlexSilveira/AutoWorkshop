@@ -13,13 +13,15 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IClientRepository _clientRepository;
         private readonly ISecretaryRepository _secretaryRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public HomeController(IUserHelper userHelper, IClientRepository clientRepository,
-                              ISecretaryRepository secretaryRepository)
+                              ISecretaryRepository secretaryRepository, IConverterHelper converterHelper)
         {
             _userHelper = userHelper;
             _clientRepository = clientRepository;
             _secretaryRepository = secretaryRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -46,7 +48,9 @@ namespace AutoWorkshop.Web.Controllers
                 var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
                 if (string.IsNullOrEmpty(client.StreetAddress))
                 {
-                    return View("InfoAfterLogin", client);
+                    var model = _converterHelper.ToInfoAfterLoginViewModel(client);
+
+                    return View("InfoAfterLogin", model);
                 }
                 else
                 {
@@ -62,15 +66,20 @@ namespace AutoWorkshop.Web.Controllers
 
         //Fill Info After Login(for clients only)
         [HttpPost]
-        public async Task<JsonResult> InfoAfterLogin(Client client)
-        {            
+        public async Task<JsonResult> InfoAfterLogin(InfoAfterLoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var client = _converterHelper.ToClientInfo(model);
 
-            await _clientRepository.UpdateAsync(client);
+                await _clientRepository.UpdateAsync(client);
 
-            ViewBag.Message = "Your registration is now complete! Welcome to Penguin AutoWorkshop!";
+                ViewBag.Message = "Your registration is now complete! Welcome to Penguin AutoWorkshop!";
 
-            return Json(client);
+                return Json(client);
+            }
 
+            return Json(false);
         }
 
 

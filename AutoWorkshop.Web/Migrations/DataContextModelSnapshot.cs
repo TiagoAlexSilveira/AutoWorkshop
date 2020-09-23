@@ -76,8 +76,6 @@ namespace AutoWorkshop.Web.Migrations
 
                     b.Property<int>("VehicleId");
 
-                    b.Property<DateTime>("WorkEstimate");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppointmentTypeId");

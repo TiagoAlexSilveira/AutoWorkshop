@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoWorkshop.Web.Migrations
 {
@@ -6,6 +7,10 @@ namespace AutoWorkshop.Web.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "WorkEstimate",
+                table: "Appointments");
+
             migrationBuilder.AddColumn<string>(
                 name: "ImageUrl",
                 table: "Secretaries",
@@ -44,6 +49,12 @@ namespace AutoWorkshop.Web.Migrations
             migrationBuilder.DropColumn(
                 name: "ImageUrl",
                 table: "Admins");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "WorkEstimate",
+                table: "Appointments",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
     }
 }

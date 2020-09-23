@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWorkshop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200923135613_Images")]
+    [Migration("20200923173351_Images")]
     partial class Images
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,8 +77,6 @@ namespace AutoWorkshop.Web.Migrations
                     b.Property<DateTime>("Time");
 
                     b.Property<int>("VehicleId");
-
-                    b.Property<DateTime>("WorkEstimate");
 
                     b.HasKey("Id");
 

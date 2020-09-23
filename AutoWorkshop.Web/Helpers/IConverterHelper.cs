@@ -9,6 +9,10 @@ namespace AutoWorkshop.Web.Helpers
 {
     public interface IConverterHelper  
     {
+        Client ToClientInfo(InfoAfterLoginViewModel model);
+        InfoAfterLoginViewModel ToInfoAfterLoginViewModel(Client client);
+
+
         ChangeUserViewModel ToChangeUserViewModelAdmin(Admin admin);
 
         ChangeUserViewModel ToChangeUserViewModelClient(Client client);
@@ -16,6 +20,7 @@ namespace AutoWorkshop.Web.Helpers
         ChangeUserViewModel ToChangeUserViewModelSecretary(Secretary secretary);
 
         ChangeUserViewModel ToChangeUserViewModelMecanic(Mechanic mecanic);
+
 
         Vehicle ToVehicle(VehicleViewModel model, string path, bool isNew);
 
@@ -41,5 +46,6 @@ namespace AutoWorkshop.Web.Helpers
         Client ToClientCreate(CreateAccountViewModel model);
         Mechanic ToMechanicCreate(CreateAccountViewModel model);
         Secretary ToSecretaryCreate(CreateAccountViewModel model);
+    
     }
 }

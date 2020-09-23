@@ -93,3 +93,18 @@ body {
     content: "\f054";
 }
 
+/*InfoAfterLogin View*/
+
+.hidden_div_error {
+    color: darkred;
+    font-size: large;
+    visibility: hidden;
+    display: inline;
+}
+
+.hidden_div_success {
+    color: green;
+    font-size: large;
+    visibility: hidden;
+    display: none;
+}

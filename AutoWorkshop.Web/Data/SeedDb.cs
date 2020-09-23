@@ -39,7 +39,6 @@ namespace AutoWorkshop.Web.Data
                 {
                     Email = "tsilveira01@gmail.com",
                     UserName = "tsilveira01@gmail.com"
-                    //IsActive = true
                 };
 
                 var admin = new Admin
@@ -52,7 +51,6 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111114",
                     CitizenCardNumber = "11112233",
-                    //Email = user.Email,
                     User = user
                 };
 
@@ -87,7 +85,6 @@ namespace AutoWorkshop.Web.Data
                 {
                     Email = "tsteste@yopmail.com",
                     UserName = "tsteste@yopmail.com",
-                    //IsActive = true
                 };
 
                 var client = new Client
@@ -99,8 +96,7 @@ namespace AutoWorkshop.Web.Data
                     DateofBirth = Convert.ToDateTime("29/04/1993"),
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111113",
-                    CitizenCardNumber = "11223344",
-                    //Email = userclient.Email,                    
+                    CitizenCardNumber = "11223344",                
                     User = userclient
                 };
 
@@ -134,7 +130,6 @@ namespace AutoWorkshop.Web.Data
                 {
                     Email = "tssecret@yopmail.com",
                     UserName = "tssecret@yopmail.com",
-                    //IsActive = true
                 };
 
                 var secretary = new Secretary
@@ -146,8 +141,7 @@ namespace AutoWorkshop.Web.Data
                     DateofBirth = Convert.ToDateTime("13/05/1990"),
                     PostalCode = "2773-677",
                     TaxIdentificationNumber = "111111112",
-                    CitizenCardNumber = "33445566",
-                    //Email = userclient.Email,                    
+                    CitizenCardNumber = "33445566",                   
                     User = usersecretary
                 };
 
@@ -190,7 +184,6 @@ namespace AutoWorkshop.Web.Data
                 {
                     Email = "tsmecha@yopmail.com",
                     UserName = "tsmecha@yopmail.com",
-                    //IsActive = true
                 };
 
 
@@ -204,8 +197,7 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2655-555",
                     TaxIdentificationNumber = "111111111",
                     CitizenCardNumber = "22334455",
-                    Specialty = _context.Specialties.FirstOrDefault(p => p.Id == 3),
-                    //Email = userclient.Email,                    
+                    Specialty = _context.Specialties.FirstOrDefault(p => p.Id == 3),                
                     User = usermecha
                 };
 
@@ -289,7 +281,6 @@ namespace AutoWorkshop.Web.Data
                     Date = Convert.ToDateTime("25/09/2020"),
                     Time = Convert.ToDateTime("09:00"),
                     Information = "Paint job",
-                    WorkEstimate = Convert.ToDateTime("02:00"),
                     Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
                     Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
                     Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
@@ -305,7 +296,6 @@ namespace AutoWorkshop.Web.Data
                     Time = Convert.ToDateTime("09:00"),
                     Information = "Oil Change",
                     Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
-                    WorkEstimate = Convert.ToDateTime("01:00"),
                     Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
                     Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
                     IsConfirmed = true,

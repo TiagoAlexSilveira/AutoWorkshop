@@ -21,6 +21,14 @@
     <Compile Remove="Migrations\20200914173336_MechanicTypo.Designer.cs" />
     <Compile Remove="Migrations\20200914174052_Mecanic_Typo.cs" />
     <Compile Remove="Migrations\20200914174052_Mecanic_Typo.Designer.cs" />
+    <Compile Remove="Migrations\20200923135613_Images.cs" />
+    <Compile Remove="Migrations\20200923135613_Images.Designer.cs" />
+    <Compile Remove="Migrations\20200923165441_Images.cs" />
+    <Compile Remove="Migrations\20200923165441_Images.Designer.cs" />
+    <Compile Remove="Migrations\20200923172632_add-migation Images.cs" />
+    <Compile Remove="Migrations\20200923172632_add-migation Images.Designer.cs" />
+    <Compile Remove="Migrations\20200923172800_Images.cs" />
+    <Compile Remove="Migrations\20200923172800_Images.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

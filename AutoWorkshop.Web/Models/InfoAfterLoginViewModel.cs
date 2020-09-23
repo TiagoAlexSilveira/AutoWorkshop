@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoWorkshop.Web.Data.Entities
+namespace AutoWorkshop.Web.Models
 {
-    public abstract class Person : IEntity  
+    public class InfoAfterLoginViewModel
     {
         public int Id { get; set; }
 
-       
+
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -22,11 +22,11 @@ namespace AutoWorkshop.Web.Data.Entities
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
 
-
+        [Required]
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 
-
+        [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
@@ -34,31 +34,19 @@ namespace AutoWorkshop.Web.Data.Entities
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
-
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateofBirth { get; set; }
 
-
+        [Required]
         [Display(Name = "Tax Number")]
         public string TaxIdentificationNumber { get; set; }
 
-
+        [Required]
         [Display(Name = "Citizen Card Number")]
         public string CitizenCardNumber { get; set; }
 
-
-
-        public User User { get; set; }
-
-
-
-        //[Display(Name = "Image")]
-        //public string ImageUrl { get; set; }
-
-
-        [Display(Name = "Full Name")]
-        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
     }
 }
