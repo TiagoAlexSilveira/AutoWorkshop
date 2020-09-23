@@ -26,7 +26,7 @@ namespace AutoWorkshop.Web.Controllers
         {
             var vmodel = new AdminIndexViewModel
             {
-                allCount = _adminRepository.GetAllCount()
+                AllCount = _adminRepository.GetAllCount()
             };
 
             return View(vmodel);

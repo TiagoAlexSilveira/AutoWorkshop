@@ -19,6 +19,10 @@ namespace AutoWorkshop.Web.Data.Entities
         public string LastName { get; set; }
 
 
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
+
+
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 

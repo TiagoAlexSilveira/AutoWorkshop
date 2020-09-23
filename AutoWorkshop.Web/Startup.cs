@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace AutoWorkshop.Web
 {
     public class Startup
@@ -66,6 +67,7 @@ namespace AutoWorkshop.Web
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IMechanicRepository, MechanicRepository>();
@@ -74,6 +76,7 @@ namespace AutoWorkshop.Web
             services.AddScoped<IAppointmentTypeRepository, AppointmentTypeRepository>();
             services.AddScoped<IRepairRepository, RepairRepository>();
             services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+           
 
 
 

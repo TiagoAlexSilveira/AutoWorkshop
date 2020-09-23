@@ -59,6 +59,7 @@ namespace AutoWorkshop.Web.Helpers
         }
 
 
+
         public ChangeUserViewModel ToChangeUserViewModelAdmin (Admin admin) //recebe todas as entidades
         {
             return new ChangeUserViewModel
@@ -71,10 +72,10 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = admin.PostalCode,
                 DateofBirth = admin.DateofBirth,
                 TaxIdentificationNumber = admin.TaxIdentificationNumber,
-                CitizenCardNumber = admin.CitizenCardNumber
+                CitizenCardNumber = admin.CitizenCardNumber,
+                ImageUrl = admin.ImageUrl
             };
         }
-
 
         public ChangeUserViewModel ToChangeUserViewModelClient(Client client) //recebe todas as entidades
         {
@@ -88,10 +89,10 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = client.PostalCode,
                 DateofBirth = client.DateofBirth,
                 TaxIdentificationNumber = client.TaxIdentificationNumber,
-                CitizenCardNumber = client.CitizenCardNumber
+                CitizenCardNumber = client.CitizenCardNumber,
+                ImageUrl = client.ImageUrl
             };
         }
-
 
         public ChangeUserViewModel ToChangeUserViewModelSecretary(Secretary secretary) //recebe todas as entidades
         {
@@ -105,10 +106,10 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = secretary.PostalCode,
                 DateofBirth = secretary.DateofBirth,
                 TaxIdentificationNumber = secretary.TaxIdentificationNumber,
-                CitizenCardNumber = secretary.CitizenCardNumber
+                CitizenCardNumber = secretary.CitizenCardNumber,
+                ImageUrl = secretary.ImageUrl
             };
         }
-
 
         public ChangeUserViewModel ToChangeUserViewModelMecanic(Mechanic mecanic) //recebe todas as entidades
         {
@@ -123,12 +124,14 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = mecanic.DateofBirth,
                 TaxIdentificationNumber = mecanic.TaxIdentificationNumber,
                 CitizenCardNumber = mecanic.CitizenCardNumber,
-                Specialty = mecanic.Specialty
+                Specialty = mecanic.Specialty,
+                ImageUrl = mecanic.ImageUrl
             };
         }
 
 
-        public Admin ToAdmin(ChangeUserViewModel model)
+
+        public Admin ToAdmin(ChangeUserViewModel model, string path)
         {
             return new Admin
             {
@@ -140,12 +143,12 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = model.PostalCode,
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
-                CitizenCardNumber = model.CitizenCardNumber                
+                CitizenCardNumber = model.CitizenCardNumber, 
+                ImageUrl = path
             };
         }
 
-
-        public Client ToClient(ChangeUserViewModel model)
+        public Client ToClient(ChangeUserViewModel model, string path)
         {
             return new Client
             {
@@ -157,12 +160,12 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = model.PostalCode,
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
-                CitizenCardNumber = model.CitizenCardNumber
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = path
             };
         }
 
-
-        public Secretary ToSecretary(ChangeUserViewModel model)
+        public Secretary ToSecretary(ChangeUserViewModel model, string path)
         {
             return new Secretary
             {
@@ -174,12 +177,12 @@ namespace AutoWorkshop.Web.Helpers
                 PostalCode = model.PostalCode,
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
-                CitizenCardNumber = model.CitizenCardNumber
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = path
             };
         }
 
-
-        public Mechanic ToMecanic(ChangeUserViewModel model)
+        public Mechanic ToMecanic(ChangeUserViewModel model, string path)
         {
             return new Mechanic
             {
@@ -192,7 +195,8 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
-                Specialty = model.Specialty
+                Specialty = model.Specialty,
+                ImageUrl = path
             };
         }
 
@@ -283,6 +287,7 @@ namespace AutoWorkshop.Web.Helpers
                 IsUrgent = model.IsUrgent               
             };
         }
+
 
         public Repair ToRepair(RepairViewModel model)
         {

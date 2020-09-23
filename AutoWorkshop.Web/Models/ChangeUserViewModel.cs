@@ -1,4 +1,5 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,13 @@ namespace AutoWorkshop.Web.Models
 {
     public class ChangeUserViewModel 
     {
+        [Display(Name = "Image")]
+        public IFormFile ImageFile { get; set; }
+
+
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
+
 
         public int Id { get; set; }
 

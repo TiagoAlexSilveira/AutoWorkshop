@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Helpers
 {
-    public class ImageHelper
+    public class ImageHelper : IImageHelper
     {
         public async Task<string> UploadImageAsync(IFormFile imageFile, string folder)
         {

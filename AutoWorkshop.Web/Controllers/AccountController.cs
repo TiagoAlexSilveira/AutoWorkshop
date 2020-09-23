@@ -29,12 +29,13 @@ namespace AutoWorkshop.Web.Controllers
         private readonly ISecretaryRepository _secretaryRepository;
         private readonly IMechanicRepository _mechanicRepository;
         private readonly ISpecialtyRepository _specialtyRepository;
+        private readonly IImageHelper _imageHelper;
 
         public AccountController(IUserHelper userHelper, IConfiguration configuration,
                                  IMailHelper mailHelper, IClientRepository clientRepository,
                                  IAdminRepository adminRepository, IConverterHelper converterHelper,
                                  ISecretaryRepository secretaryRepository, IMechanicRepository mechanicRepository,
-                                 ISpecialtyRepository specialtyRepository)
+                                 ISpecialtyRepository specialtyRepository, IImageHelper imageHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -45,6 +46,7 @@ namespace AutoWorkshop.Web.Controllers
             _secretaryRepository = secretaryRepository;
             _mechanicRepository = mechanicRepository;
             _specialtyRepository = specialtyRepository;
+            _imageHelper = imageHelper;
         }
 
 
@@ -182,8 +184,7 @@ namespace AutoWorkshop.Web.Controllers
 
         public async Task<IActionResult> ChangeUser()
         {
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);        
 
             if (user != null)
             {               
@@ -232,37 +233,40 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "People");
+                }
+
                 var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
                 {
                     if (await _userHelper.IsUserInRoleAsync(user, "Admin"))  
                     {
-                        var admin = _converterHelper.ToAdmin(model);
-
+                        var admin = _converterHelper.ToAdmin(model, path);
                         await _adminRepository.UpdateAsync(admin);
 
                         ViewBag.UserMessage = "User updated";
                     }
                     else if (await _userHelper.IsUserInRoleAsync(user, "Client"))
                     {
-                        var client = _converterHelper.ToClient(model);
-
+                        var client = _converterHelper.ToClient(model, path);
                         await _clientRepository.UpdateAsync(client);
 
                         ViewBag.UserMessage = "User updated";
                     }
                     else if (await _userHelper.IsUserInRoleAsync(user, "Secretary"))
                     {
-                        var secretary = _converterHelper.ToSecretary(model);
-
+                        var secretary = _converterHelper.ToSecretary(model, path);
                         await _secretaryRepository.UpdateAsync(secretary);
 
                         ViewBag.UserMessage = "User updated";
                     }
                     else if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
                     {
-                        var mecanic = _converterHelper.ToMecanic(model);
-
+                        var mecanic = _converterHelper.ToMecanic(model, path);
                         await _mechanicRepository.UpdateAsync(mecanic);
 
                         ViewBag.UserMessage = "User updated";

@@ -7,7 +7,6 @@ namespace AutoWorkshop.Web.Models
 {
     public class AdminIndexViewModel
     {
-        public List<int> allCount { get; set; }
-
+        public List<int> AllCount { get; set; }
     }
 }

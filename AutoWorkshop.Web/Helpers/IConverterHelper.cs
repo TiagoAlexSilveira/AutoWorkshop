@@ -21,13 +21,14 @@ namespace AutoWorkshop.Web.Helpers
 
         VehicleViewModel ToVehicleViewModel(Vehicle model);
 
-        Admin ToAdmin(ChangeUserViewModel model);
 
-        Client ToClient(ChangeUserViewModel model);
+        Admin ToAdmin(ChangeUserViewModel model, string path);
 
-        Secretary ToSecretary(ChangeUserViewModel model);
+        Client ToClient(ChangeUserViewModel model, string path);
 
-        Mechanic ToMecanic(ChangeUserViewModel model);
+        Secretary ToSecretary(ChangeUserViewModel model, string path);
+
+        Mechanic ToMecanic(ChangeUserViewModel model, string path);
 
         Appointment ToAppointment(AppointmentViewModel model);
 
