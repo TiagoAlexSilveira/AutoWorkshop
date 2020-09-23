@@ -9,9 +9,52 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Models
 {
-    public class CreateAccountViewModel : Person
+    public class CreateAccountViewModel
     {
-        
+
+        public int Id { get; set; }
+
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
+
+
+        [Display(Name = "Street Address")]
+        public string StreetAddress { get; set; }
+
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+
+        [Display(Name = "Postal Code")]
+        public string PostalCode { get; set; }
+
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime DateofBirth { get; set; }
+
+
+        [Display(Name = "Tax Number")]
+        public string TaxIdentificationNumber { get; set; }
+
+
+        [Display(Name = "Citizen Card Number")]
+        public string CitizenCardNumber { get; set; }
+
+
+        public User User { get; set; }
+
+
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Username { get; set; }
