@@ -71,6 +71,7 @@ namespace AutoWorkshop.Web.Controllers
             if (ModelState.IsValid)
             {
                 var client = _converterHelper.ToClientInfo(model);
+                client.ImageUrl = $"~/images/Placeholder/placeholderUser.png";
 
                 await _clientRepository.UpdateAsync(client);
 

@@ -424,7 +424,6 @@ namespace AutoWorkshop.Web.Controllers
                 this.ViewBag.Message = "A password email reset was sent to your email address, follow the directions" +
                     "in the email to reset your password.";  //TODO: em vez de viewbag, aparecer outra view, com esta mensagem
                 return this.View();
-
             }
 
             return this.View(model);
@@ -477,6 +476,7 @@ namespace AutoWorkshop.Web.Controllers
                         await _userHelper.AddUserToRoleAsync(user, "Client");
                         var client = _converterHelper.ToClientCreate(model);
                         client.User = user;
+                        client.ImageUrl = $"~/images/Placeholder/placeholderUser.png"; 
 
                         await _clientRepository.CreateAsync(client);
                     }
@@ -484,7 +484,9 @@ namespace AutoWorkshop.Web.Controllers
                     {
                         await _userHelper.AddUserToRoleAsync(user, "Secretary");
                         var secret = _converterHelper.ToSecretaryCreate(model);
+                        secret.ImageUrl = $"~/images/Placeholder/placeholderUser.png";
                         secret.User = user;
+                        
 
                         await _secretaryRepository.CreateAsync(secret);
                     }
@@ -492,7 +494,9 @@ namespace AutoWorkshop.Web.Controllers
                     {
                         await _userHelper.AddUserToRoleAsync(user, "Admin");
                         var admin = _converterHelper.ToAdminCreate(model);
+                        admin.ImageUrl = $"~/images/Placeholder/placeholderUser.png";
                         admin.User = user;
+                     
 
                         await _adminRepository.CreateAsync(admin);
                     }
@@ -501,7 +505,9 @@ namespace AutoWorkshop.Web.Controllers
                         await _userHelper.AddUserToRoleAsync(user, "Mechanic");
                         var mecha = _converterHelper.ToMechanicCreate(model);
                         mecha.SpecialtyId = model.SpecialtyId;
+                        mecha.ImageUrl = $"~/images/Placeholder/placeholderUser.png";
                         mecha.User = user;
+                        
 
                         await _mechanicRepository.CreateAsync(mecha);
                     }
