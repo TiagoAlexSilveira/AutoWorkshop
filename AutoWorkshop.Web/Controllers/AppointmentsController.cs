@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using AutoWorkshop.Web.Data.Entities;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -20,13 +21,15 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IClientRepository _clientRepository;
         private readonly IAppointmentTypeRepository _appointmentTypeRepository;
+        private readonly IMechanicRepository _mechanicRepository;
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
                                       IVehicleRepository vehicleRepository,
                                       IConverterHelper converterHelper,
                                       IUserHelper userHelper,
                                       IClientRepository clientRepository,
-                                      IAppointmentTypeRepository appointmentTypeRepository)
+                                      IAppointmentTypeRepository appointmentTypeRepository,
+                                      IMechanicRepository mechanicRepository)
         {
             _appointmentRepository = appointmentRepository;
             _vehicleRepository = vehicleRepository;
@@ -34,173 +37,227 @@ namespace AutoWorkshop.Web.Controllers
             _userHelper = userHelper;
             _clientRepository = clientRepository;
             _appointmentTypeRepository = appointmentTypeRepository;
+            _mechanicRepository = mechanicRepository;
         }
 
-        // GET: Appointments
-        public IActionResult Index()
-        {
-            var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle).ToList();
-            return View(appointment);
-        }
-
-        // GET: Appointments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
-        }
-
-
-        //// GET: Appointments/Create     //Create com o syncfusion
-        //public IActionResult Create()
+        //// GET: Appointments
+        //public IActionResult Index()
         //{
-        //    var model = new AppointmentViewModel
-        //    {
-        //       Vehicles = _vehicleRepository.GetAll().ToList()
-        //    };
-
-        //    ViewBag.appointments = GetScheduleData();
-        //    return View(model);
+        //    var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle).ToList();
+        //    return View(appointment);
         //}
 
-        // GET: Appointments/Create
+        //// GET: Appointments/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+
+        //    if (appointment == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(appointment);
+        //}
+
+
+        // GET: Appointments/Create     //Create com o syncfusion
         public IActionResult Create()
         {
             var model = new AppointmentViewModel
             {
                 Vehicles = _vehicleRepository.GetAll().ToList(),
-                AppointmentTypes = _appointmentTypeRepository.GetAll().ToList()                
+                AppointmentTypes = _appointmentTypeRepository.GetAll().ToList(),
+                Appointments = _appointmentRepository.GetAll().ToList(),
+                Mechanics = _mechanicRepository.GetAll().ToList(),
+                Clients =  _clientRepository.GetAll().ToList()                                                       
             };
 
             return View(model);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Appointment appointment)
+        {
+            appointment.Id = 0;
+            appointment.IsConfirmed = true;
+            await _appointmentRepository.CreateAsync(appointment);
+
+            return RedirectToAction("Create", "Appointments");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Appointment appointment)
+        {          
+            await _appointmentRepository.UpdateAsync(appointment);
+
+            return RedirectToAction("Create", "Appointments");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var appointment = await _appointmentRepository.GetByIdAsync(id);
+
+            await _appointmentRepository.DeleteAsync(appointment);
+
+            return RedirectToAction("Create", "Appointments");
+        }
+
+
+        public async Task<IActionResult> GetClient(int Id)
+        {
+            var client = await _clientRepository.GetByIdAsync(Id);
+
+            return Json(client.PhoneNumber);
+        }
+
+        public async Task<IActionResult> GetClientVehicles(int Id)
+        {
+            var client = await _clientRepository.GetByIdAsync(Id);
+            var vehicles = _vehicleRepository.GetAll().Where(c => c.User.Id == client.User.Id);
+
+            return Json(vehicles);
+        }
+
+        public async Task<IActionResult> GetVehicle(int Id)
+        {
+            var vehicle = await _vehicleRepository.GetByIdAsync(Id);
+
+            return Json(vehicle.LicensePlate);
+        }
+
+
+        public async Task<IActionResult> GetAppointmentType(int Id)
+        {
+            var appointmentType = await _appointmentTypeRepository.GetByIdAsync(Id);
+
+            return Json(appointmentType.Type);
+        }
+
+
+        public async Task<IActionResult> GetMechanic(int Id)
+        {
+            var mechanic = await _mechanicRepository.GetByIdAsync(Id);
+
+            return Json(mechanic.FullName);
+        }
+
+
+        //// GET: Appointments/Create
+        //public IActionResult Create()
+        //{
+        //    var model = new AppointmentViewModel
+        //    {
+        //        Vehicles = _vehicleRepository.GetAll().ToList(),
+        //        AppointmentTypes = _appointmentTypeRepository.GetAll().ToList()                
+        //    };
+
+        //    return View(model);
+        //}
+
+
+
         // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AppointmentViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+      
 
-                var appointment = _converterHelper.ToAppointment(model);
-                appointment.Client = client;
-                appointment.ClientId = client.Id;              
+        //// GET: Appointments/Edit/5    //TODO: editar só na secretary
+        ////public async Task<IActionResult> Edit(int? id)
+        ////{
+        ////    //if (id == null)
+        ////    //{
+        ////    //    return NotFound();
+        ////    //}
 
-                await _appointmentRepository.CreateAsync(appointment);
+        ////    //var appointment = await _context.Appointments.FindAsync(id);
+        ////    //if (appointment == null)
+        ////    //{
+        ////    //    return NotFound();
+        ////    //}
+        ////    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
+        ////    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
+        ////    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
+        ////    return View(/*appointment*/);
+        ////}
 
-                if (User.IsInRole("Client"))
-                {
-                    return RedirectToAction("MyAppointments", "Clients");
-                }
-                return RedirectToAction(nameof(Index));
-            }
+        ////// POST: Appointments/Edit/5
+        ////// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        ////// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        ////[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        ////public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Time,WorkEstimate,Information,MecanicId,ClientId,VehicleId,IsConfirmed,IsUrgent")] Appointment appointment)
+        ////{
+        ////    //if (id != appointment.Id)
+        ////    //{
+        ////    //    return NotFound();
+        ////    //}
 
-            return View(model);
-        }
+        ////    //if (ModelState.IsValid)
+        ////    //{
+        ////    //    try
+        ////    //    {
+        ////    //        _context.Update(appointment);
+        ////    //        await _context.SaveChangesAsync();
+        ////    //    }
+        ////    //    catch (DbUpdateConcurrencyException)
+        ////    //    {
+        ////    //        if (!AppointmentExists(appointment.Id))
+        ////    //        {
+        ////    //            return NotFound();
+        ////    //        }
+        ////    //        else
+        ////    //        {
+        ////    //            throw;
+        ////    //        }
+        ////    //    }
+        ////    //    return RedirectToAction(nameof(Index));
+        ////    //}
+        ////    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
+        ////    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
+        ////    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
+        ////    return View(appointment);
+        ////}
 
-        // GET: Appointments/Edit/5    //TODO: editar só na secretary
-        //public async Task<IActionResult> Edit(int? id)
+        //// GET: Appointments/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
         //{
-        //    //if (id == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
+        //    if (id == null)
+        //    {
+        //        return NotFound(); //TODO: substituir error views
+        //    }
 
-        //    //var appointment = await _context.Appointments.FindAsync(id);
-        //    //if (appointment == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
-        //    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
-        //    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
-        //    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
-        //    return View(/*appointment*/);
-        //}
+        //    var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+        //    if (appointment == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        //// POST: Appointments/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Time,WorkEstimate,Information,MecanicId,ClientId,VehicleId,IsConfirmed,IsUrgent")] Appointment appointment)
-        //{
-        //    //if (id != appointment.Id)
-        //    //{
-        //    //    return NotFound();
-        //    //}
-
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        _context.Update(appointment);
-        //    //        await _context.SaveChangesAsync();
-        //    //    }
-        //    //    catch (DbUpdateConcurrencyException)
-        //    //    {
-        //    //        if (!AppointmentExists(appointment.Id))
-        //    //        {
-        //    //            return NotFound();
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            throw;
-        //    //        }
-        //    //    }
-        //    //    return RedirectToAction(nameof(Index));
-        //    //}
-        //    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
-        //    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
-        //    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
         //    return View(appointment);
         //}
 
-        // GET: Appointments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound(); //TODO: substituir error views
-            }
-
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
-        }
-
-        // POST: Appointments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var appointment = await _appointmentRepository.GetByIdAsync(id);
-            await _appointmentRepository.DeleteAsync(appointment);
-            return RedirectToAction(nameof(Index));
-        }
-
-        //private bool AppointmentExists(int id)
+        //// POST: Appointments/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
         //{
-        //    return _appointmentRepository.ExistAsync(id);
+        //    var appointment = await _appointmentRepository.GetByIdAsync(id);
+        //    await _appointmentRepository.DeleteAsync(appointment);
+        //    return RedirectToAction(nameof(Index));
         //}
+
+        ////private bool AppointmentExists(int id)
+        ////{
+        ////    return _appointmentRepository.ExistAsync(id);
+        ////}
 
 
 

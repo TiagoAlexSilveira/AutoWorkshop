@@ -17,47 +17,47 @@ namespace AutoWorkshop.Web.Data.Repositories
         }
 
 
-        public IEnumerable<SelectListItem> GetComboUserAppointment(string username)
-        {
-            var list = _context.Appointments.Where(p => p.Mechanic.User.Email == username).Select(b => new SelectListItem
-            {
-                Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
-                Value = b.Id.ToString()
-            }).ToList();
+        //public IEnumerable<SelectListItem> GetComboUserAppointment(string username)
+        //{
+        //    var list = _context.Appointments.Where(p => p.Mechanic.User.Email == username).Select(b => new SelectListItem
+        //    {
+        //        Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
+        //        Value = b.Id.ToString()
+        //    }).ToList();
 
-            if (list.Count<1)
-            {
-                list.Insert(0, new SelectListItem
-                {
-                    Text = "No appointments exist",
-                    Value = "0"
-                });
-            }
-            list.Insert(0, new SelectListItem
-            {
-                Text = "(Select an Appointment)",
-                Value = "0"
-            });
+        //    if (list.Count<1)
+        //    {
+        //        list.Insert(0, new SelectListItem
+        //        {
+        //            Text = "No appointments exist",
+        //            Value = "0"
+        //        });
+        //    }
+        //    list.Insert(0, new SelectListItem
+        //    {
+        //        Text = "(Select an Appointment)",
+        //        Value = "0"
+        //    });
 
-            return list;
-        }
+        //    return list;
+        //}
 
 
-        public IEnumerable<SelectListItem> GetComboAppointment()
-        {
-            var list = _context.Appointments.Select(b => new SelectListItem
-            {
-                Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
-                Value = b.Id.ToString()
-            }).ToList();
+        //public IEnumerable<SelectListItem> GetComboAppointment()
+        //{
+        //    var list = _context.Appointments.Select(b => new SelectListItem
+        //    {
+        //        Text = b.Date.ToString("dd/MM/yyyy") + "  " + b.Time.ToString("HH:mm"),
+        //        Value = b.Id.ToString()
+        //    }).ToList();
 
-            list.Insert(0, new SelectListItem
-            {
-                Text = "(Select an Appointment)",
-                Value = "0"
-            });
+        //    list.Insert(0, new SelectListItem
+        //    {
+        //        Text = "(Select an Appointment)",
+        //        Value = "0"
+        //    });
 
-            return list;
-        }
+        //    return list;
+        //}
     }
 }

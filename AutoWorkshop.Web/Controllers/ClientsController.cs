@@ -72,6 +72,13 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        public async Task<IActionResult> ClientDetails(int Id)
+        {
+            var client = await _clientRepository.GetByIdAsync(Id);
+
+            return PartialView("_ClientsPartial", client);
+        }
+
 
 
         //    // GET: Clients/Details/5
@@ -114,56 +121,56 @@ namespace AutoWorkshop.Web.Controllers
         //        return View(client);
         //    }
 
-        //    // GET: Clients/Edit/5
-        //    public async Task<IActionResult> Edit(int? id)
+        //GET: Clients/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
         //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        var client = await _context.Clients.FindAsync(id);
-        //        if (client == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        return View(client);
+        //        return NotFound();
         //    }
 
-        //    // POST: Clients/Edit/5
-        //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Client client)
+        //    var client = await _clientRepository.GetByIdAsync(id.Value);
+        //    if (client == null)
         //    {
-        //        if (id != client.Id)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        if (ModelState.IsValid)
-        //        {
-        //            try
-        //            {
-        //                _context.Update(client);
-        //                await _context.SaveChangesAsync();
-        //            }
-        //            catch (DbUpdateConcurrencyException)
-        //            {
-        //                if (!ClientExists(client.Id))
-        //                {
-        //                    return NotFound();
-        //                }
-        //                else
-        //                {
-        //                    throw;
-        //                }
-        //            }
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        return View(client);
+        //        return NotFound();
         //    }
+        //    return View(client);
+        //}
+
+        //POST: Clients/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Client client)
+        //{
+        //    if (id != client.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(client);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ClientExists(client.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(client);
+        //}
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)

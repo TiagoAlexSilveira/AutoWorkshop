@@ -27,12 +27,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.AppointmentType.Type)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Time)
-            </th>
+            </th>*@
         </tr>
     </thead>
     <tbody>
@@ -54,12 +54,12 @@
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.AppointmentType.Type)
                 </td>
-                <td class="align-middle">
+                @*<td class="align-middle">
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.Time)
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>

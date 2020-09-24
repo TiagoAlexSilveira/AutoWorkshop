@@ -108,3 +108,9 @@ body {
     visibility: hidden;
     display: none;
 }
+
+/*_ClientPartial*/
+
+#mtop p{
+    margin-top: 5px;
+}

@@ -12,12 +12,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Time)
-            </th>
+            </th>*@
             @*<th>
                 @Html.DisplayNameFor(model => model.WorkEstimate)
             </th>*@
@@ -45,12 +45,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
-            </td>
+            </td>*@
             @*<td>
                 @Html.DisplayFor(modelItem => item.WorkEstimate)
             </td>*@

@@ -1,0 +1,69 @@
+﻿@model AutoWorkshop.Web.Data.Entities.Client
+
+
+
+
+<div class="modal fade" id="vehicleModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title float-left">Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div style="background-color:darkorange; display: block; height: 6px;margin-bottom: 10px;"></div>
+                <div class="container">
+                    <div class="row" style="font-size: 16px">
+                        <div class="col-3">
+                            <div class="d-flex justify-content-center" style="border: 1.5px solid gray; border-radius: 25px;">
+                                @if (!string.IsNullOrEmpty(@Model.ImageUrl))
+                                {
+                    <img src="@Url.Content(@Model.ImageUrl)" alt="Image" style="border-radius:25px; max-width: 100%; height: 120px;" />}
+                            </div>
+                        </div>
+
+                        <div id="mtop" class="col-2 font-weight-bold text-dark" >
+                            <p><span>First Name </span></p>
+                            <p><span>Last Name </span></p>
+                            <p><span>Birthday </span></p>
+                        </div>
+
+                        <div id="mtop" class="col-2">
+                            <p>@Model.FirstName</p>
+                            <p>@Model.LastName</p>
+                            <p>@Model.DateofBirth.ToShortDateString()</p>
+                        </div>
+
+                        <div id="mtop" class="col-3 font-weight-bold text-dark" style="padding-left: 20px">
+                            <p ><span>Phone Number </span></p>
+                            <p ><span>Tax Number </span></p>
+                            <p ><span>Citizen Card </span></p>
+                        </div>
+
+                        <div id="mtop" class="col-2">
+                            <p >@Model.PhoneNumber</p>
+                            <p >@Model.TaxIdentificationNumber</p>
+                            <p >@Model.CitizenCardNumber</p>
+                        </div>
+
+                        <div id="mtop" class="col-2 font-weight-bold">
+                            <p ><span class="text-dark">Address</span></p>
+                        </div>
+
+                        <div id="mtop" class="col-5">
+                            <p >@Model.StreetAddress</p>
+                        </div>
+
+                        <div id="mtop" class="col-3 font-weight-bold" style="padding-left: 20px">
+                            <p ><span class="text-dark">Postal Code</span></p>
+                        </div>
+
+                        <div id="mtop" class="col-2">
+                            <p>@Model.PostalCode</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

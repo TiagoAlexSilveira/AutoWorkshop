@@ -1,138 +1,386 @@
 ﻿@model AutoWorkshop.Web.Models.AppointmentViewModel
 
-@{
-    ViewData["Title"] = "Create";
-}
+@{ ViewData["Title"] = "Create"; }
 
 <h2>Create</h2>
 
 <h4>Appointment</h4>
 <hr />
 
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dron"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown button
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dron">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+
+
+<ejs-schedule id="schedule" height="550" endHour="18:00" startHour="8:00" actionComplete="Complete" editorTemplate="#EventEditorTemplate" popupOpen="onPopupOpen">
+    <e-schedule-eventsettings dataSource=@Model.Appointments></e-schedule-eventsettings>
+</ejs-schedule>
+
+
+
+@*<div class="form-group">
+        <ejs-dropdownlist id="Vehicless" dataSource="@Model.Vehicles" ejs-for="VehicleId" floatLabelType="Auto" placeholder="Select a Vehicle">
+            <e-dropdownlist-fields text="LicensePlate" value="Id"></e-dropdownlist-fields>
+        </ejs-dropdownlist>
     </div>
-</div>
-<br />
-
-<div class="dropdown show">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown link
-    </a>
-
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-    </div>
-</div>
-<br />
-
-<div class="navbar navbar-expand-md">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Appointments
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <div class="dropdown-item" style="border:solid red 1px">
-                    hdhdhsadahgdsss
-                </div>
-            </div>
-           
-            <div class="nav-item">
-                hdhdhsadahgd
-            </div>
-        </li>
-    </ul>
-</div>
-
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <ejs-dropdownlist id="AppointmentTypes" dataSource="@Model.AppointmentTypes" ejs-for="AppointmentTypeId" floatLabelType="Auto" placeholder="Select an AppointmentType">
-                    <e-dropdownlist-fields text="Type" value="Id"></e-dropdownlist-fields>
-                </ejs-dropdownlist>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
-                <span asp-validation-for="Time" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-            <label asp-for="WorkEstimate" class="control-label"></label>
-            <input asp-for="WorkEstimate" class="form-control" />
-            <span asp-validation-for="WorkEstimate" class="text-danger"></span>
-        </div>*@
-            <div class="form-group">
-                <label asp-for="Information" class="control-label"></label>
-                <input asp-for="Information" class="form-control" />
-                <span asp-validation-for="Information" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-            <label asp-for="MecanicId" class="control-label"></label>
-            <select asp-for="MecanicId" class ="form-control" asp-items="ViewBag.MecanicId"></select>
-        </div>
-        <div class="form-group">
-            <label asp-for="ClientId" class="control-label"></label>
-            <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
-        </div>*@
-
-
-            <div class="form-group">
-                <ejs-dropdownlist id="Vehicless" dataSource="@Model.Vehicles" ejs-for="VehicleId" floatLabelType="Auto" placeholder="Select a Vehicle">
-                    <e-dropdownlist-fields text="LicensePlate" value="Id"></e-dropdownlist-fields>
-                </ejs-dropdownlist>
-            </div>
-
-
-
-            @*<div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <input asp-for="IsConfirmed" /> @Html.DisplayNameFor(model => model.IsConfirmed)
-                </label>
-            </div>
-        </div>*@
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsUrgent" /> @Html.DisplayNameFor(model => model.IsUrgent)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <ejs-textbox id="txt" type="text" placeholder="quakluqer coisa">
+
+    </ejs-textbox>
+
+</div>*@
+
+
+<script id="EventEditorTemplate" type="text/template">
+    <table class="custom-event-editor" width="100%" cellpadding="5">
+        <tbody>
+            <tr>
+                <td class="e-textlabel">Client</td>
+                <td colspan="4">
+                    <input type="text" id="ClientId" name="ClientId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Vehicle</td>
+                <td colspan="4">
+                    <input type="text" disabled id="VehicleId" name="VehicleId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Appointment Type</td>
+                <td colspan="4">
+                    <input type="text" id="AppointmentTypeId" name="AppointmentTypeId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Mechanic</td>
+                <td colspan="4">
+                    <input type="text" id="MechanicId" name="MechanicId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td class="e-textlabel">Day</td>
+                <td colspan="4">
+                    <input id="StartTime" class="e-field" name="StartTime" />
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td class="e-textlabel">Day</td>
+                <td colspan="4">
+                    <input id="EndTime" class="e-field" name="EndTime" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Reason</td>
+                <td colspan="4">
+                    <textarea id="Information" class="e-field e-input" name="Information" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</script>
+
+
+
+
+<script type="text/javascript">
+
+    function onPopupOpen(args) {
+        if (args.type === 'Editor') {
+            var statusElement = args.element.querySelector('#VehicleId');
+            var typeElement = args.element.querySelector('#AppointmentTypeId');
+            var mechaElement = args.element.querySelector('#MechanicId');
+            var clientElement = args.element.querySelector('#ClientId');
+
+
+            console.log(statusElement.value[0]);
+            console.log(typeElement.value[0]);
+            console.log(mechaElement.value[0]);
+            console.log(clientElement.value[0]);
+ 
+
+            if (!statusElement.classList.contains('e-dropdownlist')) {
+
+                var clientDropDown = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose Client', value: clientElement.value,
+                    dataSource: clt, fields: { text: 'Text', value: 'Id' },
+                    change: onChangeClient(clientElement.value[0]),
+                });
+
+                var dropDownListObject = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose Vehicle',
+                    dataSource: vec, fields: { text: 'Text', value: 'Id' },
+                    value: statusElement.value, change: onChangeVehicle(statusElement.value[0])
+                });
+
+                var typeDropDown = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose Type', value: typeElement.value[0],
+                    dataSource: type, fields: { text: 'Text', value: 'Id' },
+                    change: onChangeAppointmentType(typeElement.value[0])
+                });
+                var mechaDropDown = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose Mechanic', value: mechaElement.value[0],
+                    dataSource: mecha, fields: { text: 'Text', value: 'Id' },
+                    change: onChangeMechanic(mechaElement.value[0])
+                });
+
+                var startElement = args.element.querySelector('#StartTime');
+                if (!startElement.classList.contains('e-datepicker')) {
+                    new ej.calendars.DateTimePicker({
+                        value: new Date(startElement.value) || new Date()
+                    }, startElement);
+                }
+
+                var endElement = args.element.querySelector('#EndTime');
+                if (!endElement.classList.contains('e-datepicker')) {
+                    new ej.calendars.DatePicker({
+                        value: new Date(endElement.value) || new Date()
+                    }, endElement);
+                }
+
+                dropDownListObject.appendTo(statusElement);
+                statusElement.setAttribute('name', 'VehicleId');
+
+                typeDropDown.appendTo(typeElement);
+                typeElement.setAttribute('name', 'AppointmentTypeId');
+
+                mechaDropDown.appendTo(mechaElement);
+                mechaElement.setAttribute('name', 'MechanicId');
+
+                clientDropDown.appendTo(clientElement);
+                clientElement.setAttribute('name', 'ClientId');
+            }
+
+        }
+    }
+
+    function Complete(args){
+        console.log(args);
+        var type = document.getElementById("AppointmentTypeId");
+
+        if (args.requestType === 'eventCreated') {
+            args.data[0].StartTime = args.data[0].StartTime.toISOString();
+            args.data[0].EndTime = args.data[0].EndTime.toISOString();
+            args.data[0].Subject = type.value;
+
+
+            $.ajax({
+                type: "post",
+                data: args.data[0],
+                url: '@Url.Action("Create", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    if (response !== false) {
+                        alert("nice");
+                        return;
+                    }
+                }
+            })
+        }
+
+        if (args.requestType === 'eventChanged') {
+
+            args.data[0].StartTime = args.data[0].StartTime.toISOString();
+            args.data[0].EndTime = args.data[0].EndTime.toISOString();
+            args.data[0].Subject = type.value;
+
+            $.ajax({
+                type: "post",
+                data: args.data[0],
+                url: '@Url.Action("Edit", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    if (response !== false) {
+                        alert("nice");
+                        return;
+                    }
+                }
+            })
+        }
+
+        if (args.requestType === 'eventRemoved') {
+            var appId = args.data[0].Id;
+
+            $.ajax({
+                type: "post",
+                data: { Id: appId },
+                url: '@Url.Action("Delete", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    appId = response;
+                }
+            })
+        }
+
+    }
+
+    function onChangeVehicle(Id) {
+
+        if (Id !== undefined) {
+             var statusElement = document.getElementById('VehicleId');
+
+            $.ajax({
+                type: "get",
+                data: {Id: Id},
+                url: '@Url.Action("GetVehicle", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.value = response;
+                }
+
+            })
+        }
+    }
+
+    function onChangeAppointmentType(Id) {
+
+        if (Id !== undefined) {
+             var statusElement = document.getElementById('AppointmentTypeId');
+
+            $.ajax({
+                type: "get",
+                data: { Id: Id },
+                url: '@Url.Action("GetAppointmentType", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.value = response;
+                }
+
+            })
+        }
+    }
+
+
+    function onChangeMechanic(Id) {
+
+        if (Id !== undefined) {
+            var statusElement = document.getElementById('MechanicId');
+
+            $.ajax({
+                type: "get",
+                data: { Id: Id },
+                url: '@Url.Action("GetMechanic", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.value = response;
+                }
+
+            })
+        }
+    }
+
+    function onChangeClient(Id) {
+
+        if (Id !== undefined) {
+            var statusElement = document.getElementById('ClientId');
+
+            $.ajax({
+                type: "get",
+                data: { Id: Id },
+                url: '@Url.Action("GetClient", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.value = response;
+                }
+                //error: function (jqxhr, status, exception) {
+                //    alert('Exceptionmechanic:', exception);
+                //}
+            })
+        }
+        else {
+
+            @*var statusElement = document.getElementById('ClientId');
+
+            $.ajax({
+                type: "get",
+                data: { Id: Id },
+                url: '@Url.Action("GetClientVehicles", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.values = response;
+                }
+            })*@
+        }
+    }
+
+    function getClientVehicles(Id) {
+          $.ajax({
+                type: "get",
+                data: { Id: Id },
+                url: '@Url.Action("GetClientVehicles", "Appointments")',
+                dataType: "json",
+                success: function (response) {
+                    statusElement.value = response;
+                }
+                //error: function (jqxhr, status, exception) {
+                //    alert('Exceptionmechanic:', exception);
+                //}
+            })
+    }
+
+
+
+</script>
+
+
+<script>
+    var vec = [{ 'Id': 0, 'Text': 'Choose Vehicle' }];
+    var type = [{ 'Id': 0, 'Text': 'Choose Type' }];
+    var mecha = [{ 'Id': 0, 'Text': 'Choose Mechanic' }];
+    var clt = [{ 'Id': 0, 'Text': 'Choose Client' }];
+
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        @:vec.push({'Id': @vehicle.Id, 'Text': '@vehicle.LicensePlate' });
+    }
+
+    @foreach (var type in Model.AppointmentTypes)
+    {
+        @:type.push({'Id': @type.Id, 'Text': '@type.Type' });
+    }
+
+    @foreach (var mecha in Model.Mechanics)
+    {
+        @:mecha.push({'Id': @mecha.Id, 'Text': '@mecha.FullName' });
+    }
+
+    @foreach (var client in Model.Clients)
+    {
+        @:clt.push({'Id': @client.Id, 'Text': '@client.PhoneNumber' });
+    }
+
+</script>
+
+
+
+
+@*<script type="text/javascript">
+        function onPopupOpen(args) {
+            if (args.type === 'Editor') {
+                if (!args.element.querySelector('.custom-field-row')) {
+                    var row = ej.base.createElement('div', { className: 'custom-field-row' });
+                    var formElement = args.element.querySelector('.e-schedule-form');
+                    formElement.firstChild.insertBefore(row, args.element.querySelector('.e-title-location-row'));
+                    var container = ej.base.createElement('div', { className: 'custom-field-container' });
+                    var inputEle = ej.base.createElement('input', {
+                        className: 'e-field', attrs: { name: 'EventType' }
+                    });
+                    container.appendChild(inputEle);
+                    row.appendChild(container);
+                    var drowDownList = new ej.dropdowns.DropDownList({
+                        dataSource: vec,
+                        fields: { text: 'text', value: 'value' },
+                        value: (args.data).EventType,
+                        floatLabelType: 'Always', placeholder: 'Event Type'
+                    });
+                    drowDownList.appendTo(inputEle);
+                    inputEle.setAttribute('name', 'EventType');
+                }
+            }
+        }
+    </script>*@
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

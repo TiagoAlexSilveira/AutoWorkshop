@@ -260,49 +260,49 @@ namespace AutoWorkshop.Web.Data
 
             if (!_context.Appointments.Any())
             {
-                //Unassigned appointment (needs mechanic and work estimate)
-                _context.Appointments.Add(new Appointment
-                {
-                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 1),
-                    Date = Convert.ToDateTime("30/10/2020"),
-                    Time = Convert.ToDateTime("12:30"),
-                    Information = "Part Replacement",
-                    Mechanic = null,                    
-                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 4),
-                    IsConfirmed = false,
-                    IsUrgent = false
-                });
+                ////Unassigned appointment (needs mechanic and work estimate)
+                //_context.Appointments.Add(new Appointment
+                //{
+                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 1),
+                //    Date = Convert.ToDateTime("30/10/2020"),
+                //    Time = Convert.ToDateTime("12:30"),
+                //    Information = "Part Replacement",
+                //    Mechanic = null,                    
+                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 4),
+                //    IsConfirmed = false,
+                //    IsUrgent = false
+                //});
 
-                //Unconfirmed appointment (needs IsConfirmed active)
-                _context.Appointments.Add(new Appointment
-                {
-                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 2),
-                    Date = Convert.ToDateTime("25/09/2020"),
-                    Time = Convert.ToDateTime("09:00"),
-                    Information = "Paint job",
-                    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
-                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
-                    IsConfirmed = false,
-                    IsUrgent = false
-                });
+                ////Unconfirmed appointment (needs IsConfirmed active)
+                //_context.Appointments.Add(new Appointment
+                //{
+                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 2),
+                //    Date = Convert.ToDateTime("25/09/2020"),
+                //    Time = Convert.ToDateTime("09:00"),
+                //    Information = "Paint job",
+                //    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
+                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
+                //    IsConfirmed = false,
+                //    IsUrgent = false
+                //});
 
-                //Confirmed appointment (doesn't need anything)
-                _context.Appointments.Add(new Appointment
-                {
-                    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 3),
-                    Date = Convert.ToDateTime("26/09/2020"),
-                    Time = Convert.ToDateTime("09:00"),
-                    Information = "Oil Change",
-                    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
-                    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
-                    IsConfirmed = true,
-                    IsUrgent = false
-                });
+                ////Confirmed appointment (doesn't need anything)
+                //_context.Appointments.Add(new Appointment
+                //{
+                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 3),
+                //    Date = Convert.ToDateTime("26/09/2020"),
+                //    Time = Convert.ToDateTime("09:00"),
+                //    Information = "Oil Change",
+                //    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
+                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
+                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
+                //    IsConfirmed = true,
+                //    IsUrgent = false
+                //});
 
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
         }
 
