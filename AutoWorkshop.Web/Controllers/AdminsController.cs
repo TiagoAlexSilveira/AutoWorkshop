@@ -120,7 +120,7 @@ namespace AutoWorkshop.Web.Controllers
             {
                 try
                 {
-                    var path = string.Empty;
+                    var path = model.ImageUrl;
 
                     if (model.ImageFile != null)
                     {

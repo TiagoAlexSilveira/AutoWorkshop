@@ -372,7 +372,8 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = client.DateofBirth,
                 TaxIdentificationNumber = client.TaxIdentificationNumber,
                 CitizenCardNumber = client.CitizenCardNumber,
-                ImageUrl = client.ImageUrl
+                ImageUrl = client.ImageUrl,
+                UserId = client.UserId
             };
         }
 
@@ -389,7 +390,8 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = admin.DateofBirth,
                 TaxIdentificationNumber = admin.TaxIdentificationNumber,
                 CitizenCardNumber = admin.CitizenCardNumber,
-                ImageUrl = admin.ImageUrl
+                ImageUrl = admin.ImageUrl,
+                UserId = admin.UserId
             };
         }
 
@@ -407,7 +409,8 @@ namespace AutoWorkshop.Web.Helpers
                 TaxIdentificationNumber = mechanic.TaxIdentificationNumber,
                 CitizenCardNumber = mechanic.CitizenCardNumber,
                 Specialty = mechanic.Specialty,
-                ImageUrl = mechanic.ImageUrl
+                ImageUrl = mechanic.ImageUrl,
+                UserId = mechanic.UserId
             };
         }
 
@@ -424,7 +427,8 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = secretary.DateofBirth,
                 TaxIdentificationNumber = secretary.TaxIdentificationNumber,
                 CitizenCardNumber = secretary.CitizenCardNumber,
-                ImageUrl = secretary.ImageUrl
+                ImageUrl = secretary.ImageUrl,
+                UserId = secretary.UserId
             };
         }
 
@@ -442,6 +446,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }
@@ -459,6 +464,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path,
                 SpecialtyId = model.SpecialtyId
                 
@@ -478,6 +484,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }
@@ -495,6 +502,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }

@@ -233,7 +233,7 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                var path = model.ImageUrl;
 
                 if (model.ImageFile != null)
                 {
