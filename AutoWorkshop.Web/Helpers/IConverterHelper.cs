@@ -46,6 +46,13 @@ namespace AutoWorkshop.Web.Helpers
         Client ToClientCreate(CreateAccountViewModel model);
         Mechanic ToMechanicCreate(CreateAccountViewModel model);
         Secretary ToSecretaryCreate(CreateAccountViewModel model);
-    
+        PersonEditViewModel ToPersonEditViewModel(Client client);
+        PersonEditViewModel ToPersonEditViewModel(Admin admin);
+        PersonEditViewModel ToPersonEditViewModel(Mechanic mechanic);
+        PersonEditViewModel ToPersonEditViewModel(Secretary secretary);
+        Client ToClientEdit(PersonEditViewModel model);
+        Mechanic ToMechanicEdit(PersonEditViewModel model);
+        Secretary ToSecretaryEdit(PersonEditViewModel model);
+        Admin ToAdminEdit(PersonEditViewModel model);
     }
 }

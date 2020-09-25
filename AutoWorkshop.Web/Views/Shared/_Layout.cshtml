@@ -47,56 +47,6 @@
 
 </head>
 <body>
-    @*<nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AutoWorkshop.Web</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
-                            <li><a asp-area="" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
-                            <li><a asp-area="" asp-controller="Repairs" asp-action="Index">Repairs</a></li>
-
-                        }
-
-                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
-                        {
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="" asp-action="">Users</a></li>
-                                    <li><a asp-area="" asp-controller="" asp-action="">Roles</a></li>
-                                    <li><a asp-area="" asp-controller="Brands" asp-action="Index">Brands</a></li>
-                                </ul>
-                            </li>
-                        }
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                        }
-                        else
-                        {
-                            <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
 
     <div class="wrap">     
         <div class="container">
@@ -190,7 +140,6 @@
                             <li class="nav-item"><a class="nav-link" asp-controller="Secretaries" asp-action="UnconfirmedAppointments">Unconfirmed Appointments</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Secretaries" asp-action="ConfirmedAppointments">Confirmed Appointments</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Create">New Appointment</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="CreateSyncFusion">New Appointment</a></li>
                         }
                         @if (User.IsInRole("Admin"))
                         {
@@ -204,7 +153,7 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Admins" asp-action="Index">Home</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Appointments" asp-action="Create">Appointments</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Repairs" asp-action="Index">Repairs</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Brands" asp-action="Index">Brands</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="AppointmentTypes" asp-action="Index">Appointment Types</a></li>

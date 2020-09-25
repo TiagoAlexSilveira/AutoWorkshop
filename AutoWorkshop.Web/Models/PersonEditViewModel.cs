@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -54,6 +55,10 @@ namespace AutoWorkshop.Web.Models
         public string CitizenCardNumber { get; set; }
 
 
+        public int SpecialtyId { get; set; }
+
+
+        public Specialty Specialty { get; set; }
 
     }
 }

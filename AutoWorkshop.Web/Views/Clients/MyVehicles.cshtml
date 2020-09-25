@@ -61,20 +61,20 @@ else
         <tbody>
             @foreach (var item in Model.Vehicles)
             {
-                <tr class="text-center" onclick="details(@item.Id)">
-                    <td class="align-middle">
+                <tr class="text-center">
+                    <td class="align-middle" onclick="details(@item.Id)">
                         @Html.DisplayFor(modelItem => item.Brand.BrandName)
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle" onclick="details(@item.Id)">
                         @Html.DisplayFor(modelItem => item.Model)
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle" onclick="details(@item.Id)">
                         @Html.DisplayFor(modelItem => item.Mileage)
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle" onclick="details(@item.Id)">
                         @Html.DisplayFor(modelItem => item.LicensePlate)
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle" onclick="details(@item.Id)">
                         @Html.DisplayFor(modelItem => item.LastMaintenance)
                     </td>
                     <td>

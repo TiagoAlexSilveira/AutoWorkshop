@@ -93,7 +93,31 @@ namespace AutoWorkshop.Web.Helpers
             };
         }
 
-        //TODO: EditAccountViewModel
+
+
+        public Repair ToRepair(RepairViewModel model)
+        {
+            return new Repair
+            {
+                Id = model.Id,
+                RepairInfo = model.RepairInfo,
+                CompletedAt = model.CompletedAt,
+                AppointmentId = model.AppointmentId,
+                Appointment = model.Appointment
+            };
+        }
+
+        public RepairViewModel ToRepairViewModel(Repair repair)
+        {
+            return new RepairViewModel
+            {
+                Id = repair.Id,
+                RepairInfo = repair.RepairInfo,
+                CompletedAt = repair.CompletedAt,
+                AppointmentId = repair.AppointmentId,
+            };
+        }
+
 
 
         public ChangeUserViewModel ToChangeUserViewModelAdmin (Admin admin) //recebe todas as entidades
@@ -325,27 +349,145 @@ namespace AutoWorkshop.Web.Helpers
         //}
 
 
-        public Repair ToRepair(RepairViewModel model)
+        public PersonEditViewModel ToPersonEditViewModel(Client client)
         {
-            return new Repair
+            return new PersonEditViewModel
             {
-                Id = model.Id,
-                RepairInfo = model.RepairInfo,
-                CompletedAt = model.CompletedAt,
-                AppointmentId = model.AppointmentId,
-                Appointment = model.Appointment
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                StreetAddress = client.StreetAddress,
+                PhoneNumber = client.PhoneNumber,
+                PostalCode = client.PostalCode,
+                DateofBirth = client.DateofBirth,
+                TaxIdentificationNumber = client.TaxIdentificationNumber,
+                CitizenCardNumber = client.CitizenCardNumber,
+                ImageUrl = client.ImageUrl
             };
         }
 
-        public RepairViewModel ToRepairViewModel(Repair repair)
+        public PersonEditViewModel ToPersonEditViewModel(Admin admin)
         {
-            return new RepairViewModel
+            return new PersonEditViewModel
             {
-                Id = repair.Id,
-                RepairInfo = repair.RepairInfo,
-                CompletedAt = repair.CompletedAt,
-                AppointmentId = repair.AppointmentId,
+                Id = admin.Id,
+                FirstName = admin.FirstName,
+                LastName = admin.LastName,
+                StreetAddress = admin.StreetAddress,
+                PhoneNumber = admin.PhoneNumber,
+                PostalCode = admin.PostalCode,
+                DateofBirth = admin.DateofBirth,
+                TaxIdentificationNumber = admin.TaxIdentificationNumber,
+                CitizenCardNumber = admin.CitizenCardNumber,
+                ImageUrl = admin.ImageUrl
             };
         }
+
+        public PersonEditViewModel ToPersonEditViewModel(Mechanic mechanic)
+        {
+            return new PersonEditViewModel
+            {
+                Id = mechanic.Id,
+                FirstName = mechanic.FirstName,
+                LastName = mechanic.LastName,
+                StreetAddress = mechanic.StreetAddress,
+                PhoneNumber = mechanic.PhoneNumber,
+                PostalCode = mechanic.PostalCode,
+                DateofBirth = mechanic.DateofBirth,
+                TaxIdentificationNumber = mechanic.TaxIdentificationNumber,
+                CitizenCardNumber = mechanic.CitizenCardNumber,
+                Specialty = mechanic.Specialty,
+                ImageUrl = mechanic.ImageUrl
+            };
+        }
+
+        public PersonEditViewModel ToPersonEditViewModel(Secretary secretary)
+        {
+            return new PersonEditViewModel
+            {
+                Id = secretary.Id,
+                FirstName = secretary.FirstName,
+                LastName = secretary.LastName,
+                StreetAddress = secretary.StreetAddress,
+                PhoneNumber = secretary.PhoneNumber,
+                PostalCode = secretary.PostalCode,
+                DateofBirth = secretary.DateofBirth,
+                TaxIdentificationNumber = secretary.TaxIdentificationNumber,
+                CitizenCardNumber = secretary.CitizenCardNumber,
+                ImageUrl = secretary.ImageUrl
+            };
+        }
+
+
+        public Client ToClientEdit(PersonEditViewModel model)
+        {
+            return new Client
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = model.ImageUrl
+            };
+        }
+
+        public Mechanic ToMechanicEdit(PersonEditViewModel model)
+        {
+            return new Mechanic
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = model.ImageUrl,
+                Specialty = model.Specialty
+                
+            };
+        }
+
+        public Secretary ToSecretaryEdit(PersonEditViewModel model)
+        {
+            return new Secretary
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = model.ImageUrl
+            };
+        }
+
+        public Admin ToAdminEdit(PersonEditViewModel model)
+        {
+            return new Admin
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                StreetAddress = model.StreetAddress,
+                PhoneNumber = model.PhoneNumber,
+                PostalCode = model.PostalCode,
+                DateofBirth = model.DateofBirth,
+                TaxIdentificationNumber = model.TaxIdentificationNumber,
+                CitizenCardNumber = model.CitizenCardNumber,
+                ImageUrl = model.ImageUrl
+            };
+        }
+
     }
 }

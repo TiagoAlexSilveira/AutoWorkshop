@@ -1,10 +1,12 @@
 ﻿using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Syncfusion.EJ2.Linq;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -13,14 +15,17 @@ namespace AutoWorkshop.Web.Controllers
         private readonly ISecretaryRepository _secretaryRepository;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMechanicRepository _mecanicRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public SecretariesController(ISecretaryRepository secretaryRepository,
                                      IAppointmentRepository appointmentRepository,
-                                     IMechanicRepository mecanicRepository)
+                                     IMechanicRepository mecanicRepository,
+                                     IConverterHelper converterHelper)
         {
             _secretaryRepository = secretaryRepository;
             _appointmentRepository = appointmentRepository;
             _mecanicRepository = mecanicRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -32,6 +37,7 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult ssIndex()
         {
+
 
             return View(_secretaryRepository.GetAll());
         }
@@ -74,6 +80,96 @@ namespace AutoWorkshop.Web.Controllers
             };
 
             return View(model);
+        }
+
+
+        public async Task<IActionResult> SecretaryDetails(int Id)
+        {
+            var secretary = await _secretaryRepository.GetByIdAsync(Id);
+
+            var model = _converterHelper.ToPersonEditViewModel(secretary);
+
+            return PartialView("_SecretaryDetailsPartial", model);
+        }
+
+
+        //GET: Secretary/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var secretary = await _secretaryRepository.GetByIdAsync(id.Value);
+            if (secretary == null)
+            {
+                return NotFound();
+            }
+
+            var model = _converterHelper.ToPersonEditViewModel(secretary);
+
+            return View(model);
+        }
+
+        //POST: Secretary/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PersonEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var secretary = _converterHelper.ToSecretaryEdit(model);
+
+                    await _secretaryRepository.UpdateAsync(secretary);
+
+                    ViewBag.UserMessage = "User Sucessfully Updated!";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _secretaryRepository.ExistAsync(model.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return View(model);
+            }
+            return View(model);
+        }
+
+        // GET: Secretary/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var secretary = await _secretaryRepository.GetByIdAsync(id.Value);
+            if (secretary == null)
+            {
+                return NotFound();
+            }
+
+            return View(secretary);
+        }
+
+        // POST: Secretary/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var client = await _secretaryRepository.GetByIdAsync(id);
+            await _secretaryRepository.DeleteAsync(client);
+            return RedirectToAction("Index");
         }
 
 
