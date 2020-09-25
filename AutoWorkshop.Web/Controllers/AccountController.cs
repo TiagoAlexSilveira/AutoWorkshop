@@ -121,7 +121,7 @@ namespace AutoWorkshop.Web.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        User = user
+                        UserId = user.Id
                     };
 
                     await _clientRepository.CreateAsync(client);

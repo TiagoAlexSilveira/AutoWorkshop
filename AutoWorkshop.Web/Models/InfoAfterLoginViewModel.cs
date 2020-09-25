@@ -47,6 +47,8 @@ namespace AutoWorkshop.Web.Models
         [Display(Name = "Citizen Card Number")]
         public string CitizenCardNumber { get; set; }
 
+        public string UserId { get; set; }
+
 
     }
 }

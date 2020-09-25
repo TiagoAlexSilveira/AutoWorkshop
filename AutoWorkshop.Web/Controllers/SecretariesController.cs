@@ -16,16 +16,21 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMechanicRepository _mecanicRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IUserHelper _userHelper;
 
         public SecretariesController(ISecretaryRepository secretaryRepository,
                                      IAppointmentRepository appointmentRepository,
                                      IMechanicRepository mecanicRepository,
-                                     IConverterHelper converterHelper)
+                                     IConverterHelper converterHelper,
+                                     IImageHelper imageHelper, IUserHelper userHelper)
         {
             _secretaryRepository = secretaryRepository;
             _appointmentRepository = appointmentRepository;
             _mecanicRepository = mecanicRepository;
             _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
+            _userHelper = userHelper;
         }
 
 
@@ -37,8 +42,6 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult ssIndex()
         {
-
-
             return View(_secretaryRepository.GetAll());
         }
 
@@ -112,6 +115,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
+
         //POST: Secretary/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -121,9 +126,16 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "People");
+                }
+
                 try
                 {
-                    var secretary = _converterHelper.ToSecretaryEdit(model);
+                    var secretary = _converterHelper.ToSecretaryEdit(model, path);
 
                     await _secretaryRepository.UpdateAsync(secretary);
 
@@ -145,6 +157,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
+
         // GET: Secretary/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -162,14 +176,20 @@ namespace AutoWorkshop.Web.Controllers
             return View(secretary);
         }
 
+
+
         // POST: Secretary/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _secretaryRepository.GetByIdAsync(id);
-            await _secretaryRepository.DeleteAsync(client);
-            return RedirectToAction("Index");
+            var secretary = await _secretaryRepository.GetByIdAsync(id);
+            var user = await _userHelper.GetUserByIdAsync(secretary.UserId);
+
+            await _secretaryRepository.DeleteAsync(secretary);
+            await _userHelper.DeleteUserAsync(user);
+
+            return RedirectToAction("ssIndex", "Secretaries");
         }
 
 

@@ -22,7 +22,7 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         public Secretary GetSecretaryByUserId(string id)
         {
-            var secretary = _context.Secretaries.FirstOrDefault(u => u.User.Id == id);
+            var secretary = _context.Secretaries.FirstOrDefault(u => u.UserId == id);
 
             return secretary;
         }

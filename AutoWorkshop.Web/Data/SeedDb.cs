@@ -51,7 +51,8 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111114",
                     CitizenCardNumber = "11112233",
-                    User = user
+                    UserId = user.Id,
+                    ImageUrl = $"~/images/Placeholder/placeholderUser.png"
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");
@@ -96,8 +97,9 @@ namespace AutoWorkshop.Web.Data
                     DateofBirth = Convert.ToDateTime("29/04/1993"),
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111113",
-                    CitizenCardNumber = "11223344",                
-                    User = userclient
+                    CitizenCardNumber = "11223344",
+                    ImageUrl = $"~/images/Placeholder/placeholderUser.png",
+                    UserId = userclient.Id
                 };
 
 
@@ -141,8 +143,9 @@ namespace AutoWorkshop.Web.Data
                     DateofBirth = Convert.ToDateTime("13/05/1990"),
                     PostalCode = "2773-677",
                     TaxIdentificationNumber = "111111112",
-                    CitizenCardNumber = "33445566",                   
-                    User = usersecretary
+                    CitizenCardNumber = "33445566",
+                    ImageUrl = $"~/images/Placeholder/placeholderUser.png",
+                    UserId = usersecretary.Id
                 };
 
 
@@ -197,8 +200,9 @@ namespace AutoWorkshop.Web.Data
                     PostalCode = "2655-555",
                     TaxIdentificationNumber = "111111111",
                     CitizenCardNumber = "22334455",
-                    Specialty = _context.Specialties.FirstOrDefault(p => p.Id == 3),                
-                    User = usermecha
+                    Specialty = _context.Specialties.FirstOrDefault(p => p.Id == 3),
+                    ImageUrl = $"~/images/Placeholder/placeholderUser.png",
+                    UserId = usermecha.Id
                 };
 
 

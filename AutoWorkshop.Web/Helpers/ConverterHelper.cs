@@ -72,6 +72,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = null
             };
         }
@@ -89,6 +90,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = client.DateofBirth,
                 TaxIdentificationNumber = client.TaxIdentificationNumber,
                 CitizenCardNumber = client.CitizenCardNumber,
+                UserId = client.UserId,
                 ImageUrl = null
             };
         }
@@ -133,6 +135,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = admin.DateofBirth,
                 TaxIdentificationNumber = admin.TaxIdentificationNumber,
                 CitizenCardNumber = admin.CitizenCardNumber,
+                UserId = admin.UserId,
                 ImageUrl = admin.ImageUrl
             };
         }
@@ -150,6 +153,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = client.DateofBirth,
                 TaxIdentificationNumber = client.TaxIdentificationNumber,
                 CitizenCardNumber = client.CitizenCardNumber,
+                UserId = client.UserId,
                 ImageUrl = client.ImageUrl
             };
         }
@@ -167,6 +171,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = secretary.DateofBirth,
                 TaxIdentificationNumber = secretary.TaxIdentificationNumber,
                 CitizenCardNumber = secretary.CitizenCardNumber,
+                UserId = secretary.UserId,
                 ImageUrl = secretary.ImageUrl
             };
         }
@@ -184,6 +189,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = mecanic.DateofBirth,
                 TaxIdentificationNumber = mecanic.TaxIdentificationNumber,
                 CitizenCardNumber = mecanic.CitizenCardNumber,
+                UserId = mecanic.UserId,
                 Specialty = mecanic.Specialty,
                 ImageUrl = mecanic.ImageUrl
             };
@@ -204,6 +210,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber, 
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }
@@ -221,6 +228,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }
@@ -238,6 +246,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 ImageUrl = path
             };
         }
@@ -255,6 +264,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
+                UserId = model.UserId,
                 Specialty = model.Specialty,
                 ImageUrl = path
             };
@@ -419,7 +429,7 @@ namespace AutoWorkshop.Web.Helpers
         }
 
 
-        public Client ToClientEdit(PersonEditViewModel model)
+        public Client ToClientEdit(PersonEditViewModel model,string path)
         {
             return new Client
             {
@@ -432,11 +442,11 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
-                ImageUrl = model.ImageUrl
+                ImageUrl = path
             };
         }
 
-        public Mechanic ToMechanicEdit(PersonEditViewModel model)
+        public Mechanic ToMechanicEdit(PersonEditViewModel model, string path)
         {
             return new Mechanic
             {
@@ -449,13 +459,13 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
-                ImageUrl = model.ImageUrl,
-                Specialty = model.Specialty
+                ImageUrl = path,
+                SpecialtyId = model.SpecialtyId
                 
             };
         }
 
-        public Secretary ToSecretaryEdit(PersonEditViewModel model)
+        public Secretary ToSecretaryEdit(PersonEditViewModel model, string path)
         {
             return new Secretary
             {
@@ -468,11 +478,11 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
-                ImageUrl = model.ImageUrl
+                ImageUrl = path
             };
         }
 
-        public Admin ToAdminEdit(PersonEditViewModel model)
+        public Admin ToAdminEdit(PersonEditViewModel model, string path)
         {
             return new Admin
             {
@@ -485,7 +495,7 @@ namespace AutoWorkshop.Web.Helpers
                 DateofBirth = model.DateofBirth,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
                 CitizenCardNumber = model.CitizenCardNumber,
-                ImageUrl = model.ImageUrl
+                ImageUrl = path
             };
         }
 

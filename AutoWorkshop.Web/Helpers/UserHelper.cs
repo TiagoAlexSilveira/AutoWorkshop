@@ -38,6 +38,12 @@ namespace AutoWorkshop.Web.Helpers
         }
 
 
+        public async Task DeleteUserAsync(User user)
+        {
+            await _userManager.DeleteAsync(user);
+        }
+
+
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);

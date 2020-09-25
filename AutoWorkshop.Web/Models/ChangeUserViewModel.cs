@@ -55,6 +55,9 @@ namespace AutoWorkshop.Web.Models
         public string CitizenCardNumber { get; set; }
 
 
+        public string UserId { get; set; }
+
+
 
         public int SpecialtyId { get; set; }
 

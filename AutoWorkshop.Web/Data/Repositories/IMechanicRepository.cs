@@ -12,5 +12,6 @@ namespace AutoWorkshop.Web.Data.Repositories
         IEnumerable<SelectListItem> GetComboMecanics();
        
         Mechanic GetMecanicByUserId(string id);
+        Task<Mechanic> GetMechanicWithSpecialtyById(int id);
     }
 }

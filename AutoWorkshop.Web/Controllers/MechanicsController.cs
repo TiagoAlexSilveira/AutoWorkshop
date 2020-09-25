@@ -1,8 +1,10 @@
 ﻿using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
@@ -11,14 +13,25 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IRepairRepository _repairRepository;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMechanicRepository _mechanicRepository;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly ISpecialtyRepository _specialtyRepository;
 
         public MechanicsController(IRepairRepository repairRepository,
                                    IAppointmentRepository appointmentRepository,
-                                   IMechanicRepository mechanicRepository)
+                                   IMechanicRepository mechanicRepository,
+                                   IConverterHelper converterHelper,
+                                   IUserHelper userHelper, IImageHelper imageHelper,
+                                   ISpecialtyRepository specialtyRepository)
         {
             _repairRepository = repairRepository;
             _appointmentRepository = appointmentRepository;
             _mechanicRepository = mechanicRepository;
+            _converterHelper = converterHelper;
+            _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _specialtyRepository = specialtyRepository;
         }
 
         // GET: Mechanics
@@ -70,34 +83,15 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        public async Task<IActionResult> MechanicDetails(int id)
+        {
+            var mechanic = await _mechanicRepository.GetMechanicWithSpecialtyById(id);
+           
+            var model = _converterHelper.ToPersonEditViewModel(mechanic);
 
+            return PartialView("_MechanicDetailsPartial", model);
+        }
 
-
-        //// GET: Mecanics/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var mecanic = await _context.Mecanics
-        //        .Include(m => m.Specialty)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (mecanic == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(mecanic);
-        //}
-
-        //// GET: Mecanics/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "Id", "Id");
-        //    return View();
-        //}
 
         //// POST: Mecanics/Create
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -117,91 +111,98 @@ namespace AutoWorkshop.Web.Controllers
         //}
 
         //// GET: Mecanics/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var mecanic = await _context.Mecanics.FindAsync(id);
-        //    if (mecanic == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "Id", "Id", mecanic.SpecialtyId);
-        //    return View(mecanic);
-        //}
+            var mechanic = await _mechanicRepository.GetMechanicWithSpecialtyById(id.Value);
+            if (mechanic == null)
+            {
+                return NotFound();
+            }
+
+            var model = _converterHelper.ToPersonEditViewModel(mechanic);         
+            model.Specialties = _specialtyRepository.GetComboSpecialty();
+            model.SpecialtyId = mechanic.SpecialtyId;
+
+            return View(model);
+        }
 
         //// POST: Mecanics/Edit/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("SpecialtyId,Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Mecanic mecanic)
-        //{
-        //    if (id != mecanic.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PersonEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(mecanic);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!MecanicExists(mecanic.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "Id", "Id", mecanic.SpecialtyId);
-        //    return View(mecanic);
-        //}
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "People");
+                }
+
+
+                try
+                {
+                    var mechanic = _converterHelper.ToMechanicEdit(model, path);
+
+                    await _mechanicRepository.UpdateAsync(mechanic);
+
+                    ViewBag.UserMessage = "User Sucessfully Updated!";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _mechanicRepository.ExistAsync(model.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return View(model);
+            }
+            return View(model);
+        }
 
         //// GET: Mecanics/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var mecanic = await _context.Mecanics
-        //        .Include(m => m.Specialty)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (mecanic == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var mechanic = await _mechanicRepository.GetByIdAsync(id.Value);
+            if (mechanic == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(mecanic);
-        //}
+            return View(mechanic);
+        }
 
         //// POST: Mecanics/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var mecanic = await _context.Mecanics.FindAsync(id);
-        //    _context.Mecanics.Remove(mecanic);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var mechanic = await _mechanicRepository.GetByIdAsync(id);
+            var user = await _userHelper.GetUserByIdAsync(mechanic.UserId);
 
-        //private bool MecanicExists(int id)
-        //{
-        //    return _context.Mecanics.Any(e => e.Id == id);
-        //}
+            await _mechanicRepository.DeleteAsync(mechanic);
+            await _userHelper.DeleteUserAsync(user);
+
+            return RedirectToAction("ssIndex", "Mechanics");
+        }
+
+
     }
 }

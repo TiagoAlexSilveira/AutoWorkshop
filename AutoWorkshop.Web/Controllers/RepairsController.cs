@@ -62,43 +62,43 @@ namespace AutoWorkshop.Web.Controllers
 
 
 
-        //// GET: Repairs/Create
-        //public IActionResult Create()
-        //{
-        //    var model = new RepairViewModel
-        //    {
-        //        //TODO: fazer repairs para o admin
-        //        Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
-        //    };
+        // GET: Repairs/Create
+        public IActionResult Create()
+        {
+            var model = new RepairViewModel
+            {
+                //TODO: fazer repairs para o admin
+                //Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
+            };
 
-        //    return View(model);
-        //}
-
-
-
-        ////POST: Repairs/Create
-        ////To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        ////more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(Repair repair)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+            return View(model);
+        }
 
 
-        //        await _repairRepository.CreateAsync(repair);
 
-        //        if (User.IsInRole("Mechanic"))
-        //        {
-        //            return RedirectToAction("MyRepairs","Mechanics");
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-            
-        //    return View(repair);
-        //}
+        //POST: Repairs/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Repair repair)
+        {
+            if (ModelState.IsValid)
+            {
+                var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+
+
+                await _repairRepository.CreateAsync(repair);
+
+                if (User.IsInRole("Mechanic"))
+                {
+                    return RedirectToAction("MyRepairs", "Mechanics");
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(repair);
+        }
 
         //// GET: Repairs/Edit/5
         //public async Task<IActionResult> Edit(int? id)
@@ -126,7 +126,7 @@ namespace AutoWorkshop.Web.Controllers
         //        vmodel.Appointments = _appointmentRepository.GetComboAppointment();
         //        vmodel.AppointmentId = repair.Appointment.Id;
         //    }           
-            
+
         //    return View(vmodel);
         //}
 

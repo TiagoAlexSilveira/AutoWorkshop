@@ -50,9 +50,9 @@ namespace AutoWorkshop.Web.Helpers
         PersonEditViewModel ToPersonEditViewModel(Admin admin);
         PersonEditViewModel ToPersonEditViewModel(Mechanic mechanic);
         PersonEditViewModel ToPersonEditViewModel(Secretary secretary);
-        Client ToClientEdit(PersonEditViewModel model);
-        Mechanic ToMechanicEdit(PersonEditViewModel model);
-        Secretary ToSecretaryEdit(PersonEditViewModel model);
-        Admin ToAdminEdit(PersonEditViewModel model);
+        Client ToClientEdit(PersonEditViewModel model, string path);
+        Mechanic ToMechanicEdit(PersonEditViewModel model, string path);
+        Secretary ToSecretaryEdit(PersonEditViewModel model, string path);
+        Admin ToAdminEdit(PersonEditViewModel model, string path);
     }
 }

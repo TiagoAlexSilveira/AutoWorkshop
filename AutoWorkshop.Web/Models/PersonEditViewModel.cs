@@ -1,5 +1,6 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -55,10 +56,16 @@ namespace AutoWorkshop.Web.Models
         public string CitizenCardNumber { get; set; }
 
 
+        public string UserId { get; set; }
+
+
         public int SpecialtyId { get; set; }
 
 
         public Specialty Specialty { get; set; }
+
+
+        public IEnumerable<SelectListItem> Specialties { get; set; }
 
     }
 }

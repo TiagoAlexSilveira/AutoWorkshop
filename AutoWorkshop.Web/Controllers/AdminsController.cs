@@ -9,17 +9,26 @@ using AutoWorkshop.Web.Data;
 using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
+using AutoWorkshop.Web.Helpers;
 
 namespace AutoWorkshop.Web.Controllers
 {
     public class AdminsController : Controller
     {
         private readonly IAdminRepository _adminRepository;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IUserHelper _userHelper;
 
-
-        public AdminsController(IAdminRepository adminRepository)
+        public AdminsController(IAdminRepository adminRepository,
+                                IConverterHelper converterHelper,
+                                IImageHelper imageHelper,
+                                IUserHelper userHelper)
         {
             _adminRepository = adminRepository;
+            _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
+            _userHelper = userHelper;
         }
 
         public IActionResult Index()
@@ -34,7 +43,6 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult ssIndex()
         {
-
             return View(_adminRepository.GetAll());
         }
 
@@ -64,117 +72,112 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        public async Task<IActionResult> AdminDetails(int Id)
+        {
+            var admin = await _adminRepository.GetByIdAsync(Id);
+
+            var model = _converterHelper.ToPersonEditViewModel(admin);
+
+            return PartialView("_AdminDetailsPartial", model);
+        }
+
+
 
         public IActionResult Create()
         {
             return RedirectToAction("CreateWithRole", "Account");
         }
 
-        //// GET: Admins/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
 
-        //// POST: Admins/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Admin admin)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(admin);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(admin);
-        //}
 
-        //// GET: Admins/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Admins/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var admin = await _context.Admins.FindAsync(id);
-        //    if (admin == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(admin);
-        //}
+            var admin = await _adminRepository.GetByIdAsync(id.Value);
+            if (admin == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Admins/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Admin admin)
-        //{
-        //    if (id != admin.Id)
-        //    {
-        //        return NotFound();
-        //    }
+            var model = _converterHelper.ToPersonEditViewModel(admin);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(admin);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AdminExists(admin.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(admin);
-        //}
+            return View(model);
+        }
+
+        // POST: Admins/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PersonEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var path = string.Empty;
+
+                    if (model.ImageFile != null)
+                    {
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "People");
+                    }
+
+                    var admin = _converterHelper.ToAdminEdit(model, path);
+                    
+                    await _adminRepository.UpdateAsync(admin);
+
+                    ViewBag.UserMessage = "User Sucessfully Updated!";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _adminRepository.ExistAsync(model.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return View(model);
+            }
+            return View(model);
+        }
 
         //// GET: Admins/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var admin = await _context.Admins
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (admin == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var admin = await _adminRepository.GetByIdAsync(id.Value);
+            if (admin == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(admin);
-        //}
+            return View(admin);
+        }
 
         //// POST: Admins/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var admin = await _context.Admins.FindAsync(id);
-        //    _context.Admins.Remove(admin);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var admin = await _adminRepository.GetByIdAsync(id);
+            var user = await _userHelper.GetUserByIdAsync(admin.UserId);
 
-        //private bool AdminExists(int id)
-        //{
-        //    return _context.Admins.Any(e => e.Id == id);
-        //}
+            await _adminRepository.DeleteAsync(admin);
+            await _userHelper.DeleteUserAsync(user);
+
+            return RedirectToAction("ssIndex", "Admins");
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         public Admin GetAdminByUserId(string id)
         {
-            var admin = _context.Admins.FirstOrDefault(u => u.User.Id == id);
+            var admin = _context.Admins.FirstOrDefault(u => u.UserId == id);
 
             return admin;
         }

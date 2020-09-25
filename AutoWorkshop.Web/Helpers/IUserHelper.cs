@@ -53,7 +53,6 @@ namespace AutoWorkshop.Web.Helpers
 
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
-
-
+        Task DeleteUserAsync(User user);
     }
 }

@@ -22,9 +22,23 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         public Mechanic GetMecanicByUserId(string id)
         {
-            var mecanic = _context.Mechanics.FirstOrDefault(u => u.User.Id == id);
+            var mecanic = _context.Mechanics.FirstOrDefault(u => u.UserId == id);
 
             return mecanic;
+        }
+
+
+        public async Task<Mechanic> GetMechanicWithSpecialtyById(int id)
+        {
+            var mechanic = await _context.Mechanics.FindAsync(id);
+            if (mechanic == null)
+            {
+                return mechanic;
+            }
+
+            mechanic.Specialty = await _context.Specialties.FindAsync(mechanic.SpecialtyId);
+
+            return mechanic;
         }
 
         public IEnumerable<SelectListItem> GetComboMecanics()

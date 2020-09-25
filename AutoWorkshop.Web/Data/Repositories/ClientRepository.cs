@@ -22,7 +22,7 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         public Client GetClientByUserId(string id)
         {
-            var client = _context.Clients.FirstOrDefault(u => u.User.Id == id);
+            var client = _context.Clients.FirstOrDefault(u => u.UserId == id);
 
             return client;
         } 

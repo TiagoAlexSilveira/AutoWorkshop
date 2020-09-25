@@ -19,16 +19,21 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IUserHelper _userHelper;
 
         public ClientsController(IClientRepository clientRepository,
                                  IVehicleRepository vehicleRepository,
                                  IAppointmentRepository appointmentRepository,
-                                 IConverterHelper converterHelper)
+                                 IConverterHelper converterHelper,
+                                 IImageHelper imageHelper, IUserHelper userHelper)
         { 
             _clientRepository = clientRepository;
             _vehicleRepository = vehicleRepository;
             _appointmentRepository = appointmentRepository;
             _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
+            _userHelper = userHelper;
         }
 
         // GET: Clients
@@ -114,9 +119,16 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "People");
+                }
+
                 try
                 {
-                    var client = _converterHelper.ToClientEdit(model);
+                    var client = _converterHelper.ToClientEdit(model, path);
 
                     await _clientRepository.UpdateAsync(client);
 
@@ -161,8 +173,12 @@ namespace AutoWorkshop.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _clientRepository.GetByIdAsync(id);
+            var user = await _userHelper.GetUserByIdAsync(client.UserId);
+
             await _clientRepository.DeleteAsync(client);
-            return View("Index");
+            await _userHelper.DeleteUserAsync(user);
+
+            return RedirectToAction("ssIndex", "Clients");
         }
 
 
