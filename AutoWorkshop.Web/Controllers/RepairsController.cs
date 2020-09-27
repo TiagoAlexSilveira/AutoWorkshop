@@ -20,24 +20,36 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IClientRepository _clientRepository;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
         public RepairsController(IRepairRepository repairRepository,
                                  IClientRepository clientRepository,
                                  IAppointmentRepository appointmentRepository,
-                                 IConverterHelper converterHelper)
+                                 IConverterHelper converterHelper,
+                                 IUserHelper userHelper)
         {
             
             _repairRepository = repairRepository;
             _clientRepository = clientRepository;
             _appointmentRepository = appointmentRepository;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
 
         // GET: Repairs
         public IActionResult Index()
         {
-            var repair = _repairRepository.GetAll().Include(r => r.Appointment).ToList();
+            var repair = _repairRepository.GetAll().Include(r => r.Appointment).ThenInclude(v => v.Vehicle).ThenInclude(b => b.Brand)
+                                                   .Include(r => r.Appointment).ThenInclude(c => c.Client)
+                                                   .Include(r => r.Appointment).ThenInclude(c => c.Mechanic)
+                                                   .Include(r => r.Appointment).ThenInclude(c => c.AppointmentType).ToList();
+
+            foreach (var rep in repair) //formatar a data
+            {
+                rep.FormatedDate = rep.CompletedAt.ToString("dd/MM/yyyy hh:mm");
+            }
+                                                   
             return View(repair);
         }
 
@@ -65,13 +77,25 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Repairs/Create
         public IActionResult Create()
         {
-            var model = new RepairViewModel
+            if (User.IsInRole("Mechanic"))
             {
-                //TODO: fazer repairs para o admin
-                //Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
-            };
+                var model = new RepairViewModel
+                {
+                    Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name)
+                };
 
-            return View(model);
+                return View(model);
+            }
+            else
+            {
+                var model = new RepairViewModel
+                {
+                    Appointments = _appointmentRepository.GetComboAppointment()
+                };
+
+                return View(model);
+            }
+           
         }
 
 
@@ -101,103 +125,102 @@ namespace AutoWorkshop.Web.Controllers
         }
 
         //// GET: Repairs/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var repair = await _repairRepository.GetByIdWithAppointment(id.Value);
-        //    if (repair == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var repair = await _repairRepository.GetByIdWithAppointment(id.Value);
+            if (repair == null)
+            {
+                return NotFound();
+            }
 
-        //    var vmodel = _converterHelper.ToRepairViewModel(repair);
+            var vmodel = _converterHelper.ToRepairViewModel(repair);
 
-        //    if (User.IsInRole("Mechanic"))
-        //    {
-        //        vmodel.Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name);
-        //        vmodel.AppointmentId = repair.Appointment.Id;               
-        //    }
-        //    else
-        //    {
-        //        vmodel.Appointments = _appointmentRepository.GetComboAppointment();
-        //        vmodel.AppointmentId = repair.Appointment.Id;
-        //    }           
+            if (User.IsInRole("Mechanic"))
+            {
+                vmodel.Appointments = _appointmentRepository.GetComboUserAppointment(User.Identity.Name);
+                vmodel.AppointmentId = repair.Appointment.Id;
+            }
+            else
+            {
+                vmodel.Appointments = _appointmentRepository.GetComboAppointment();
+                vmodel.AppointmentId = repair.Appointment.Id;
+            }
 
-        //    return View(vmodel);
-        //}
+            return View(vmodel);
+        }
+
 
         //// POST: Repairs/Edit/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(RepairViewModel vmodel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var repair = _converterHelper.ToRepair(vmodel);
-        //            repair.AppointmentId = vmodel.AppointmentId;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(RepairViewModel vmodel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var repair = _converterHelper.ToRepair(vmodel);
+                    repair.AppointmentId = vmodel.AppointmentId;
 
-        //            await _repairRepository.UpdateAsync(repair);
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (! await _repairRepository.ExistAsync(vmodel.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
+                    await _repairRepository.UpdateAsync(repair);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _repairRepository.ExistAsync(vmodel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
 
-        //        if (User.IsInRole("Mechanic"))
-        //        {
-        //            return RedirectToAction("MyRepairs", "Mechanics");
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
+                if (User.IsInRole("Mechanic"))
+                {
+                    return RedirectToAction("MyRepairs", "Mechanics");
+                }
+                return RedirectToAction(nameof(Index));
+            }
 
-        //    return View(vmodel);
-        //}
+            return View(vmodel);
+        }
+
 
         //// GET: Repairs/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var repair = await _repairRepository.GetByIdAsync(id.Value);
-        //    if (repair == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var repair = await _repairRepository.GetByIdAsync(id.Value);
+            if (repair == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(repair);
-        //}
+            return View(repair);
+        }
+
 
         //// POST: Repairs/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var repair = await _repairRepository.GetByIdAsync(id);
-        //    await _repairRepository.DeleteAsync(repair);
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var repair = await _repairRepository.GetByIdAsync(id);
+            await _repairRepository.DeleteAsync(repair);
+            return RedirectToAction(nameof(Index));
+        }
 
-        ////private bool RepairExists(int id)
-        ////{
-        ////    return _context.Repairs.Any(e => e.Id == id);
-        ////}
     }
 }

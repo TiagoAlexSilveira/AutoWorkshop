@@ -14,6 +14,7 @@ namespace AutoWorkshop.Web.Models
         [DataType(DataType.MultilineText)]
         public string RepairInfo { get; set; }
 
+
         [Display(Name = "Date and Time of Completion")]
         public DateTime CompletedAt { get; set; }
 

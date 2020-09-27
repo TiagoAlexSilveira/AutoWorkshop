@@ -27,12 +27,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.AppointmentType.Type)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Date)
+            <th>
+                @Html.DisplayNameFor(model => model.Information)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Time)
-            </th>*@
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -54,14 +54,26 @@
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.AppointmentType.Type)
                 </td>
-                @*<td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Date)
+                <td class="align-middle">
+                    <div class="dropdown ">
+                        <button class="btn btn-primary dropdown-toggle" style="padding:3px; width: 100px" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Info
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                            <div class="" style="max-width:50em ;padding: 10px; word-wrap: break-word">
+                                @Html.DisplayFor(modelItem => item.Information)
+                            </div>
+                        </div>
+                    </div>
                 </td>
                 <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>*@
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
             </tr>
         }
     </tbody>
 </table>
+<br />
+<br />
+<br />
 

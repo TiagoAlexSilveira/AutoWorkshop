@@ -212,7 +212,7 @@ namespace AutoWorkshop.Web.Controllers
 
                     return View(model);
                 }
-                else if(await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                else if(await _userHelper.IsUserInRoleAsync(user, "Mechanic"))
                 {
                     var mecanic = _mechanicRepository.GetMecanicByUserId(user.Id);
 
@@ -264,7 +264,7 @@ namespace AutoWorkshop.Web.Controllers
 
                         ViewBag.UserMessage = "User updated";
                     }
-                    else if (await _userHelper.IsUserInRoleAsync(user, "Mecanic"))
+                    else if (await _userHelper.IsUserInRoleAsync(user, "Mechanic"))
                     {
                         var mecanic = _converterHelper.ToMecanic(model, path);
                         await _mechanicRepository.UpdateAsync(mecanic);

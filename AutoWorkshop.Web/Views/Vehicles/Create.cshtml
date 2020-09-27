@@ -75,7 +75,8 @@
 
                 <div class="form-group">
                     <label asp-for="LicensePlate" class="control-label"></label>
-                    <input asp-for="LicensePlate" class="form-control" />
+                    <ejs-maskedtextbox id="mask1" ejs-for="LicensePlate" mask=">AA-AA-AA"></ejs-maskedtextbox>
+                    @*<input asp-for="LicensePlate" class="form-control" />*@
                     <span asp-validation-for="LicensePlate" class="text-danger"></span>
                 </div>
 

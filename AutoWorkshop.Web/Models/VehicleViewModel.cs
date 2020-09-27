@@ -17,39 +17,43 @@ namespace AutoWorkshop.Web.Models
         public Brand Brand { get; set; }
 
 
+        [Required(ErrorMessage = "You must insert a value for {0}")]
         [StringLength(150, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
         public string Model { get; set; }
 
         //public string SubModel { get; set; }
 
-
+        [StringLength(150, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
+        [Required(ErrorMessage = "You must insert a value for {0}")]
         public string Transmission { get; set; } //automática ou manual
 
-
+        [StringLength(150, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
+        [Required(ErrorMessage = "You must insert a value for {0}")]
         public string Type { get; set; }   //ligeiro ou pesado
 
 
-
+        [Required(ErrorMessage = "You must insert a value for {0}")]
         [StringLength(50, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 3)]
         public string Color { get; set; }
 
-
+        [StringLength(10, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
         [Required(ErrorMessage = "You must insert a value for {0}")]
         public int? Mileage { get; set; }
 
-
+        [StringLength(4, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
+        [Required(ErrorMessage = "You must insert a value for {0}")]
         [Display(Name = "Engine Power")]
         public int? EnginePower { get; set; }
 
 
-        //[StringLength(7, ErrorMessage = "A {0} deverá ter entre {2} e {1} caracteres", MinimumLength = 1)]
+        [StringLength(8, ErrorMessage = "A {0} deverá ter entre {2} e {1} caracteres", MinimumLength = 8)]
         [Display(Name = "License Plate")]
         [Required(ErrorMessage = "You must insert a {0}")]
         public string LicensePlate { get; set; }
 
 
 
-        //[Required(ErrorMessage = "You must insert a {0} date")]
+        [Required(ErrorMessage = "You must insert a {0} date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         [Display(Name = "Last Maintenance")]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,8 @@ namespace AutoWorkshop.Web.Data.Entities
         [DataType(DataType.MultilineText)]
         public string RepairInfo { get; set; }
 
-        [Display(Name = "Date and Time of Completion")]
+
+        [Display(Name = "Date and Time of Completion")]        
         public DateTime CompletedAt { get; set; }
 
         
@@ -23,6 +25,7 @@ namespace AutoWorkshop.Web.Data.Entities
 
         public Appointment Appointment { get; set; }
 
-
+        [NotMapped]
+        public string FormatedDate { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,7 +54,8 @@ namespace AutoWorkshop.Web.Controllers
                                                               .Include(c => c.Client)
                                                               .Include(v => v.Vehicle).ThenInclude(v => v.Brand)
                                                               .Where(m => m.Mechanic.User.Email == User.Identity.Name)
-                                                              .Where(i => i.IsConfirmed == true);
+                                                              .Where(i => i.IsConfirmed == true)
+                                                              .Where(h => h.StartTime >= DateTime.Now);
 
             var amodel = new MecAppointViewModel
             {
@@ -190,8 +192,8 @@ namespace AutoWorkshop.Web.Controllers
         }
 
         //// POST: Mecanics/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mechanic = await _mechanicRepository.GetByIdAsync(id);

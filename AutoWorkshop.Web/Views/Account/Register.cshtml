@@ -1,50 +1,82 @@
 ﻿@model AutoWorkshop.Web.Models.RegisterNewUserViewModel
-@{
+@{ 
     ViewData["Title"] = "Register";
 }
+@{ 
+    Layout = null;
+}
 
-<h2>Register New User</h2>
 
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/lib/jquery/jquery.js"></script>
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet" />
+@*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
+
+<br />
+<br />
 <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-3 offset-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
 
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
+
+            <div id="toptitle" class="d-flex justify-content-center">
+                <h1 style="font-family: 'Poppins', Arial, sans-serif">Autorepair<span style="color:orange">.</span></h1>
             </div>
+            <br />
 
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
+            <div style="border: 1.5px black solid; border-radius:25px; padding: 15px; font-family: 'Arial Rounded MT', Arial, sans-serif">
 
-            <div class="form-group">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-warning"></span>
-            </div>
+                <h2>Create Account</h2>
 
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
+                <div asp-validation-summary="ModelOnly"></div>
 
-            <div class="form-group">
-                <label asp-for="Confirm">Confirm</label>
-                <input asp-for="Confirm" type="password" class="form-control" />
-                <span asp-validation-for="Confirm" class="text-warning"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="FirstName">First Name</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-warning"></span>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" value="Register New User" class="btn btn-primary" />
+                <div class="form-group">
+                    <label asp-for="LastName">Last Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-warning"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Username">Username</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-warning"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-warning"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Confirm">Confirm Password</label>
+                    <input asp-for="Confirm" type="password" class="form-control" />
+                    <span asp-validation-for="Confirm" class="text-warning"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Register Account" class="btn btn-warning btn-block" />
+                    <input type="submit" value="Back" class="btn btn-secondary btn-block" asp-action="Index" asp-controller="Home" />
+                </div>
+
             </div>
         </form>
     </div>
+</div>
+
+<div class="container">
+    <hr />
+    <footer>
+        <p>&copy; 2020 - AutoWorkshop.Web</p>
+    </footer>
 </div>
 
 <div class="text-success">
@@ -52,3 +84,16 @@
         @ViewBag.Message
     </p>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+   
