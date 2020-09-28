@@ -2,7 +2,7 @@
 
 namespace AutoWorkshop.Web.Migrations
 {
-    public partial class userId : Migration
+    public partial class UserId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

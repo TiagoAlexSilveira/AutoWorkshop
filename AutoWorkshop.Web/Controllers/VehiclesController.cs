@@ -43,7 +43,9 @@ namespace AutoWorkshop.Web.Controllers
         public IActionResult Index()
         {
 
-            return View(_vehicleRepository.GetAll().Include(v => v.Brand));
+            var vehicle = _vehicleRepository.GetAll().Include(v => v.Brand).Include(u => u.User);
+
+            return View();
                       
         }
 
@@ -80,12 +82,25 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            var vmodel = new VehicleViewModel
+            if (User.IsInRole("Client"))
             {
-                Brands = _brandRepository.GetComboBrands()
-            };
+                var vmodel = new VehicleViewModel
+                {
+                    Brands = _brandRepository.GetComboBrands()
+                };
 
-            return View(vmodel);
+                return View(vmodel);
+            }
+            else
+            {
+                var vmodel = new VehicleViewModel
+                {
+                    Brands = _brandRepository.GetComboBrands(),
+                    Clients = _clientRepository.GetComboClients()
+                };
+
+                return View(vmodel);
+            }
         }
 
 
@@ -98,25 +113,36 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var path = string.Empty;
-
-                var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
-                vehicle.BrandId = vmodel.BrandId;
-                vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-
-                //await _vehicleRepository.AddBrandToVehicle(vmodel);  antes fazia tudo neste método mas agora faço assim por causa do user
-                await _vehicleRepository.CreateAsync(vehicle);
-
                 if (User.IsInRole("Client"))
                 {
+                    var path = string.Empty;
+                    var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                    var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
+                    //vehicle.BrandId = vmodel.BrandId;
+                    vehicle.UserId = user.Id;
+
+                    await _vehicleRepository.CreateAsync(vehicle);
+
                     return RedirectToAction("MyVehicles", "Clients");
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    var path = string.Empty;
+                    var cli = await _clientRepository.GetByIdAsync(vmodel.ClientId);
+
+                    var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
+                    //vehicle.BrandId = vmodel.BrandId;
+                    vehicle.UserId = cli.UserId;
+
+                    await _vehicleRepository.CreateAsync(vehicle);
+
+                    return RedirectToAction(nameof(Index));
+                }
+
             }
             return View(vmodel);
         }
-
 
 
         // GET: Vehicles/Edit/5

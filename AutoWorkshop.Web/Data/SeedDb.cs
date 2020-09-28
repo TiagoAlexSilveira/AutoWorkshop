@@ -232,22 +232,21 @@ namespace AutoWorkshop.Web.Data
             if (!_context.Brands.Any())
             {
                 this.AddBrand("Peugeot");
-                this.AddBrand("Toryota");
+                this.AddBrand("Toyota");
                 this.AddBrand("Ferrari");
 
                 await _context.SaveChangesAsync();
             }
 
-            var brandd = _context.Brands.FirstOrDefault(e => e.Id == 1);
 
             if (!_context.Vehicles.Any())
             {
-                this.AddVehicle(brandd, "Black", user);
-                this.AddVehicle(brandd, "Blue", user);
-                this.AddVehicle(brandd, "Grey", user);
-                this.AddVehicle(brandd, "Red", userclient);
-                this.AddVehicle(brandd, "White", userclient);
-                this.AddVehicle(brandd, "Grey", userclient);
+                this.AddVehicle(1, "Black", user.Id);
+                this.AddVehicle(2, "Blue", user.Id);
+                this.AddVehicle(3, "Grey", user.Id);
+                this.AddVehicle(2, "Red", userclient.Id);
+                this.AddVehicle(2, "White", userclient.Id);
+                this.AddVehicle(1, "Grey", userclient.Id);
                 await _context.SaveChangesAsync();
             }
 
@@ -320,11 +319,11 @@ namespace AutoWorkshop.Web.Data
             });
         }
 
-        private void AddVehicle(Brand brand, string color, User user)
+        private void AddVehicle(int brandId, string color, string userId)
         {
             _context.Vehicles.Add(new Vehicle
             {
-                Brand = brand,
+                BrandId = brandId,
                 Color = color,
                 Mileage = _random.Next(150000),
                 LicensePlate = "XX-YY-ZZ",
@@ -333,7 +332,7 @@ namespace AutoWorkshop.Web.Data
                 LastMaintenance = Convert.ToDateTime("23/04/2018"),
                 Type = "Type Teste",
                 Model = "teste",
-                User = user
+                UserId = userId
             });
         }
 

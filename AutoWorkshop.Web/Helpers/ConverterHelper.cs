@@ -29,7 +29,7 @@ namespace AutoWorkshop.Web.Helpers
             return new Vehicle
             {
                 Id = isNew ? 0 : model.Id,
-                Brand = model.Brand,
+                BrandId = model.BrandId,
                 Model = model.Model,
                 Type = model.Type,
                 Transmission = model.Transmission,
@@ -37,7 +37,8 @@ namespace AutoWorkshop.Web.Helpers
                 Color = model.Color,
                 EnginePower = model.EnginePower,
                 LastMaintenance = model.LastMaintenance,
-                LicensePlate = model.LicensePlate
+                LicensePlate = model.LicensePlate,
+                UserId = model.UserId,                
             };
         }
 
@@ -46,7 +47,7 @@ namespace AutoWorkshop.Web.Helpers
             return new VehicleViewModel
             {
                 Id = model.Id,
-                Brand = model.Brand,
+                BrandId = model.BrandId,
                 Model = model.Model,
                 Type = model.Type,
                 Transmission = model.Transmission,
@@ -54,7 +55,8 @@ namespace AutoWorkshop.Web.Helpers
                 Color = model.Color,
                 EnginePower = model.EnginePower,
                 LastMaintenance = model.LastMaintenance,
-                LicensePlate = model.LicensePlate
+                LicensePlate = model.LicensePlate,
+                UserId = model.UserId              
             };
         }
 

@@ -468,7 +468,7 @@ namespace AutoWorkshop.Web.Controllers
                     if (result != IdentityResult.Success)
                     {
                         this.ModelState.AddModelError(string.Empty, "The user could not be created");
-                        return View(model);  //retornamos a view outra vez para o user não ter de preencher os campos de novo
+                        return View(model);  
                     }
 
                     if (model.Role == "Client")

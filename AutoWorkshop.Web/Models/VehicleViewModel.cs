@@ -17,6 +17,7 @@ namespace AutoWorkshop.Web.Models
         public Brand Brand { get; set; }
 
 
+
         [Required(ErrorMessage = "You must insert a value for {0}")]
         [StringLength(150, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
         public string Model { get; set; }
@@ -27,6 +28,7 @@ namespace AutoWorkshop.Web.Models
         [Required(ErrorMessage = "You must insert a value for {0}")]
         public string Transmission { get; set; } //automática ou manual
 
+
         [StringLength(150, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
         [Required(ErrorMessage = "You must insert a value for {0}")]
         public string Type { get; set; }   //ligeiro ou pesado
@@ -36,11 +38,13 @@ namespace AutoWorkshop.Web.Models
         [StringLength(50, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 3)]
         public string Color { get; set; }
 
-        [StringLength(10, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
+
+        [Range(2,10000000, ErrorMessage = "{0} should be {1} to 8 characters long")]
         [Required(ErrorMessage = "You must insert a value for {0}")]
         public int? Mileage { get; set; }
 
-        [StringLength(4, ErrorMessage = "{0} should be {2} to {1} characters long", MinimumLength = 2)]
+
+        [Range(2, 9999, ErrorMessage = "{0} should be {1} to 4 characters long")]
         [Required(ErrorMessage = "You must insert a value for {0}")]
         [Display(Name = "Engine Power")]
         public int? EnginePower { get; set; }
@@ -62,9 +66,14 @@ namespace AutoWorkshop.Web.Models
 
         //public VIN_Number { get; set; }  //número que vem quando se monta o carro(para saber que é legit)
 
+        public string UserId { get; set; }
 
         public User User { get; set; }
 
         public IEnumerable<SelectListItem> Brands { get; set; }
+
+        public int ClientId { get; set; }
+
+        public IEnumerable<SelectListItem> Clients { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWorkshop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200925132413_userId")]
-    partial class userId
+    [Migration("20200928151741_UserId")]
+    partial class UserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

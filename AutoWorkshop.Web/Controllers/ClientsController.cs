@@ -167,6 +167,7 @@ namespace AutoWorkshop.Web.Controllers
             return View(client);
         }
 
+
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -174,10 +175,29 @@ namespace AutoWorkshop.Web.Controllers
         {
             var client = await _clientRepository.GetByIdAsync(id);
             var user = await _userHelper.GetUserByIdAsync(client.UserId);
+            var vehicle = _vehicleRepository.GetAll().Where(u => u.User == user);
+            var appoint = _appointmentRepository.GetAll().Where(a => a.ClientId == client.Id && a.IsConfirmed == false);
+
 
             await _clientRepository.DeleteAsync(client);
             await _userHelper.DeleteUserAsync(user);
 
+            if (vehicle != null)
+            {
+                foreach (var vec in vehicle)
+                {
+                    await _vehicleRepository.DeleteAsync(vec);
+                }
+            }
+
+            if (appoint != null)
+            {
+                foreach (var app in appoint)
+                {
+                    await _appointmentRepository.DeleteAsync(app);
+                }
+            }
+            
             return RedirectToAction("ssIndex", "Clients");
         }
 

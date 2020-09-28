@@ -31,6 +31,8 @@
     <Compile Remove="Migrations\20200923172800_Images.Designer.cs" />
     <Compile Remove="Migrations\20200924145256_Appointment_Changes.cs" />
     <Compile Remove="Migrations\20200924145256_Appointment_Changes.Designer.cs" />
+    <Compile Remove="Migrations\20200925132413_userId.cs" />
+    <Compile Remove="Migrations\20200925132413_userId.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

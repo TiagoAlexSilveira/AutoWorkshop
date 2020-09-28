@@ -15,10 +15,10 @@ namespace AutoWorkshop.Web.Data.Repositories
             _context = context;
         }
 
-        //public async AddBrandToVehicleById(int id)
+        //public async AddClientToVehicleById(int id)
         //{
         //    var vehicle = await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == id);
-        //    vehicle.Brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == vehicle.BrandId);
+        //    var client = await _context.Vehicles
 
         //    return vehicle;
         //}
