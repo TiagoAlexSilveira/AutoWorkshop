@@ -40,30 +40,6 @@ namespace AutoWorkshop.Web.Controllers
             _mechanicRepository = mechanicRepository;
         }
 
-        //// GET: Appointments
-        //public IActionResult Index()
-        //{
-        //    var appointment = _appointmentRepository.GetAll().Include(v => v.Vehicle).ToList();
-        //    return View(appointment);
-        //}
-
-        //// GET: Appointments/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-
-        //    if (appointment == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(appointment);
-        //}
 
 
         // GET: Appointments/Create     //Create com o syncfusion
@@ -91,6 +67,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return RedirectToAction("Create", "Appointments");
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Edit(Appointment appointment)
@@ -149,6 +127,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return Json(mechanic.FullName);
         }
+
+
 
 
         //// GET: Appointments/Create
@@ -261,55 +241,55 @@ namespace AutoWorkshop.Web.Controllers
 
 
 
-        public class AppointmentData  //class for syncfusion scheduler
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-        }
+        //public class AppointmentData  //class for syncfusion scheduler
+        //{
+        //    public int Id { get; set; }
+        //    public string Subject { get; set; }
+        //    public DateTime StartTime { get; set; }
+        //    public DateTime EndTime { get; set; }
+        //}
 
 
-        public List<AppointmentData> GetScheduleData()
-        {
-            List<AppointmentData> appData = new List<AppointmentData>();
-            appData.Add(new AppointmentData
-            {
-                Id = 1,
-                Subject = "Explosion of Betelgeuse Star",
-                StartTime = new DateTime(2020, 8, 28, 9, 30, 0),
-                EndTime = new DateTime(2020, 8, 30, 11, 0, 0)
-            });
-            appData.Add(new AppointmentData
-            {
-                Id = 2,
-                Subject = "Thule Air Crash Report",
-                StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 14, 0, 0)
-            });
-            appData.Add(new AppointmentData
-            {
-                Id = 3,
-                Subject = "Blue Moon Eclipse",
-                StartTime = new DateTime(2018, 2, 13, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
-            });
-            appData.Add(new AppointmentData
-            {
-                Id = 4,
-                Subject = "Meteor Showers in 2018",
-                StartTime = new DateTime(2018, 2, 14, 13, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 14, 30, 0)
-            });
-            appData.Add(new AppointmentData
-            {
-                Id = 5,
-                Subject = "Milky Way as Melting pot",
-                StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 14, 0, 0)
-            });
-            return appData;
-        }
+        //public List<AppointmentData> GetScheduleData()
+        //{
+        //    List<AppointmentData> appData = new List<AppointmentData>();
+        //    appData.Add(new AppointmentData
+        //    {
+        //        Id = 1,
+        //        Subject = "Explosion of Betelgeuse Star",
+        //        StartTime = new DateTime(2020, 8, 28, 9, 30, 0),
+        //        EndTime = new DateTime(2020, 8, 30, 11, 0, 0)
+        //    });
+        //    appData.Add(new AppointmentData
+        //    {
+        //        Id = 2,
+        //        Subject = "Thule Air Crash Report",
+        //        StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
+        //        EndTime = new DateTime(2018, 2, 12, 14, 0, 0)
+        //    });
+        //    appData.Add(new AppointmentData
+        //    {
+        //        Id = 3,
+        //        Subject = "Blue Moon Eclipse",
+        //        StartTime = new DateTime(2018, 2, 13, 9, 30, 0),
+        //        EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
+        //    });
+        //    appData.Add(new AppointmentData
+        //    {
+        //        Id = 4,
+        //        Subject = "Meteor Showers in 2018",
+        //        StartTime = new DateTime(2018, 2, 14, 13, 0, 0),
+        //        EndTime = new DateTime(2018, 2, 14, 14, 30, 0)
+        //    });
+        //    appData.Add(new AppointmentData
+        //    {
+        //        Id = 5,
+        //        Subject = "Milky Way as Melting pot",
+        //        StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
+        //        EndTime = new DateTime(2018, 2, 15, 14, 0, 0)
+        //    });
+        //    return appData;
+        //}
 
 
 

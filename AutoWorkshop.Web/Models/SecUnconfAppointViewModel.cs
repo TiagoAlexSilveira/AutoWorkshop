@@ -22,14 +22,13 @@ namespace AutoWorkshop.Web.Models
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime EndTime{ get; set; }
 
 
-        //TODO: a data está a guardar com campos a mais (para o data e a hora), o syncfusion na view mostra uma linha enorme
         [Required]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Time)]
-        public DateTime Time { get; set; }
+        public DateTime StartTime { get; set; }
 
 
         public string Information { get; set; }

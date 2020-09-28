@@ -35,7 +35,7 @@ namespace AutoWorkshop.Web.Helpers
 
         Mechanic ToMecanic(ChangeUserViewModel model, string path);
 
-        //Appointment ToAppointment(AppointmentViewModel model);
+        Appointment ToAppointment(SecUnconfAppointViewModel model);
 
         Repair ToRepair(RepairViewModel model);
 
@@ -46,10 +46,15 @@ namespace AutoWorkshop.Web.Helpers
         Client ToClientCreate(CreateAccountViewModel model);
         Mechanic ToMechanicCreate(CreateAccountViewModel model);
         Secretary ToSecretaryCreate(CreateAccountViewModel model);
+
+
+
         PersonEditViewModel ToPersonEditViewModel(Client client);
         PersonEditViewModel ToPersonEditViewModel(Admin admin);
         PersonEditViewModel ToPersonEditViewModel(Mechanic mechanic);
         PersonEditViewModel ToPersonEditViewModel(Secretary secretary);
+
+
         Client ToClientEdit(PersonEditViewModel model, string path);
         Mechanic ToMechanicEdit(PersonEditViewModel model, string path);
         Secretary ToSecretaryEdit(PersonEditViewModel model, string path);

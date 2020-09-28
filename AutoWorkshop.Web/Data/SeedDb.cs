@@ -31,6 +31,7 @@ namespace AutoWorkshop.Web.Data
             await _userHelper.CheckRoleAsync("Secretary");
             await _userHelper.CheckRoleAsync("Mechanic");
 
+            #region Admin
             //Admin
             var user = await _userHelper.GetUserByEmailAsync("tsilveira01@gmail.com");
             if (user == null)
@@ -64,19 +65,18 @@ namespace AutoWorkshop.Web.Data
                 _context.Admins.Add(admin);
             }
 
-
-
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
             if (!isInRole)
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
-
             var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
             await _userHelper.ConfirmEmailAsync(user, token);
-           
 
+            #endregion
+
+            #region Client
 
             // Client
             var userclient = await _userHelper.GetUserByEmailAsync("tsteste@yopmail.com");
@@ -122,7 +122,9 @@ namespace AutoWorkshop.Web.Data
             var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(userclient);
             await _userHelper.ConfirmEmailAsync(userclient, token2);
 
+            #endregion
 
+            #region Client2
 
             // Client2
             var userclient2 = await _userHelper.GetUserByEmailAsync("tsteste2@yopmail.com");
@@ -168,9 +170,9 @@ namespace AutoWorkshop.Web.Data
             var token5 = await _userHelper.GenerateEmailConfirmationTokenAsync(userclient2);
             await _userHelper.ConfirmEmailAsync(userclient2, token5);
 
+            #endregion
 
-
-
+            #region Secretary
             //Secretary
             var usersecretary = await _userHelper.GetUserByEmailAsync("tssecret@yopmail.com");
             if (usersecretary == null)
@@ -214,6 +216,7 @@ namespace AutoWorkshop.Web.Data
             var token3 = await _userHelper.GenerateEmailConfirmationTokenAsync(usersecretary);
             await _userHelper.ConfirmEmailAsync(usersecretary, token3);
 
+            #endregion
 
 
             if (!_context.Specialties.Any())
@@ -305,55 +308,22 @@ namespace AutoWorkshop.Web.Data
                 await _context.SaveChangesAsync();
             }
 
-        
-
-
             if (!_context.Appointments.Any())
             {
-                ////Unassigned appointment (needs mechanic and work estimate)
-                //_context.Appointments.Add(new Appointment
-                //{
-                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 1),
-                //    Date = Convert.ToDateTime("30/10/2020"),
-                //    Time = Convert.ToDateTime("12:30"),
-                //    Information = "Part Replacement",
-                //    Mechanic = null,                    
-                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 4),
-                //    IsConfirmed = false,
-                //    IsUrgent = false
-                //});
-
-                ////Unconfirmed appointment (needs IsConfirmed active)
-                //_context.Appointments.Add(new Appointment
-                //{
-                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 2),
-                //    Date = Convert.ToDateTime("25/09/2020"),
-                //    Time = Convert.ToDateTime("09:00"),
-                //    Information = "Paint job",
-                //    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
-                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 5),
-                //    IsConfirmed = false,
-                //    IsUrgent = false
-                //});
-
-                ////Confirmed appointment (doesn't need anything)
-                //_context.Appointments.Add(new Appointment
-                //{
-                //    AppointmentType = _context.AppointmentTypes.FirstOrDefault(e => e.Id == 3),
-                //    Date = Convert.ToDateTime("26/09/2020"),
-                //    Time = Convert.ToDateTime("09:00"),
-                //    Information = "Oil Change",
-                //    Mechanic = _context.Mechanics.FirstOrDefault(e => e.Id == 1),
-                //    Client = _context.Clients.FirstOrDefault(e => e.Id == 1),
-                //    Vehicle = _context.Vehicles.FirstOrDefault(e => e.Id == 6),
-                //    IsConfirmed = true,
-                //    IsUrgent = false
-                //});
-
-                //await _context.SaveChangesAsync();
+                AddAppointment(1, "Fix it", 1, 1, 2, Convert.ToDateTime("28/09/2020 10:30"), Convert.ToDateTime("28/09/2020 11:00"), true);
+                AddAppointment(2, "Fix it 2", 1, 2, 2, Convert.ToDateTime("29/09/2020 11:00"), Convert.ToDateTime("29/09/2020 11:30"), false);
+                AddAppointment(1, "Fix it 3", 1, 1, 2, Convert.ToDateTime("29/09/2020 08:00"), Convert.ToDateTime("29/09/2020 08:30"), false);
+                AddAppointment(2, "Fix it 4", 1, 2, 2, Convert.ToDateTime("10/09/2020 14:30"), Convert.ToDateTime("10/09/2020 15:00"), true);
+                await _context.SaveChangesAsync();
             }
+
+            if (!_context.Repairs.Any())
+            {
+                AddRepair("Repair Fix it", Convert.ToDateTime("30/09/2020"), 1);
+                AddRepair("Repair Fix it 2", Convert.ToDateTime("15/09/2020"), 4);
+                await _context.SaveChangesAsync();
+            }
+
         }
 
  
@@ -399,7 +369,31 @@ namespace AutoWorkshop.Web.Data
             });
         }
 
+        private void AddAppointment(int appointmentTypeId, string Info, int mechanicId, int clientId, int vehicleId,DateTime startTime, DateTime endTime ,bool isConfirmed)
+        {
+            _context.Appointments.Add(new Appointment
+            {
+                AppointmentTypeId = appointmentTypeId,
+                Information = Info,
+                MechanicId = mechanicId,
+                ClientId = clientId,
+                VehicleId = vehicleId,
+                StartTime = startTime,
+                EndTime = endTime,
+                IsConfirmed = isConfirmed
+            });
+        }
 
+
+        private void AddRepair(string repairInfo, DateTime completedAt, int appointmentId)
+        {
+            _context.Repairs.Add(new Repair
+            {
+                RepairInfo = repairInfo,
+                CompletedAt = completedAt,
+                AppointmentId = appointmentId
+            });
+        }
       
     }
 }

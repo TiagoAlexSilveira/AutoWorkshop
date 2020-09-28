@@ -1,10 +1,6 @@
 ﻿@model AutoWorkshop.Web.Models.SecUnconfAppointViewModel
 
-@{
-    ViewData["Title"] = "Index";
-
-
-}
+@{ ViewData["Title"] = "Index"; }
 
 
 
@@ -16,15 +12,116 @@
 <br />
 
 
-@*<p>
-    <button class="btn btn-primary btn-block align-middle" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" 
-            aria-controls="collapseExample" style="font-size: 20px"><div class="float-left" style="vertical-align:middle"><i class="fa"></i></div>
-            Current Unassigned Appointments  
-    </button>
-</p>
+<br />
+<br />
 
-<div class="collapse" id="collapseExample">
-    <div class="card">
+
+<div class="block-23 d-flex justify-content-center align-items-center" style="height:500px ;background-color:darkorange">
+    <div style="height: 200px">
+        <h1 style="font-size: x-large; font-weight: bold ">WELCOME</h1>
+    </div>
+
+</div>
+
+
+@*<p>
+        <button class="btn btn-primary btn-block align-middle" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                aria-controls="collapseExample" style="font-size: 20px"><div class="float-left" style="vertical-align:middle"><i class="fa"></i></div>
+                Current Unassigned Appointments
+        </button>
+    </p>
+
+    <div class="collapse" id="collapseExample">
+        <div class="card">
+            <div class="card-header container-fluid">
+                <div class="row">
+                    <div class="col-md-10 my-auto">
+                        <h4 class="card-title">Current Unassigned Appointments</h4>
+                    </div>
+                    <div class="col-md-2 float-right">
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to home page</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Client)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Time)
+                            </th>
+                            <th style="width:200px">
+                                @Html.DisplayNameFor(model => model.Mecanic)
+                            </th>
+                            <th>
+                                Save
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ConfirmedAppointments)
+                        {
+                            <tr class="text-center">
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Client.FullName)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Time)
+                                </td>
+                                <td>
+                                    <div class="form-group" style="margin-bottom:0px">
+                                        <select asp-for="MecanicId" asp-items="Model.Mechanics" style="width:200px;" class="form-control"></select>
+                                        <span asp-validation-for="MecanicId" class="text-danger"></span>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a asp-action="Update" class="btn btn-primary btn-md"><i class="fa fa-chevron-left"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle" colspan="6" style="min-height:10px">
+                                    <p>
+                                        <button class="btn btn-primary btn-block align-middle" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false"
+                                                aria-controls="collapseExample" style="font-size: 20px">
+                                            <div class="float-left" style="vertical-align:middle"><i class="fa"></i></div>
+                                            User Information
+                                        </button>
+
+                                    </p>
+                                    <div class="collapse" id="collapseExample2">
+                                        @Html.DisplayFor(modelItem => item.Information)
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>*@
+
+<br />
+<br />
+<br />
+
+@*<div class="card">
         <div class="card-header container-fluid">
             <div class="row">
                 <div class="col-md-10 my-auto">
@@ -60,7 +157,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.ConfirmedAppointments)
+                    @foreach (var item in Model.UnconfirmedAppointments)
                     {
                         <tr class="text-center">
                             <td class="align-middle">
@@ -85,235 +182,146 @@
                                 <a asp-action="Update" class="btn btn-primary btn-md"><i class="fa fa-chevron-left"></i></a>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="align-middle" colspan="6" style="min-height:10px">
-                                <p>
-                                    <button class="btn btn-primary btn-block align-middle" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false"
-                                            aria-controls="collapseExample" style="font-size: 20px">
-                                        <div class="float-left" style="vertical-align:middle"><i class="fa"></i></div>
-                                        User Information
-                                    </button>
-
-                                </p>
-                                <div class="collapse" id="collapseExample2">
-                                    @Html.DisplayFor(modelItem => item.Information)
-                                </div>
-
-                            </td>
-                            
-                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-</div>*@
+    <br />
+    <br />
 
-<br />
-<br />
-<br />
 
-@*<div class="card">
-    <div class="card-header container-fluid">
-        <div class="row">
-            <div class="col-md-10 my-auto">
-                <h4 class="card-title">Current Unassigned Appointments</h4>
-            </div>
-            <div class="col-md-2 float-right">
-                <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to home page</a>
-            </div>
-        </div>
+
+
+    <div>
+        <h3>Current Unconfirmed Appointments</h3>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead class="thead-dark" style="text-align:center">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Client)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Date)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Time)
-                    </th>
-                    <th style="width:200px">
-                        @Html.DisplayNameFor(model => model.Mecanic)
-                    </th>
-                    <th>
-                        Save
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.UnconfirmedAppointments)
-                {
-                    <tr class="text-center">
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Client.FullName)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Time)
-                        </td>
-                        <td>
-                            <div class="form-group" style="margin-bottom:0px">
-                                <select asp-for="MecanicId" asp-items="Model.Mechanics" style="width:200px;" class="form-control"></select>
-                                <span asp-validation-for="MecanicId" class="text-danger"></span>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <a asp-action="Update" class="btn btn-primary btn-md"><i class="fa fa-chevron-left"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<br />
-<br />
 
-
-
-
-<div>
-    <h3>Current Unconfirmed Appointments</h3>
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Time)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mecanic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkEstimate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.UnconfirmedAppointments)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mecanic.FullName)
-                </td>
                 <th>
-                    @Html.DisplayFor(modelItem => item.WorkEstimate)
+                    @Html.DisplayNameFor(model => model.Client)
                 </th>
-                <td>
-                    <a asp-action="Confirm" class="btn btn-default bg-success"><i class="fa fa-check"></i></a>
-                    <a asp-action="Cancel" class="btn btn-default"><i class="fa fa-coins"></i></a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mecanic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkEstimate)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-<br />
-<br />
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UnconfirmedAppointments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mecanic.FullName)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.WorkEstimate)
+                    </th>
+                    <td>
+                        <a asp-action="Confirm" class="btn btn-default bg-success"><i class="fa fa-check"></i></a>
+                        <a asp-action="Cancel" class="btn btn-default"><i class="fa fa-coins"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
 
-<div>
-    <h3>Confirmed Appointments</h3>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th style="text-align:center">
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Time)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Information)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mecanic)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ConfirmedAppointments)
-        {
+    <div>
+        <h3>Confirmed Appointments</h3>
+    </div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Info
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                            <div class="" style="max-width:50em ;padding: 10px; word-wrap: break-word">
-                                @Html.DisplayFor(modelItem => item.Information)
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.Client)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vehicle.LicensePlate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Information)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mecanic)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ConfirmedAppointments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vehicle.LicensePlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Info
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                <div class="" style="max-width:50em ;padding: 10px; word-wrap: break-word">
+                                    @Html.DisplayFor(modelItem => item.Information)
+                                </div>
                             </div>
                         </div>
-                    </div>  
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mecanic.FullName)
-                </td>
-
-                <td>
-                        <a asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-controller="Appointment" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-controller="Appointment" asp-route-id="@item.Id">Delete</a>
                     </td>
-            </tr>
-        }
-    </tbody>
-</table>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mecanic.FullName)
+                    </td>
+
+                    <td>
+                            <a asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-controller="Appointment" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-controller="Appointment" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
 
 
 

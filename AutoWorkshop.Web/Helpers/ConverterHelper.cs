@@ -341,24 +341,22 @@ namespace AutoWorkshop.Web.Helpers
 
 
 
-        //public Appointment ToAppointment(AppointmentViewModel model)
-        //{
-        //    return new Appointment
-        //    {
-        //        Id = model,
-        //        Date = model.Date,
-        //        Time = model.Time,
-        //        Information = model.Information,
-        //        ClientId = model.ClientId,
-        //        Client = model.Client,
-        //        VehicleId = model.VehicleId,
-        //        Vehicle = model.Vehicle,
-        //        AppointmentType = model.AppointmentType,
-        //        AppointmentTypeId = model.AppointmentTypeId,
-        //        IsConfirmed = false,
-        //        IsUrgent = model.IsUrgent
-        //    };
-        //}
+        public Appointment ToAppointment(SecUnconfAppointViewModel model)
+        {
+            return new Appointment
+            {
+                Id = model.Id,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                Information = model.Information,
+                ClientId = model.ClientId,
+                VehicleId = model.VehicleId,
+                AppointmentTypeId = model.AppointmentTypeId,
+                MechanicId = model.MechanicId,
+                IsConfirmed = true,
+                IsUrgent = model.IsUrgent
+            };
+        }
 
 
         public PersonEditViewModel ToPersonEditViewModel(Client client)

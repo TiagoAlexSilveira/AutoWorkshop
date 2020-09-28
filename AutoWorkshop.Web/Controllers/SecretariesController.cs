@@ -72,8 +72,8 @@ namespace AutoWorkshop.Web.Controllers
         {
             var confirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
                                                                         .Include(c => c.Client)
-                                                                        .Include(m => m.Mechanic)
-                                                                        .ThenInclude(c => c.Specialty)
+                                                                        .Include(m => m.Mechanic).ThenInclude(c => c.Specialty)
+                                                                        .Include(a => a.AppointmentType)
                                                                         .Where(p => p.IsConfirmed == true);
 
 
@@ -96,6 +96,37 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        //public async Task<IActionResult> Update(int Id)
+        //{
+        //    var appointment = await _appointmentRepository.GetByIdAsync(Id);
+
+        //    appointment.IsConfirmed = true;
+        //    await _appointmentRepository.UpdateAsync(appointment);
+
+        //    return View("UnconfirmedAppointments");
+
+        //}
+
+
+        //[HttpPost]
+        //public async Task<JsonResult> Update(SecUnconfAppointViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var appointment = _converterHelper.ToAppointment(model);
+
+        //        await _appointmentRepository.UpdateAsync(appointment);
+
+        //        return Json(appointment);
+        //    }
+
+        //    return Json(false);
+        //}
+
+
+
+
+
         //GET: Secretary/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -114,6 +145,9 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(model);
         }
+
+
+
 
 
 
