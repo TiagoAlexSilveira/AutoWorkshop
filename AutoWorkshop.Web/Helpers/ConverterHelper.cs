@@ -38,7 +38,7 @@ namespace AutoWorkshop.Web.Helpers
                 EnginePower = model.EnginePower,
                 LastMaintenance = model.LastMaintenance,
                 LicensePlate = model.LicensePlate,
-                UserId = model.UserId,                
+                ClientId = model.ClientId,                
             };
         }
 
@@ -56,7 +56,7 @@ namespace AutoWorkshop.Web.Helpers
                 EnginePower = model.EnginePower,
                 LastMaintenance = model.LastMaintenance,
                 LicensePlate = model.LicensePlate,
-                UserId = model.UserId              
+                ClientId = model.ClientId             
             };
         }
 

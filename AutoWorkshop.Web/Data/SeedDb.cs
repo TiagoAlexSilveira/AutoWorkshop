@@ -124,6 +124,53 @@ namespace AutoWorkshop.Web.Data
 
 
 
+            // Client2
+            var userclient2 = await _userHelper.GetUserByEmailAsync("tsteste2@yopmail.com");
+            if (userclient2 == null)
+            {
+                userclient2 = new User
+                {
+                    Email = "tsteste2@yopmail.com",
+                    UserName = "tsteste2@yopmail.com",
+                };
+
+                var client2 = new Client
+                {
+                    FirstName = "Pedro",
+                    LastName = "Silva",
+                    StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
+                    PhoneNumber = "123456789",
+                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    PostalCode = "1235-786",
+                    TaxIdentificationNumber = "947346273",
+                    CitizenCardNumber = "62539574",
+                    ImageUrl = $"~/images/Placeholder/placeholderUser.png",
+                    UserId = userclient2.Id
+                };
+
+
+                var result = await _userHelper.AddUserAsync(userclient2, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                _context.Clients.Add(client2);
+            }
+
+
+            var isInRole5 = await _userHelper.IsUserInRoleAsync(userclient2, "Client");
+            if (!isInRole5)
+            {
+                await _userHelper.AddUserToRoleAsync(userclient2, "Client");
+            }
+
+            var token5 = await _userHelper.GenerateEmailConfirmationTokenAsync(userclient2);
+            await _userHelper.ConfirmEmailAsync(userclient2, token5);
+
+
+
+
             //Secretary
             var usersecretary = await _userHelper.GetUserByEmailAsync("tssecret@yopmail.com");
             if (usersecretary == null)
@@ -241,12 +288,12 @@ namespace AutoWorkshop.Web.Data
 
             if (!_context.Vehicles.Any())
             {
-                this.AddVehicle(1, "Black", user.Id);
-                this.AddVehicle(2, "Blue", user.Id);
-                this.AddVehicle(3, "Grey", user.Id);
-                this.AddVehicle(2, "Red", userclient.Id);
-                this.AddVehicle(2, "White", userclient.Id);
-                this.AddVehicle(1, "Grey", userclient.Id);
+                this.AddVehicle(1, "Black", 1);
+                this.AddVehicle(2, "Blue", 1);
+                this.AddVehicle(3, "Grey", 1);
+                this.AddVehicle(2, "Red", 2);
+                this.AddVehicle(2, "White", 2);
+                this.AddVehicle(1, "Grey", 2);
                 await _context.SaveChangesAsync();
             }
 
@@ -319,7 +366,7 @@ namespace AutoWorkshop.Web.Data
             });
         }
 
-        private void AddVehicle(int brandId, string color, string userId)
+        private void AddVehicle(int brandId, string color, int clientId)
         {
             _context.Vehicles.Add(new Vehicle
             {
@@ -332,7 +379,7 @@ namespace AutoWorkshop.Web.Data
                 LastMaintenance = Convert.ToDateTime("23/04/2018"),
                 Type = "Type Teste",
                 Model = "teste",
-                UserId = userId
+                ClientId = clientId
             });
         }
 

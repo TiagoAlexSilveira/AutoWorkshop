@@ -122,7 +122,7 @@ namespace AutoWorkshop.Web.Controllers
         public async Task<IActionResult> GetClientVehicles(int Id)
         {
             var client = await _clientRepository.GetByIdAsync(Id);
-            var vehicles = _vehicleRepository.GetAll().Where(c => c.User.Id == client.User.Id);
+            var vehicles = _vehicleRepository.GetAll().Where(c => c.ClientId == client.Id);
 
             return Json(vehicles);
         }

@@ -43,9 +43,9 @@ namespace AutoWorkshop.Web.Controllers
         public IActionResult Index()
         {
 
-            var vehicle = _vehicleRepository.GetAll().Include(v => v.Brand).Include(u => u.User);
+            var vehicles = _vehicleRepository.GetAll().Include(v => v.Brand).Include(u => u.Client);
 
-            return View();
+            return View(vehicles);
                       
         }
 
@@ -116,11 +116,10 @@ namespace AutoWorkshop.Web.Controllers
                 if (User.IsInRole("Client"))
                 {
                     var path = string.Empty;
-                    var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
 
                     var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
-                    //vehicle.BrandId = vmodel.BrandId;
-                    vehicle.UserId = user.Id;
+                    vehicle.ClientId = client.Id;
 
                     await _vehicleRepository.CreateAsync(vehicle);
 
@@ -132,8 +131,7 @@ namespace AutoWorkshop.Web.Controllers
                     var cli = await _clientRepository.GetByIdAsync(vmodel.ClientId);
 
                     var vehicle = _converterHelper.ToVehicle(vmodel, path, true);
-                    //vehicle.BrandId = vmodel.BrandId;
-                    vehicle.UserId = cli.UserId;
+                    vehicle.ClientId = cli.Id;
 
                     await _vehicleRepository.CreateAsync(vehicle);
 
@@ -180,12 +178,9 @@ namespace AutoWorkshop.Web.Controllers
             {
                 try
                 {
-                    var path = string.Empty;                 
-
+                    var path = string.Empty;
+                    
                     var vehicle = _converterHelper.ToVehicle(vmodel, path, false);
-                    vehicle.BrandId = vmodel.BrandId;
-
-                    vehicle.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     await _vehicleRepository.UpdateAsync(vehicle);
                 }

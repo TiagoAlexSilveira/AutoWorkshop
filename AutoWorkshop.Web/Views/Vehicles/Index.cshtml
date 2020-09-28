@@ -41,27 +41,39 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.LastMaintenance)
                                         </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Client)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Client.PhoneNumber)
+                                        </th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr onclick="details(@item.Id)">
-                                            <td>
+                                        <tr>
+                                            <td onclick="details(@item.Id)">
                                                 @Html.DisplayFor(modelItem => item.Brand.BrandName)
                                             </td>
-                                            <td>
+                                            <td onclick="details(@item.Id)">
                                                 @Html.DisplayFor(modelItem => item.Model)
                                             </td>
-                                            <td>
+                                            <td onclick="details(@item.Id)">
                                                 @Html.DisplayFor(modelItem => item.Mileage)
                                             </td>
-                                            <td>
+                                            <td onclick="details(@item.Id)">
                                                 @Html.DisplayFor(modelItem => item.LicensePlate)
                                             </td>
-                                            <td>
+                                            <td onclick="details(@item.Id)">
                                                 @Html.DisplayFor(modelItem => item.LastMaintenance)
+                                            </td>
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.Client.FullName)
+                                            </td>
+                                             <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.Client.PhoneNumber)
                                             </td>
                                             <td >
                                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

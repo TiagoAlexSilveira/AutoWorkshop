@@ -58,9 +58,13 @@ namespace AutoWorkshop.Web.Data.Entities
 
         //public VIN_Number { get; set; }  //número que vem quando se monta o carro(para saber que é legit)
 
-        public string UserId { get; set; }
+        public int ClientId { get; set; }
 
-        public User User { get; set; }
+        public Client Client { get; set; }
+
+        //public string UserId { get; set; }
+
+        //public User User { get; set; }
 
     }
 }

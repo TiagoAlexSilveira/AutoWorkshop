@@ -48,7 +48,7 @@ namespace AutoWorkshop.Web.Controllers
         {
 
             var vehicles = _vehicleRepository.GetAll().Include(b => b.Brand)
-                                                       .Where(p => p.User.UserName == User.Identity.Name);
+                                                       .Where(p => p.Client.User.UserName == User.Identity.Name);
 
             var vmodel = new ClientMyVehiclesViewModel
             {
@@ -175,7 +175,7 @@ namespace AutoWorkshop.Web.Controllers
         {
             var client = await _clientRepository.GetByIdAsync(id);
             var user = await _userHelper.GetUserByIdAsync(client.UserId);
-            var vehicle = _vehicleRepository.GetAll().Where(u => u.User == user);
+            var vehicle = _vehicleRepository.GetAll().Where(u => u.ClientId == client.Id);
             var appoint = _appointmentRepository.GetAll().Where(a => a.ClientId == client.Id && a.IsConfirmed == false);
 
 
