@@ -45,13 +45,23 @@ namespace AutoWorkshop.Web.Controllers
         // GET: Appointments/Create     //Create com o syncfusion
         public IActionResult Create()
         {
+            var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
+                                                                        .Include(c => c.Client)
+                                                                        .Include(m => m.Mechanic)
+                                                                        .ThenInclude(c => c.Specialty)
+                                                                        .Where(p => p.IsConfirmed != true);
+
+
+
             var model = new AppointmentViewModel
             {
                 Vehicles = _vehicleRepository.GetAll().ToList(),
                 AppointmentTypes = _appointmentTypeRepository.GetAll().ToList(),
-                Appointments = _appointmentRepository.GetAll().ToList(),
+                Appointments = _appointmentRepository.GetAll().Where(m => m.IsConfirmed == true).ToList(),
                 Mechanics = _mechanicRepository.GetAll().ToList(),
-                Clients =  _clientRepository.GetAll().ToList()                                                       
+                Clients =  _clientRepository.GetAll().ToList(),
+                UnconfirmedAppointments = unconfirmedAppointments,
+                MechanicsCombo = _mechanicRepository.GetComboMecanics()
             };
 
             return View(model);
@@ -129,7 +139,37 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
+        public async Task<IActionResult> Update(AppointmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
 
+                appointment.MechanicId = model.MechanicId;
+                appointment.IsConfirmed = true;
+                await _appointmentRepository.UpdateAsync(appointment);
+
+                return RedirectToAction("Create");
+            }
+
+            return RedirectToAction("Create");
+        }
+
+        //public async Task<JsonResult> Update(AppointmentViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
+
+        //        appointment.MechanicId = model.MechanicId;
+        //        appointment.IsConfirmed = true;
+        //        await _appointmentRepository.UpdateAsync(appointment);
+
+        //        return Json("nice");
+        //    }
+
+        //    return Json(false);
+        //}
 
         //// GET: Appointments/Create
         //public IActionResult Create()
@@ -148,7 +188,7 @@ namespace AutoWorkshop.Web.Controllers
         // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-      
+
 
         //// GET: Appointments/Edit/5    //TODO: editar só na secretary
         ////public async Task<IActionResult> Edit(int? id)

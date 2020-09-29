@@ -228,7 +228,7 @@ namespace AutoWorkshop.Web.Data
                 await _context.SaveChangesAsync();
             }
 
-
+            #region Mechanic
             // Mechanic
             var usermecha = await _userHelper.GetUserByEmailAsync("tsmecha@yopmail.com");
             if (usermecha == null)
@@ -275,10 +275,10 @@ namespace AutoWorkshop.Web.Data
             var token4 = await _userHelper.GenerateEmailConfirmationTokenAsync(usermecha);
             await _userHelper.ConfirmEmailAsync(usermecha, token4);
 
-           
+
+            #endregion
 
 
-            
             if (!_context.Brands.Any())
             {
                 this.AddBrand("Peugeot");
@@ -311,8 +311,8 @@ namespace AutoWorkshop.Web.Data
             if (!_context.Appointments.Any())
             {
                 AddAppointment(1, "Fix it", 1, 1, 2, Convert.ToDateTime("28/09/2020 10:30"), Convert.ToDateTime("28/09/2020 11:00"), true);
-                AddAppointment(2, "Fix it 2", 1, 2, 2, Convert.ToDateTime("29/09/2020 11:00"), Convert.ToDateTime("29/09/2020 11:30"), false);
-                AddAppointment(1, "Fix it 3", 1, 1, 2, Convert.ToDateTime("29/09/2020 08:00"), Convert.ToDateTime("29/09/2020 08:30"), false);
+                AddAppointment(2, "Fix it 2", null, 2, 2, Convert.ToDateTime("29/09/2020 11:00"), Convert.ToDateTime("29/09/2020 11:30"), false);
+                AddAppointment(1, "Fix it 3", null, 1, 2, Convert.ToDateTime("29/09/2020 08:00"), Convert.ToDateTime("29/09/2020 08:30"), false);
                 AddAppointment(2, "Fix it 4", 1, 2, 2, Convert.ToDateTime("10/09/2020 14:30"), Convert.ToDateTime("10/09/2020 15:00"), true);
                 await _context.SaveChangesAsync();
             }
@@ -369,7 +369,7 @@ namespace AutoWorkshop.Web.Data
             });
         }
 
-        private void AddAppointment(int appointmentTypeId, string Info, int mechanicId, int clientId, int vehicleId,DateTime startTime, DateTime endTime ,bool isConfirmed)
+        private void AddAppointment(int appointmentTypeId, string Info, int? mechanicId, int clientId, int vehicleId,DateTime startTime, DateTime endTime ,bool isConfirmed)
         {
             _context.Appointments.Add(new Appointment
             {

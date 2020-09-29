@@ -96,14 +96,15 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        //public async Task<IActionResult> Update(int Id)
+        //public async Task<IActionResult> Update(int id)
         //{
-        //    var appointment = await _appointmentRepository.GetByIdAsync(Id);
+        //    var appointment = await _appointmentRepository.GetByIdAsync(id);
+
 
         //    appointment.IsConfirmed = true;
         //    await _appointmentRepository.UpdateAsync(appointment);
 
-        //    return View("UnconfirmedAppointments");
+        //    return RedirectToAction("UnconfirmedAppointments");
 
         //}
 

@@ -41,27 +41,27 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr class="text-center">
-                                        <td onclick="details(@item.Id)">
-                                            @Html.DisplayFor(modelItem => item.FirstName)
-                                        </td>
-                                        <td onclick="details(@item.Id)">
-                                            @Html.DisplayFor(modelItem => item.LastName)
-                                        </td>
-                                        <td onclick="details(@item.Id)">
-                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                        </td>
-                                        <td onclick="details(@item.Id)">
-                                            @Html.DisplayFor(modelItem => item.CitizenCardNumber)
-                                        </td>
-                                        <td onclick="details(@item.Id)">
-                                            @Html.DisplayFor(modelItem => item.Specialty.Type)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit fa-2x"></i></a> |
-                                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-minus-square fa-2x"></i></a>
-                                        </td>
-                                    </tr>
+                                        <tr class="text-center">
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                            </td>
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                            </td>
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.CitizenCardNumber)
+                                            </td>
+                                            <td onclick="details(@item.Id)">
+                                                @Html.DisplayFor(modelItem => item.Specialty.Type)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit fa-2x"></i></a> |
+                                                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-minus-square fa-2x"></i></a>
+                                            </td>
+                                        </tr>
                                      }
                                 </tbody>
                             </table>

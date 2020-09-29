@@ -40,6 +40,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Mechanic)
             </th>
+            <th>
+                Confirm
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -77,6 +80,10 @@
                         <span asp-validation-for="MechanicId" class="text-danger"></span>
                     </div>
                 </td>
+                <td class="align-middle">
+                    <a asp-action="Update" asp-route-id="@item.Id" >Confirm</a>
+                </td>
+
             </tr>
         }
     </tbody>
