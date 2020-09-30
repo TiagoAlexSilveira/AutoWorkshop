@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class AppointmentTypesController : Controller
     {
 

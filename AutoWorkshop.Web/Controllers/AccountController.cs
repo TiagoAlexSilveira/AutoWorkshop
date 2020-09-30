@@ -142,10 +142,18 @@ namespace AutoWorkshop.Web.Controllers
                         await _userHelper.AddUserToRoleAsync(user, "Client");
                     }
 
+                    try
+                    {
+                        _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for AutoWorkshop.</h1>" +
+                        $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                        this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
+                    }
+                    catch (Exception e)
+                    {
 
-                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for Penguin AutoWorkshop</h1>" +
-                       $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                    this.ViewBag.Message = "Instructions to confirm your sign up have been sent to your email.";
+                        throw e;
+                    }
+            
 
 
                     return View(model);
@@ -417,12 +425,12 @@ namespace AutoWorkshop.Web.Controllers
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
-                //mandar token através de email
-                _mailHelper.SendMail(model.Email, "Penguin AutoWorkshop Password Reset", $"<h1>Penguin AutoWorkshop Password Reset</h1>" +
+              
+                _mailHelper.SendMail(model.Email, " AutoWorkshop Password Reset", $"<h1>Penguin AutoWorkshop Password Reset</h1>" +
                 $"To reset your account password click on this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
                 this.ViewBag.Message = "A password email reset was sent to your email address, follow the directions" +
-                    "in the email to reset your password.";  //TODO: em vez de viewbag, aparecer outra view, com esta mensagem
+                    "in the email to reset your password.";  
                 return this.View();
             }
 
@@ -520,7 +528,7 @@ namespace AutoWorkshop.Web.Controllers
                     }, protocol: HttpContext.Request.Scheme);
 
 
-                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for Penguin AutoWorkshop</h1>" +
+                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Verify your email to finish signing up for AutoWorkshop.</h1>" +
                        $"<br><br>Please confirm your email by using this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
                     this.ViewBag.Message = "Account Creation Sucessfull";
 

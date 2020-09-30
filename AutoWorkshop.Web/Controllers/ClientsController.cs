@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Client")]
     public class ClientsController : Controller
     {
         private readonly IClientRepository _clientRepository;

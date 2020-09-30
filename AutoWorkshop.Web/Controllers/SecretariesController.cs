@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin, Secretary")]
     public class SecretariesController : Controller
     {
         private readonly ISecretaryRepository _secretaryRepository;
@@ -45,27 +45,6 @@ namespace AutoWorkshop.Web.Controllers
         public IActionResult ssIndex()
         {
             return View(_secretaryRepository.GetAll());
-        }
-
-
-        public IActionResult UnconfirmedAppointments()
-        {                              
-            
-            var unconfirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
-                                                                        .Include(c => c.Client)
-                                                                        .Include(m => m.Mechanic)
-                                                                        .ThenInclude(c => c.Specialty)
-                                                                        .Where(p => p.IsConfirmed != true);
-                                                                       
-                                                                        
-
-            var model = new SecUnconfAppointViewModel
-            {
-                UnconfirmedAppointments = unconfirmedAppointments,
-                Mechanics = _mecanicRepository.GetComboMecanics()
-            };
-
-            return View(model);
         }
 
 

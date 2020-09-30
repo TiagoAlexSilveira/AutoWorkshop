@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin , Mechanic")]
     public class MechanicsController : Controller
     {
         private readonly IRepairRepository _repairRepository;

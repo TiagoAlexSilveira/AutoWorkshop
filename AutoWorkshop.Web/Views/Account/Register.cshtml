@@ -1,10 +1,6 @@
 ﻿@model AutoWorkshop.Web.Models.RegisterNewUserViewModel
-@{ 
-    ViewData["Title"] = "Register";
-}
-@{ 
-    Layout = null;
-}
+@{ ViewData["Title"] = "Register"; }
+@{ Layout = null; }
 
 
 <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
@@ -70,7 +66,15 @@
             </div>
         </form>
     </div>
+    <div class="text-success">
+        <p>
+            @ViewBag.Message
+        </p>
+    </div>
 </div>
+
+
+
 
 <div class="container">
     <hr />
@@ -79,11 +83,6 @@
     </footer>
 </div>
 
-<div class="text-success">
-    <p>
-        @ViewBag.Message
-    </p>
-</div>
 
 
 
@@ -96,4 +95,4 @@
 
 
 
-   
+

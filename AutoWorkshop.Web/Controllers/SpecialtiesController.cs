@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class SpecialtiesController : Controller
     {
         private readonly ISpecialtyRepository _specialtyRepository;

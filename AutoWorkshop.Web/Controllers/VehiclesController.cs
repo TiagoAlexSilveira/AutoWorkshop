@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin, Client")]
     public class VehiclesController : Controller
     {
         private readonly IVehicleRepository _vehicleRepository;

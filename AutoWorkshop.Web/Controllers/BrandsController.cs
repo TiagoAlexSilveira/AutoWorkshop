@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class BrandsController : Controller
     {
         public IBrandRepository _brandRepository { get; }

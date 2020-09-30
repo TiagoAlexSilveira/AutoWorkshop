@@ -10,9 +10,11 @@ using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
 using AutoWorkshop.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class AdminsController : Controller
     {
         private readonly IAdminRepository _adminRepository;
@@ -46,12 +48,6 @@ namespace AutoWorkshop.Web.Controllers
             return View(_adminRepository.GetAll());
         }
 
-
-        //// GET: Admins
-        //public IActionResult Index()
-        //{
-        //    return View(_adminRepository.GetAll());
-        //}
 
         // GET: Admins/Details/5
         public async Task<IActionResult> Details(int? id)

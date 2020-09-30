@@ -48,8 +48,8 @@ namespace AutoWorkshop.Web.Data
                     FirstName = "Tiago",
                     LastName = "Silveira",
                     StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
-                    PhoneNumber = "123456789",
-                    //DateofBirth = Convert.ToDateTime("04/29/1993"),                    
+                    PhoneNumber = "917364887",
+                    //DateofBirth = Convert.ToDateTime("05/27/1993"),                    
                     DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111114",
@@ -95,10 +95,10 @@ namespace AutoWorkshop.Web.Data
                     FirstName = "Mário",
                     LastName = "Silveira",
                     StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
-                    PhoneNumber = "123456789",
+                    PhoneNumber = "936837465",
                     //DateofBirth = Convert.ToDateTime("04/29/1993"),
                     DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
-                    PostalCode = "2675-537",
+                    PostalCode = "2687-324",
                     TaxIdentificationNumber = "111111113",
                     CitizenCardNumber = "11223344",
                     ImageUrl = $"~/images/Placeholder/placeholderUser.png",
@@ -143,8 +143,8 @@ namespace AutoWorkshop.Web.Data
                 {
                     FirstName = "Pedro",
                     LastName = "Silva",
-                    StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
-                    PhoneNumber = "123456789",
+                    StreetAddress = "Rua das Flores Nº15",
+                    PhoneNumber = "968273650",
                     //DateofBirth = Convert.ToDateTime("04/29/1993"),
                     DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "1235-786",
@@ -191,8 +191,8 @@ namespace AutoWorkshop.Web.Data
                 {
                     FirstName = "Maria",
                     LastName = "Silva",
-                    StreetAddress = "Rua das Flores 2º Dir.",
-                    PhoneNumber = "999999999",
+                    StreetAddress = "Rua das Santas 10 2º Dir.",
+                    PhoneNumber = "916254453",
                     //DateofBirth = Convert.ToDateTime("05/13/1990"),
                     DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2773-677",
@@ -250,8 +250,8 @@ namespace AutoWorkshop.Web.Data
                     FirstName = "Luis",
                     LastName = "Mechanic",
                     StreetAddress = "Rua dos Mechanics",
-                    PhoneNumber = "111111119",
-                    //DateofBirth = Convert.ToDateTime("04/29/1976"),
+                    PhoneNumber = "915242442",
+                    //DateofBirth = Convert.ToDateTime("06/20/1976"),
                     DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2655-555",
                     TaxIdentificationNumber = "111111111",
@@ -297,36 +297,36 @@ namespace AutoWorkshop.Web.Data
 
             if (!_context.Vehicles.Any())
             {
-                this.AddVehicle(1, "Black", 1);
-                this.AddVehicle(2, "Blue", 1);
-                this.AddVehicle(3, "Grey", 1);
-                this.AddVehicle(2, "Red", 2);
-                this.AddVehicle(2, "White", 2);
-                this.AddVehicle(1, "Grey", 2);
+                this.AddVehicle(1, "Black", 1, "AZ-6D-89", "Manual", "Gasoline", "Series X");
+                this.AddVehicle(2, "Blue", 1, "B0-HH-D3", "Automatic", "Gas", "Avalon");
+                this.AddVehicle(3, "Grey", 1, "GT-J6-02", "Automatic", "Diesel", "F8 Tributo");
+                this.AddVehicle(2, "Red", 2, "BN-KK-66", "Manual", "Gasoline", "Corolla");
+                this.AddVehicle(2, "White", 2, "LL-RT-54", "Automatic", "Gas", "Yaris");
+                this.AddVehicle(1, "Gray", 2, "YU-K8-73", "Manual", "Diesel", "Boxer");
                 await _context.SaveChangesAsync();
             }
 
             if (!_context.AppointmentTypes.Any())
             {
-                AddAppointmentType("Manutenção");
-                AddAppointmentType("Pintura");
-                AddAppointmentType("Outro");
+                AddAppointmentType("Maintenance");
+                AddAppointmentType("Paint Job");
+                AddAppointmentType("Other");
                 await _context.SaveChangesAsync();
             }
 
             if (!_context.Appointments.Any())
             {
-                AddAppointment(1, "Fix it", 1, 1, 2, Convert.ToDateTime("28/09/2020 10:30"), Convert.ToDateTime("28/09/2020 11:00"), true);
-                AddAppointment(2, "Fix it 2", null, 2, 2, Convert.ToDateTime("29/09/2020 11:00"), Convert.ToDateTime("29/09/2020 11:30"), false);
-                //AddAppointment(1, "Fix it 3", null, 1, 2, Convert.ToDateTime("09/29/2020 08:00"), Convert.ToDateTime("09/29/2020 08:30"), false);
-                //AddAppointment(2, "Fix it 4", 1, 2, 2, Convert.ToDateTime("09/10/2020 14:30"), Convert.ToDateTime("09/10/2020 15:00"), true);
+                AddAppointment(1, "Fix it", 1, 1, 2, DateTime.ParseExact("10/02/2020 10:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), DateTime.ParseExact("10/02/2020 10:30", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), true);
+                AddAppointment(2, "Fix it 2", null, 2, 6, DateTime.ParseExact("10/05/2020 11:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), DateTime.ParseExact("09/29/2020 11:30", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), false);
+                AddAppointment(1, "Fix it 3", null, 1, 2, DateTime.ParseExact("10/03/2020 08:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), DateTime.ParseExact("10/03/2020 08:30", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), false);
+                AddAppointment(2, "Fix it 4", 1, 2, 4, DateTime.ParseExact("10/07/2020 09:30", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), DateTime.ParseExact("10/07/2020 10:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), true);
                 await _context.SaveChangesAsync();
             }
 
             if (!_context.Repairs.Any())
             {
-                //AddRepair("Repair Fix it", Convert.ToDateTime("09/30/2020"), 1);
-                //AddRepair("Repair Fix it 2", Convert.ToDateTime("09/15/2020"), 4);
+                AddRepair("Repair Fix it", DateTime.ParseExact("10/05/2020 03:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), 1);
+                AddRepair("Repair Fix it 2", DateTime.ParseExact("10/08/2020 10:00", "MM/dd/yyyy hh:mm", CultureInfo.InvariantCulture), 4);
                 await _context.SaveChangesAsync();
             }
 
@@ -342,19 +342,19 @@ namespace AutoWorkshop.Web.Data
             });
         }
 
-        private void AddVehicle(int brandId, string color, int clientId)
+        private void AddVehicle(int brandId, string color, int clientId, string license, string transmission, string type, string model)
         {
             _context.Vehicles.Add(new Vehicle
             {
                 BrandId = brandId,
                 Color = color,
                 Mileage = _random.Next(150000),
-                LicensePlate = "XX-YY-ZZ",
-                Transmission = "Automatic",
+                LicensePlate = license,
+                Transmission = transmission,
                 EnginePower = _random.Next(200),  //horsepower
-                LastMaintenance = Convert.ToDateTime("23/04/2018"),
-                Type = "Type Teste",
-                Model = "teste",
+                LastMaintenance = DateTime.ParseExact("04/23/2019", "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                Type = type,
+                Model = model,
                 ClientId = clientId
             });
         }

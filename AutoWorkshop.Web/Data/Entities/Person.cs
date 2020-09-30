@@ -36,7 +36,7 @@ namespace AutoWorkshop.Web.Data.Entities
 
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateofBirth { get; set; }
 
 

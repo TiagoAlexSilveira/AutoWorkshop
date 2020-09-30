@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin, Mechanic")]
     public class RepairsController : Controller
     {
         
