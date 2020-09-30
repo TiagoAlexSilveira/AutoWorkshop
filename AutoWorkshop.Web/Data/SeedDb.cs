@@ -3,6 +3,7 @@ using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,7 +49,8 @@ namespace AutoWorkshop.Web.Data
                     LastName = "Silveira",
                     StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
                     PhoneNumber = "123456789",
-                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    //DateofBirth = Convert.ToDateTime("04/29/1993"),                    
+                    DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111114",
                     CitizenCardNumber = "11112233",
@@ -94,7 +96,8 @@ namespace AutoWorkshop.Web.Data
                     LastName = "Silveira",
                     StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
                     PhoneNumber = "123456789",
-                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    //DateofBirth = Convert.ToDateTime("04/29/1993"),
+                    DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2675-537",
                     TaxIdentificationNumber = "111111113",
                     CitizenCardNumber = "11223344",
@@ -142,7 +145,8 @@ namespace AutoWorkshop.Web.Data
                     LastName = "Silva",
                     StreetAddress = "Praceta Adelaide Cabete Nº2 3ºesquerdo",
                     PhoneNumber = "123456789",
-                    DateofBirth = Convert.ToDateTime("29/04/1993"),
+                    //DateofBirth = Convert.ToDateTime("04/29/1993"),
+                    DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "1235-786",
                     TaxIdentificationNumber = "947346273",
                     CitizenCardNumber = "62539574",
@@ -189,7 +193,8 @@ namespace AutoWorkshop.Web.Data
                     LastName = "Silva",
                     StreetAddress = "Rua das Flores 2º Dir.",
                     PhoneNumber = "999999999",
-                    DateofBirth = Convert.ToDateTime("13/05/1990"),
+                    //DateofBirth = Convert.ToDateTime("05/13/1990"),
+                    DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2773-677",
                     TaxIdentificationNumber = "111111112",
                     CitizenCardNumber = "33445566",
@@ -246,7 +251,8 @@ namespace AutoWorkshop.Web.Data
                     LastName = "Mechanic",
                     StreetAddress = "Rua dos Mechanics",
                     PhoneNumber = "111111119",
-                    DateofBirth = Convert.ToDateTime("29/04/1976"),
+                    //DateofBirth = Convert.ToDateTime("04/29/1976"),
+                    DateofBirth = DateTime.ParseExact("04/29/1993", "MM/dd/yyyy", CultureInfo.InvariantCulture),
                     PostalCode = "2655-555",
                     TaxIdentificationNumber = "111111111",
                     CitizenCardNumber = "22334455",
@@ -312,15 +318,15 @@ namespace AutoWorkshop.Web.Data
             {
                 AddAppointment(1, "Fix it", 1, 1, 2, Convert.ToDateTime("28/09/2020 10:30"), Convert.ToDateTime("28/09/2020 11:00"), true);
                 AddAppointment(2, "Fix it 2", null, 2, 2, Convert.ToDateTime("29/09/2020 11:00"), Convert.ToDateTime("29/09/2020 11:30"), false);
-                AddAppointment(1, "Fix it 3", null, 1, 2, Convert.ToDateTime("29/09/2020 08:00"), Convert.ToDateTime("29/09/2020 08:30"), false);
-                AddAppointment(2, "Fix it 4", 1, 2, 2, Convert.ToDateTime("10/09/2020 14:30"), Convert.ToDateTime("10/09/2020 15:00"), true);
+                //AddAppointment(1, "Fix it 3", null, 1, 2, Convert.ToDateTime("09/29/2020 08:00"), Convert.ToDateTime("09/29/2020 08:30"), false);
+                //AddAppointment(2, "Fix it 4", 1, 2, 2, Convert.ToDateTime("09/10/2020 14:30"), Convert.ToDateTime("09/10/2020 15:00"), true);
                 await _context.SaveChangesAsync();
             }
 
             if (!_context.Repairs.Any())
             {
-                AddRepair("Repair Fix it", Convert.ToDateTime("30/09/2020"), 1);
-                AddRepair("Repair Fix it 2", Convert.ToDateTime("15/09/2020"), 4);
+                //AddRepair("Repair Fix it", Convert.ToDateTime("09/30/2020"), 1);
+                //AddRepair("Repair Fix it 2", Convert.ToDateTime("09/15/2020"), 4);
                 await _context.SaveChangesAsync();
             }
 

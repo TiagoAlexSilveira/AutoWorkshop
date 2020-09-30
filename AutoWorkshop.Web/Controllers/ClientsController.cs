@@ -60,18 +60,27 @@ namespace AutoWorkshop.Web.Controllers
 
 
 
-        public IActionResult MyAppointments()
+        public async Task<IActionResult> MyAppointments()
         {
-            var appointments = _appointmentRepository.GetAll().Include(v => v.Vehicle)
-                                                             .Include(c => c.Client)
-                                                             .Where(p => p.Client.User.UserName == User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            var client = _clientRepository.GetClientByUserId(user.Id);
 
-            var vmodel = new ClientMyAppointmentsViewModel
+            var uncappointment = _appointmentRepository.GetAll().Include(m => m.AppointmentType)
+                                                              .Include(v => v.Vehicle).ThenInclude(b => b.Brand)
+                                                              .Where(p => p.ClientId == client.Id && p.IsConfirmed != true);
+
+            var appointments = _appointmentRepository.GetAll().Include(m => m.AppointmentType)
+                                                                .Include(p => p.Vehicle).ThenInclude(g => g.Brand)
+                                                                .Include(m => m.Mechanic)
+                                                                .Where(p => p.ClientId == client.Id && p.IsConfirmed == true);
+
+            var model = new ClientMyAppointmentsViewModel
             {
-                Appointments = appointments.ToList()
+                Appointments = appointments.ToList(),
+                UnconfirmedAppointments = uncappointment.ToList()
             };
 
-            return View(vmodel);
+            return View(model);
         }
 
         public IActionResult ssIndex()
@@ -202,6 +211,6 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        //TODO: meter um IsActive, no apagar meter IsActive a false, no GET ir só buscar IsActive = true
+        
     }
 }

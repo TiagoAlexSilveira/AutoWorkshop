@@ -22,6 +22,7 @@ namespace AutoWorkshop.Web.Controllers
         private readonly IClientRepository _clientRepository;
         private readonly IAppointmentTypeRepository _appointmentTypeRepository;
         private readonly IMechanicRepository _mechanicRepository;
+        private readonly IMailHelper _mailHelper;
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
                                       IVehicleRepository vehicleRepository,
@@ -29,7 +30,8 @@ namespace AutoWorkshop.Web.Controllers
                                       IUserHelper userHelper,
                                       IClientRepository clientRepository,
                                       IAppointmentTypeRepository appointmentTypeRepository,
-                                      IMechanicRepository mechanicRepository)
+                                      IMechanicRepository mechanicRepository,
+                                      IMailHelper mailHelper)
         {
             _appointmentRepository = appointmentRepository;
             _vehicleRepository = vehicleRepository;
@@ -38,6 +40,7 @@ namespace AutoWorkshop.Web.Controllers
             _clientRepository = clientRepository;
             _appointmentTypeRepository = appointmentTypeRepository;
             _mechanicRepository = mechanicRepository;
+            _mailHelper = mailHelper;
         }
 
 
@@ -65,6 +68,40 @@ namespace AutoWorkshop.Web.Controllers
             };
 
             return View(model);
+        }
+
+
+        public IActionResult CreateClient()
+        {
+            var confirmedAppointments = _appointmentRepository.GetAll().Include(v => v.Vehicle).ThenInclude(b => b.Brand)
+                                                                       .Include(a => a.AppointmentType)
+                                                                       .Where(p => p.IsConfirmed == true);
+
+
+            var model = new AppointmentViewModel
+            {
+                Vehicles = _vehicleRepository.GetAll().Where(m => m.Client.User.UserName == User.Identity.Name).ToList(),
+                Appointments = _appointmentRepository.GetAll().Where(m => m.IsConfirmed == true).ToList(),
+                AppointmentTypes = _appointmentTypeRepository.GetAll().ToList(),
+                UnconfirmedAppointments = confirmedAppointments,
+                MechanicsCombo = _mechanicRepository.GetComboMecanics()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateClient(Appointment appointment)             
+        {
+
+            var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
+
+            appointment.ClientId = client.Id;
+            appointment.Id = 0;
+            appointment.IsConfirmed = false;
+            await _appointmentRepository.CreateAsync(appointment);
+
+            return RedirectToAction("CreateClient", "Appointments");
         }
 
 
@@ -143,6 +180,11 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.MechanicId == 0)
+                {
+                    return RedirectToAction("Create");
+                }
+
                 var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
 
                 appointment.MechanicId = model.MechanicId;
@@ -150,6 +192,39 @@ namespace AutoWorkshop.Web.Controllers
                 await _appointmentRepository.UpdateAsync(appointment);
 
                 return RedirectToAction("Create");
+            }
+
+            return RedirectToAction("Create");
+        }
+
+        public async Task<IActionResult> Cancel(int? id, int clientId, DateTime time)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            await _appointmentRepository.DeleteAsync(appointment);
+
+            var client = await _clientRepository.GetByIdAsync(clientId);
+            var user = _clientRepository.GetUserByClientId(clientId);
+
+            try
+            {
+                _mailHelper.SendMail(user.UserName, "Appointment Canceled", $"<h2>Mr(s) {client.FullName}</h2>" +
+                $"<br><br><p>There have been some complications regarding your scheduled appointment and therefore we will have to cancel it</p>" +
+                $" <br><br>If you wish to reschedule an appointment, address our website at a later time <br><br>Apologies<br>AutoWorkShop. " );
+            }
+            catch (Exception e)
+            {
+
+                throw e;
             }
 
             return RedirectToAction("Create");

@@ -14,5 +14,6 @@ namespace AutoWorkshop.Web.Data.Repositories
 
         Client GetClientByUserId(string id);
         IEnumerable<SelectListItem> GetComboClients();
+        User GetUserByClientId(int id);
     }
 }

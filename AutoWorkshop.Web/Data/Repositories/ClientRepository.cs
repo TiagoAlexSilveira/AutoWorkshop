@@ -35,7 +35,15 @@ namespace AutoWorkshop.Web.Data.Repositories
 
             return client;
         }
+        
 
+        public User GetUserByClientId(int id)
+        {
+            var client = _context.Clients.Find(id);
+            var user = _context.Users.Find(client.UserId);
+
+            return user;
+        }
 
         public IEnumerable<SelectListItem> GetComboClients()
         {
