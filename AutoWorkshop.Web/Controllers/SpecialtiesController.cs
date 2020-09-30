@@ -1,11 +1,13 @@
 ﻿using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class SpecialtiesController : Controller
     {
         private readonly ISpecialtyRepository _specialtyRepository;

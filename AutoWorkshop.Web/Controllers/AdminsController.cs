@@ -149,6 +149,7 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
         //// GET: Admins/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -166,11 +167,19 @@ namespace AutoWorkshop.Web.Controllers
             return View(admin);
         }
 
+
         //// POST: Admins/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var adminCount = _adminRepository.GetAll().Count();
+
+            if (adminCount == 1)
+            {
+                return RedirectToAction("ssIndex", "Admins");
+            }
+
             var admin = await _adminRepository.GetByIdAsync(id);
             var user = await _userHelper.GetUserByIdAsync(admin.UserId);
 

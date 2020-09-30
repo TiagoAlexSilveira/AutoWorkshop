@@ -16,19 +16,6 @@ namespace AutoWorkshop.Web.Data.Entities
         public AppointmentType AppointmentType { get; set; }
 
 
-        //[Required]
-        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = false)]
-        //[DataType(DataType.Date)]
-        //public DateTime Date { get; set; }
-
-
-        ////TODO: a data está a guardar com campos a mais (para o data e a hora), o syncfusion na view mostra uma linha enorme
-        //[Required]
-        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
-        //[DataType(DataType.Time)]
-        //public DateTime Time { get; set; }
-
-
         public string Information { get; set; }
 
 

@@ -1,5 +1,4 @@
-﻿using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
+﻿using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -46,16 +45,21 @@ namespace AutoWorkshop.Web.Controllers
                 }
 
                 var client = _clientRepository.GetClientByUserEmail(User.Identity.Name);
-                if (string.IsNullOrEmpty(client.StreetAddress))
+                if (client != null)
                 {
-                    var model = _converterHelper.ToInfoAfterLoginViewModel(client);
+                    if (string.IsNullOrEmpty(client.StreetAddress))
+                    {
+                        var model = _converterHelper.ToInfoAfterLoginViewModel(client);
 
-                    return View("InfoAfterLogin", model);
+                        return View("InfoAfterLogin", model);
+                    }
+                    else
+                    {
+                        return RedirectToAction("MyVehicles", "Clients");
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("MyVehicles", "Clients");
-                }                
+
+                return NotFound();
             }
 
             return View();
@@ -84,7 +88,7 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        
+
 
 
         public IActionResult About()

@@ -10,9 +10,11 @@ using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Models;
 using AutoWorkshop.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class RepairsController : Controller
     {
         
@@ -52,26 +54,6 @@ namespace AutoWorkshop.Web.Controllers
                                                    
             return View(repair);
         }
-
-
-
-        //// GET: Repairs/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var repair = await _repairRepository.GetByIdAsync(id.Value);
-        //    if (repair == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(repair);
-        //}
-
 
 
         // GET: Repairs/Create

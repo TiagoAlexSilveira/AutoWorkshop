@@ -49,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\ErrorPage\" />
     <Folder Include="wwwroot\images\Placeholder\" />
     <Folder Include="wwwroot\images\People\" />
     <Folder Include="wwwroot\theme\" />

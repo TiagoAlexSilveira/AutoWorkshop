@@ -11,6 +11,9 @@
 <div id="details"></div>
 <br />
 
+<div class="text-danger" style="font-size:large"> @TempData["message"] </div>
+
+<br />
 <div class="container body-content">
     <div class="page-header">
         <div class="form-group">
@@ -62,6 +65,7 @@
                             </table>
                         </div>
                     </div>
+                    <div class="text-warning">@ViewBag.UserMessage</div>
                 </form>
             </fieldset>
         </div>

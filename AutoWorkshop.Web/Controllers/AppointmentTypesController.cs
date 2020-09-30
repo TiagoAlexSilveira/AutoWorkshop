@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoWorkshop.Web.Data.Entities;
+using AutoWorkshop.Web.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class AppointmentTypesController : Controller
     {
 
@@ -22,12 +20,16 @@ namespace AutoWorkshop.Web.Controllers
             _appointmentTypeRepository = appointmentTypeRepository;
         }
 
+
+
         // GET: AppointmentTypes
         public IActionResult Index()
         {
             var appointmenttype = _appointmentTypeRepository.GetAll().ToList();
             return View(appointmenttype);
         }
+
+
 
         // GET: AppointmentTypes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -46,11 +48,15 @@ namespace AutoWorkshop.Web.Controllers
             return View(appointmenttype);
         }
 
+
+
         // GET: AppointmentTypes/Create
         public IActionResult Create()
         {
             return View();
         }
+
+
 
         // POST: AppointmentTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -82,6 +88,8 @@ namespace AutoWorkshop.Web.Controllers
             }
             return View(appointmentType);
         }
+
+
 
         // POST: AppointmentTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -118,6 +126,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(appointmentType);
         }
 
+
+
         // GET: AppointmentTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,6 +144,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(appointmentType);
         }
+
+
 
         // POST: AppointmentTypes/Delete/5
         [HttpPost, ActionName("Delete")]

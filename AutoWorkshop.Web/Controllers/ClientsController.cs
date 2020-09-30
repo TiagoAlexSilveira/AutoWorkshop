@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoWorkshop.Web.Data;
+using AutoWorkshop.Web.Data.Repositories;
+using AutoWorkshop.Web.Helpers;
+using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
-using AutoWorkshop.Web.Data.Repositories;
-using AutoWorkshop.Web.Models;
-using AutoWorkshop.Web.Helpers;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         private readonly IClientRepository _clientRepository;
@@ -27,7 +25,7 @@ namespace AutoWorkshop.Web.Controllers
                                  IAppointmentRepository appointmentRepository,
                                  IConverterHelper converterHelper,
                                  IImageHelper imageHelper, IUserHelper userHelper)
-        { 
+        {
             _clientRepository = clientRepository;
             _vehicleRepository = vehicleRepository;
             _appointmentRepository = appointmentRepository;
@@ -84,7 +82,7 @@ namespace AutoWorkshop.Web.Controllers
         }
 
         public IActionResult ssIndex()
-        {          
+        {
             return View(_clientRepository.GetAll().Include(u => u.User));
         }
 
@@ -159,6 +157,7 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -167,7 +166,7 @@ namespace AutoWorkshop.Web.Controllers
                 return NotFound();
             }
 
-            var client = await _clientRepository.GetByIdAsync(id.Value);                
+            var client = await _clientRepository.GetByIdAsync(id.Value);
             if (client == null)
             {
                 return NotFound();
@@ -206,11 +205,11 @@ namespace AutoWorkshop.Web.Controllers
                     await _appointmentRepository.DeleteAsync(app);
                 }
             }
-            
+
             return RedirectToAction("ssIndex", "Clients");
         }
 
 
-        
+
     }
 }

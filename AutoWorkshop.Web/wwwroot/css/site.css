@@ -52,7 +52,7 @@ body {
     }
 
 .four_zero_four_bg {
-    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+    background-image: url("../images/ErrorPage/404d.png");
     background-repeat: no-repeat;
     height: 400px;
     background-position: center;
@@ -77,6 +77,62 @@ body {
 .contant_box_404 {
     margin-top: -50px;
 }
+
+/*======================
+    404 2
+=======================*/
+
+.meh {
+    background-color: #95c2de;
+}
+
+.mainbox {
+    background-color: #95c2de;
+    margin: auto;
+    height: 600px;
+    width: 600px;
+    position: relative;
+}
+
+.err {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position: absolute;
+    left: 20%;
+    top: 8%;
+}
+
+.far {
+    position: absolute;
+    font-size: 8.5rem;
+    left: 42%;
+    top: 15%;
+    color: #ffffff;
+}
+
+.err2 {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position: absolute;
+    left: 68%;
+    top: 8%;
+}
+
+.msg {
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+}
+
+
+
+
 
 /*Secretary Index View*/
 
@@ -114,3 +170,4 @@ body {
 #mtop p{
     margin-top: 5px;
 }
+

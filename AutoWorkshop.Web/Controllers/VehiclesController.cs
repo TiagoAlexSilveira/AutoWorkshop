@@ -1,14 +1,10 @@
 ﻿using AutoWorkshop.Web.Data;
-using AutoWorkshop.Web.Data.Entities;
 using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Syncfusion.EJ2.Linq;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
@@ -46,14 +42,14 @@ namespace AutoWorkshop.Web.Controllers
             var vehicles = _vehicleRepository.GetAll().Include(v => v.Brand).Include(u => u.Client);
 
             return View(vehicles);
-                      
+
         }
 
 
         public async Task<IActionResult> GetVehicles(int Id)
         {
             var vehicle = await _brandRepository.GetByIdWithBrand(Id);
-            
+
             return PartialView("_VehiclesPartial", vehicle);
         }
 
@@ -64,14 +60,14 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (id == null)
             {
-                return new NotFoundViewResult("VehicleNotFound");
+                return NotFound();
             }
 
             var vehicle = await _vehicleRepository.GetByIdAsync(id.Value);
             vehicle.Brand = await _brandRepository.GetByIdAsync(vehicle.BrandId);
             if (vehicle == null)
             {
-                return new NotFoundViewResult("VehicleNotFound");
+                return NotFound();
             }
 
             return View(vehicle);
@@ -148,14 +144,14 @@ namespace AutoWorkshop.Web.Controllers
         {
             if (id == null)
             {
-                return new NotFoundViewResult("VehicleNotFound");
+                return NotFound();
             }
 
             var vehicle = await _brandRepository.GetByIdWithBrand(id.Value); //para associar a brand ao veiculo
 
             if (vehicle == null)
             {
-                return new NotFoundViewResult("VehicleNotFound");
+                return NotFound();
             }
 
             var vmodel = _converterHelper.ToVehicleViewModel(vehicle);  // o objecto vehicle vem sem brand 
@@ -179,7 +175,7 @@ namespace AutoWorkshop.Web.Controllers
                 try
                 {
                     var path = string.Empty;
-                    
+
                     var vehicle = _converterHelper.ToVehicle(vmodel, path, false);
 
                     await _vehicleRepository.UpdateAsync(vehicle);
@@ -198,7 +194,7 @@ namespace AutoWorkshop.Web.Controllers
 
                 if (User.IsInRole("Client"))
                 {
-                    return RedirectToAction("MyVehicles","Clients");
+                    return RedirectToAction("MyVehicles", "Clients");
                 }
                 return RedirectToAction(nameof(Index));
             }

@@ -1,7 +1,41 @@
-﻿@{
-    ViewData["Title"] = "Not Authorized";
+﻿@{ ViewData["Title"] = "NotAuthorized"; }
+
+<link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+
+<div class="container d-flex" style="width: 100%; border:red solid 2px">
+    <div style="margin:auto">
+        <img style="width:100%" src="~/images/ErrorPage/error_403.webp" alt="403">
+    </div>
+    <br />
+</div>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Client"))
+{
+    <div style="margin:auto; text-align:center">
+        <a type="button" asp-action="Index" asp-controller="Clients" class="btn btn-secondary">Home</a>
+    </div>
+}
+else if (User.Identity.IsAuthenticated && User.IsInRole("Mechanic"))
+{
+     <div style="margin:auto; text-align:center">
+        <a type="button" asp-action="Index" asp-controller="Mechanics" class="btn btn-secondary">Home</a>
+    </div>
+}
+else if (User.Identity.IsAuthenticated && User.IsInRole("Secretaries"))
+{
+     <div style="margin:auto; text-align:center">
+        <a type="button" asp-action="Index" asp-controller="Secretaries" class="btn btn-secondary">Home</a>
+    </div>
+}
+else
+{
+    <div style="margin:auto; text-align:center">
+        <a type="button" asp-action="Login" asp-controller="Account" class="btn btn-secondary">Home</a>
+    </div>
 }
 
-<h2>YOU ARE NOT AUTHORIZED TO PERFORM THIS ACTION!</h2>
+
+
+
 
 

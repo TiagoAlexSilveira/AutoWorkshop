@@ -57,6 +57,7 @@ namespace AutoWorkshop.Web.Controllers
             return View();
         }
 
+
         // POST: Brands/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -99,11 +100,6 @@ namespace AutoWorkshop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Brand brand)
         {
-            //if (id != brand.Id)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try

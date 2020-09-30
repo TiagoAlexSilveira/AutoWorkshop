@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using AutoWorkshop.Web.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize]
     public class AppointmentsController : Controller
     {
 
@@ -89,6 +91,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(model);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateClient(Appointment appointment)             
@@ -197,6 +201,7 @@ namespace AutoWorkshop.Web.Controllers
             return RedirectToAction("Create");
         }
 
+
         public async Task<IActionResult> Cancel(int? id, int clientId, DateTime time)
         {
             if (id == null)
@@ -218,7 +223,7 @@ namespace AutoWorkshop.Web.Controllers
             try
             {
                 _mailHelper.SendMail(user.UserName, "Appointment Canceled", $"<h2>Mr(s) {client.FullName}</h2>" +
-                $"<br><br><p>There have been some complications regarding your scheduled appointment and therefore we will have to cancel it</p>" +
+                $"<br><br><p>There have been some complications regarding your scheduled appointment for {time.ToShortDateString()} and therefore we will have to cancel it</p>" +
                 $" <br><br>If you wish to reschedule an appointment, address our website at a later time <br><br>Apologies<br>AutoWorkShop. " );
             }
             catch (Exception e)
@@ -229,184 +234,6 @@ namespace AutoWorkshop.Web.Controllers
 
             return RedirectToAction("Create");
         }
-
-        //public async Task<JsonResult> Update(AppointmentViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
-
-        //        appointment.MechanicId = model.MechanicId;
-        //        appointment.IsConfirmed = true;
-        //        await _appointmentRepository.UpdateAsync(appointment);
-
-        //        return Json("nice");
-        //    }
-
-        //    return Json(false);
-        //}
-
-        //// GET: Appointments/Create
-        //public IActionResult Create()
-        //{
-        //    var model = new AppointmentViewModel
-        //    {
-        //        Vehicles = _vehicleRepository.GetAll().ToList(),
-        //        AppointmentTypes = _appointmentTypeRepository.GetAll().ToList()                
-        //    };
-
-        //    return View(model);
-        //}
-
-
-
-        // POST: Appointments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-
-        //// GET: Appointments/Edit/5    //TODO: editar só na secretary
-        ////public async Task<IActionResult> Edit(int? id)
-        ////{
-        ////    //if (id == null)
-        ////    //{
-        ////    //    return NotFound();
-        ////    //}
-
-        ////    //var appointment = await _context.Appointments.FindAsync(id);
-        ////    //if (appointment == null)
-        ////    //{
-        ////    //    return NotFound();
-        ////    //}
-        ////    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
-        ////    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
-        ////    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
-        ////    return View(/*appointment*/);
-        ////}
-
-        ////// POST: Appointments/Edit/5
-        ////// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        ////// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        ////[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        ////public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Time,WorkEstimate,Information,MecanicId,ClientId,VehicleId,IsConfirmed,IsUrgent")] Appointment appointment)
-        ////{
-        ////    //if (id != appointment.Id)
-        ////    //{
-        ////    //    return NotFound();
-        ////    //}
-
-        ////    //if (ModelState.IsValid)
-        ////    //{
-        ////    //    try
-        ////    //    {
-        ////    //        _context.Update(appointment);
-        ////    //        await _context.SaveChangesAsync();
-        ////    //    }
-        ////    //    catch (DbUpdateConcurrencyException)
-        ////    //    {
-        ////    //        if (!AppointmentExists(appointment.Id))
-        ////    //        {
-        ////    //            return NotFound();
-        ////    //        }
-        ////    //        else
-        ////    //        {
-        ////    //            throw;
-        ////    //        }
-        ////    //    }
-        ////    //    return RedirectToAction(nameof(Index));
-        ////    //}
-        ////    //ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", appointment.ClientId);
-        ////    //ViewData["MecanicId"] = new SelectList(_context.Mecanics, "Id", "Id", appointment.MecanicId);
-        ////    //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", appointment.VehicleId);
-        ////    return View(appointment);
-        ////}
-
-        //// GET: Appointments/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound(); //TODO: substituir error views
-        //    }
-
-        //    var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-        //    if (appointment == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(appointment);
-        //}
-
-        //// POST: Appointments/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var appointment = await _appointmentRepository.GetByIdAsync(id);
-        //    await _appointmentRepository.DeleteAsync(appointment);
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        ////private bool AppointmentExists(int id)
-        ////{
-        ////    return _appointmentRepository.ExistAsync(id);
-        ////}
-
-
-
-        //public class AppointmentData  //class for syncfusion scheduler
-        //{
-        //    public int Id { get; set; }
-        //    public string Subject { get; set; }
-        //    public DateTime StartTime { get; set; }
-        //    public DateTime EndTime { get; set; }
-        //}
-
-
-        //public List<AppointmentData> GetScheduleData()
-        //{
-        //    List<AppointmentData> appData = new List<AppointmentData>();
-        //    appData.Add(new AppointmentData
-        //    {
-        //        Id = 1,
-        //        Subject = "Explosion of Betelgeuse Star",
-        //        StartTime = new DateTime(2020, 8, 28, 9, 30, 0),
-        //        EndTime = new DateTime(2020, 8, 30, 11, 0, 0)
-        //    });
-        //    appData.Add(new AppointmentData
-        //    {
-        //        Id = 2,
-        //        Subject = "Thule Air Crash Report",
-        //        StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
-        //        EndTime = new DateTime(2018, 2, 12, 14, 0, 0)
-        //    });
-        //    appData.Add(new AppointmentData
-        //    {
-        //        Id = 3,
-        //        Subject = "Blue Moon Eclipse",
-        //        StartTime = new DateTime(2018, 2, 13, 9, 30, 0),
-        //        EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
-        //    });
-        //    appData.Add(new AppointmentData
-        //    {
-        //        Id = 4,
-        //        Subject = "Meteor Showers in 2018",
-        //        StartTime = new DateTime(2018, 2, 14, 13, 0, 0),
-        //        EndTime = new DateTime(2018, 2, 14, 14, 30, 0)
-        //    });
-        //    appData.Add(new AppointmentData
-        //    {
-        //        Id = 5,
-        //        Subject = "Milky Way as Melting pot",
-        //        StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
-        //        EndTime = new DateTime(2018, 2, 15, 14, 0, 0)
-        //    });
-        //    return appData;
-        //}
-
-
 
     }
 }

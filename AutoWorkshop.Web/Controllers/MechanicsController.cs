@@ -1,6 +1,7 @@
 ﻿using AutoWorkshop.Web.Data.Repositories;
 using AutoWorkshop.Web.Helpers;
 using AutoWorkshop.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoWorkshop.Web.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class MechanicsController : Controller
     {
         private readonly IRepairRepository _repairRepository;
@@ -47,9 +49,9 @@ namespace AutoWorkshop.Web.Controllers
             return View(_mechanicRepository.GetAll().Include(u => u.Specialty));
         }
 
+
         public IActionResult WorkAppointments()
         {
-            //appointments do mecanico logado
             var appointments = _appointmentRepository.GetAll().Include(a => a.AppointmentType)
                                                               .Include(c => c.Client)
                                                               .Include(v => v.Vehicle).ThenInclude(v => v.Brand)
@@ -68,7 +70,6 @@ namespace AutoWorkshop.Web.Controllers
 
         public IActionResult MyRepairs()
         {
-            //repairs do mecanico logado
             var repair = _repairRepository.GetAll().Include(m => m.Appointment).ThenInclude(c => c.Client)
                                                    .Include(m => m.Appointment).ThenInclude(c => c.Mechanic)
                                                    .Include(m => m.Appointment).ThenInclude(c => c.Vehicle)
@@ -94,23 +95,6 @@ namespace AutoWorkshop.Web.Controllers
         }
 
 
-        //// POST: Mecanics/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("SpecialtyId,Id,FirstName,LastName,StreetAddress,PhoneNumber,PostalCode,DateofBirth,TaxIdentificationNumber,CitizenCardNumber")] Mecanic mecanic)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(mecanic);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "Id", "Id", mecanic.SpecialtyId);
-        //    return View(mecanic);
-        //}
-
         //// GET: Mecanics/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -131,6 +115,8 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(model);
         }
+
+
 
         //// POST: Mecanics/Edit/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -173,6 +159,8 @@ namespace AutoWorkshop.Web.Controllers
             return View(model);
         }
 
+
+
         //// GET: Mecanics/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -189,6 +177,7 @@ namespace AutoWorkshop.Web.Controllers
 
             return View(mechanic);
         }
+
 
         //// POST: Mecanics/Delete/5
         [HttpPost, ActionName("Delete")]

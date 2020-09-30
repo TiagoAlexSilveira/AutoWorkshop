@@ -10,13 +10,8 @@ namespace AutoWorkshop.Web.Data.Entities
         public int Id { get; set; }
 
 
-        public string PaymentMethod { get; set; } //TODO: implementar faturação
+        public string PaymentMethod { get; set; } 
         
-
-        //dividir a faturação em muitos elementos
-
-
-        //public 
 
 
 
